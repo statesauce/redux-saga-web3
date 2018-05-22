@@ -1,0 +1,31 @@
+{
+  "name": "statesauce",
+  "version": "0.0.1",
+  "main": "src/statesauce.js",
+  "author": "Seth Feibus <sefeibus@gmail.com>",
+  "private": true,
+  "dependencies": {
+    "immutable": "^3.8.2",
+    "moment": "^2.20.1",
+    "npm-run-all": "^4.1.2",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-redux": "^5.0.6",
+    "react-scripts": "1.0.17",
+    "redux": "^3.7.2",
+    "redux-immutable": "^4.0.0",
+    "redux-logger": "^3.0.6",
+    "redux-saga": "^0.16.0",
+    "redux-thunk": "^2.2.0",
+    "truffle-contract": "^3.0.4",
+    "web3": "^1.0.0-beta.34"
+  },
+  "scripts": {
+    "start-js": "react-scripts start",
+    "start": "npm-run-all -p start-js",
+    "build-js": "react-scripts build",
+    "build": "npm-run-all build-js",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}
