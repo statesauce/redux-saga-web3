@@ -7,4 +7,5 @@ const web3InitialState = {
 }
 
 export const { web3, accounts, contract, defaultAccount, web3Error } = web3InitialState
+export const initialState = web3InitialState
 export default web3InitialState

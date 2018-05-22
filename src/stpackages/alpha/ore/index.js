@@ -3,11 +3,13 @@ import { createLogger } from 'redux-logger'
 import thunkMiddleWare from 'redux-thunk'
 import createSagaMiddleware from 'redux-saga'
 import { fromJS } from 'immutable'
-import { combineReducers } from 'redux-immutable'
-import { withWeb3InitialState, withWeb3Reducer, web3RootSaga, stateTransformer } from '../statesauce'
+import web3InitialState from './initialState'
+import web3CombinedReducers, { reducers } from './reducers'
+import web3RootSaga from './sagas'
+import { stateTransformer } from '../util'
 
-const immutableInitialState = fromJS(withWeb3InitialState())
-const reducer = combineReducers(withWeb3Reducer())
+const immutableInitialState = fromJS(web3InitialState)
+const reducer = web3CombinedReducers
 const sagaMiddleware = createSagaMiddleware()
 const logger = createLogger({ stateTransformer })
 
@@ -29,5 +31,15 @@ export const configureStore = (initialState = immutableInitialState) => {
 }
 
 const store = configureStore(immutableInitialState)
+
+export {
+  reducers,
+  web3CombinedReducers
+}
+
+export {
+  web3InitialState,
+  immutableInitialState
+}
 
 export default store

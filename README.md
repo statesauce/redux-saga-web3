@@ -2,32 +2,75 @@
 
 An out-of-the-box ethereum web3 api provider and state mananagement tool
 
-:caution: This is unfinished software. Please use at your own risk
+:caution: This is unfinished software. Please use at your own risk.
+
+To see statesauce in action, see quickstart:
+# quickstart
 
 ```
-npm install statesauce
+npm i -g create-react-app
+create-react-app testsauce
+cd testsauce
+npm i immutable moment npm-run-all react-redux redux redux-immutable redux-logger redux-saga redux-thunk truffle-contract web3
 ```
-
-# configure store
+- Drag statesauce folder into testsauce/src. In statesauce, you can remove package.json, package-lock, etc.
+- In testsauce/index.js paste the following code:
 ```js
-import { withWeb3InitialStateImmutable, withWeb3Reducer, web3RootSaga } from 'statesauce'
+import React from 'react'
+import { render } from 'react-dom'
+import './index.css'
+import App from './App'
+import registerServiceWorker from './registerServiceWorker'
 
-const reducer = combineReducers(withWeb3Reducer(myAppReducers))
-const sagaMiddleware = createSagaMiddleware()
-const immutableInitialState = withWeb3InitialStateImmutable(myAppInitialState)
+import { Provider } from 'react-redux'
+import { store } from './statesauce/src/statesauce.js'
 
-export const configureStore = (initialState = immutableInitialState) => {
-  const store = createStore(
-    reducer,
-    initialState,
-    compose(applyMiddleware(
-      thunkMiddleWare,
-      sagaMiddleware,
-      createLogger({ stateTransformer: state => state.toJS() })
-    ))
-  )
+render(
+  <Provider store={store} >
+    <App />
+  </Provider>,
+  document.getElementById('root')
+)
+registerServiceWorker()
+```
+- In testsauce/App.js paste the following code:
+```js
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import logo from './logo.svg'
+import './App.css'
 
-  store.sagaTask = sagaMiddleware.run(web3RootSaga)
-  return store
+import { creators, selectors } from './statesauce/src/statesauce'
+
+class App extends Component {
+  componentDidMount () {
+    this.props.sauceIt('http://127.0.0.1:8545')
+  }
+  render () {
+    return (
+      <div className='App'>
+        <header className='App-header'>
+          <img src={logo} className='App-logo' alt='logo' />
+          <h1 className='App-title'>Welcome to React</h1>
+        </header>
+        <p className='App-intro'>
+          To get started, edit <code>src/App.js</code> and save to reload.
+          Your default account is {this.props.defaultAccount}
+        </p>
+      </div>
+    )
+  }
 }
+
+const mapStateToProps = state => ({
+  defaultAccount: selectors.fromStore.getDefaultAccount(state)
+})
+
+const mapDispatchToProps = dispatch => ({
+  sauceIt (rpcAddr) {
+    dispatch(creators.initWeb3Request(rpcAddr))
+  }
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(App)
 ```

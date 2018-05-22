@@ -4,7 +4,7 @@ import { reducers } from './store/reducers'
 import store, { configureStore } from './store'
 import web3RootSaga, { sagas, web3Saga, accountsSaga, defaultAccountSaga, contractSaga, web3WithChildrenSaga, childAccountsSaga, childDefaultAccountSaga } from './store/sagas'
 
-import { getWeb3Proxy, initContract, withWeb3InitialState, withWeb3Reducer, withWeb3InitialStateImmutable } from './util'
+import { getWeb3Proxy, initContract, withWeb3InitialState, withWeb3Reducer, withWeb3InitialStateImmutable, stateTransformer } from './util'
 
 export {
   types,
@@ -40,5 +40,6 @@ export {
   initContract,
   withWeb3InitialState,
   withWeb3Reducer,
-  withWeb3InitialStateImmutable
+  withWeb3InitialStateImmutable,
+  stateTransformer
 }
