@@ -34,14 +34,15 @@ export const changeDefaultAccount = newDefaultAccount => ({
   payload: newDefaultAccount
 })
 
-export const initContractRequest = () => ({
-  type: types.INIT_CONTRACT_REQUEST
+export const initContractRequest = artifact => ({
+  type: types.INIT_CONTRACT_REQUEST,
+  payload: artifact
 })
 export const initContractFailure = err => ({
   type: types.INIT_CONTRACT_FAILURE,
   payload: err
 })
-export const initContractSuccess = oracle => ({
+export const initContractSuccess = contract => ({
   type: types.INIT_CONTRACT_SUCCESS,
-  payload: oracle
+  payload: contract
 })

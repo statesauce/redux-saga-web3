@@ -3,7 +3,7 @@ import { types, creators } from '../constants'
 
 import initializeContract from '../../util/initContract'
 
-export const initContract = function * (artifact) {
+export const initContract = function * ({ payload: artifact }) {
   try {
     const contract = yield call(initializeContract, artifact)
     const instance = yield call(contract.deployed)
