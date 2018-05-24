@@ -8,6 +8,8 @@ const DEFAULT_ACCOUNT = 'defaultAccount'
 const GET_ACCOUNTS = 'getAccounts'
 const GET_STATE = 'getState'
 const SELECTED_ADDRESS = 'selectedAddress'
+const ACCOUNTS = 'accounts'
+const CONTRACT = 'contract'
 
 // WEB3 / saga selectors
 export const web3 = state => state.get(WEB3)
@@ -18,7 +20,10 @@ export const getState = state => state.get(WEB3)[CURRENT_PROVIDER][PUBLIC_CONFIG
 export const selectedAddress = state => state.get(WEB3)[CURRENT_PROVIDER][PUBLIC_CONFIG_STORE][STATE][SELECTED_ADDRESS]
 
 // storeSelectors
+export const getContract = state => state.get(CONTRACT)
 export const getDefaultAccount = state => state.get(DEFAULT_ACCOUNT)
 export const fromStore = {
+  getAccountsFromStore,
+  getContract,
   getDefaultAccount
 }
