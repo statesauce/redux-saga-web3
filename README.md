@@ -1,8 +1,8 @@
 # statesauce
 
-An out-of-the-box ethereum web3 api provider and state mananagement tool
+An out-of-the-box state management library for Ethereum and web3.
 
-:caution: This is unfinished software. Please use at your own risk.
+:warning: This is unfinished software. Please use at your own risk.
 
 To see statesauce in action, see quickstart:
 # quickstart
