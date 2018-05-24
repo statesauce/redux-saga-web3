@@ -11,7 +11,7 @@ To see statesauce in action, see quickstart:
 npm i -g create-react-app
 create-react-app testsauce
 cd testsauce
-npm i immutable moment npm-run-all react-redux redux redux-immutable redux-logger redux-saga redux-thunk truffle-contract web3
+npm i react-redux redux immutable redux-immutable redux-logger redux-saga redux-thunk truffle-contract web3
 ```
 - Drag statesauce folder into testsauce/src. In statesauce, you can remove package.json, package-lock, etc.
 - In testsauce/index.js paste the following code:
