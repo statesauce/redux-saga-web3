@@ -21,9 +21,11 @@
     "run-when-changed": "^2.1.0"
   },
   "scripts": {
-    "build": "npm run clean && babel src/ --out-dir lib/",
+    "build": "babel src/ --out-dir lib/",
     "clean": "rimraf lib/",
-    "dev": "run-when-changed --watch 'src/**/*.js' --exec 'npm run build'",
+    "dev": "run-when-changed --watch 'src/**/*.js' --exec 'npm run prepublish'",
+    "prepublish": "npm run clean && npm run build",
+    "precommit": "lint-staged",
     "prettier": "prettier --write \"src/**/*.js\""
   },
   "lint-staged": {
