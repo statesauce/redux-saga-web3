@@ -24,6 +24,6 @@ export function* initWeb3({ provider }) {
   }
 }
 
-export function* web3Saga() {
+export default function* saga() {
   yield takeEvery(WEB3.INIT, initWeb3);
 }
