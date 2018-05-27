@@ -1,6 +1,3 @@
-import reducers from "./reducers";
-import sagas from "./sagas";
-
 import accountsReducer from "./accounts/reducer";
 import accountsSaga from "./accounts/saga";
 import accountsTypes from "./accounts/types";

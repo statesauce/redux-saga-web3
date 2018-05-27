@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { Provider as ReduxProvider } from "react-redux";
 import { createStore } from "./store";
 
-class Provider extends Component {
+class Initializer extends Component {
   static propTypes = {
     options: PropTypes.object
   };
@@ -13,9 +13,9 @@ class Provider extends Component {
     super(props);
 
     if (props.provider) {
-      props.onInitSauce(props.provider);
+      props.onInit(props.provider);
     } else if (window.web3 && window.web3.currentProvider) {
-      props.onInitSauce(window.web3.currentProvider);
+      props.onInit(window.web3.currentProvider);
     } else {
       throw new Error("Web3 Provider not injected or provided");
     }
@@ -28,7 +28,7 @@ class Provider extends Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onInitSauce: provider =>
+    onInit: provider =>
       dispatch({
         type: "WEB3/INIT",
         provider
@@ -36,8 +36,8 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-const EnhancedProvider = connect(state => state, mapDispatchToProps)(
-  Provider
+const EnhancedInitializer = connect(state => state, mapDispatchToProps)(
+  Initializer
 );
 
 class Provider extends Component {
@@ -54,17 +54,17 @@ class Provider extends Component {
     if (this.store) {
       return (
         <ReduxProvider store={this.store}>
-          <EnhancedProvider {...this.props}>
+          <EnhancedInitializer {...this.props}>
             {this.props.children}
-          </EnhancedProvider>
+          </EnhancedInitializer>
         </ReduxProvider>
       );
     } else {
       console.log("existing store found")
       return (
-        <EnhancedProvider {...this.props}>
+        <EnhancedInitializer {...this.props}>
           {this.props.children}
-        </EnhancedProvider>
+        </EnhancedInitializer>
       );
     }
   }
