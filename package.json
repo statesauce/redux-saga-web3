@@ -2,6 +2,7 @@
   "name": "redux-saga-web3",
   "author": "Tarrence van As <tarrence13@gmail.com>",
   "devDependencies": {
-    "lerna": "^2.8.0"
+    "lerna": "^2.8.0",
+    "prettier": "1.13.0"
   }
 }
