@@ -20,6 +20,6 @@ export const getAccounts = function*() {
   }
 };
 
-export function* accountsSaga() {
+export default function* accountsSaga() {
   yield takeEvery(ACCOUNTS.GET, getAccounts);
 }
