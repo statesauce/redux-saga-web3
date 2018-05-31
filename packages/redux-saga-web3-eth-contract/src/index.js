@@ -1,3 +1,11 @@
 import { create as createSaga } from "./saga";
 
-export { createSaga };
+import { createEventSubscription, getPastEvents } from "./actions";
+import { createTypesForEvent } from "./types";
+
+export {
+  createSaga,
+  createEventSubscription,
+  createTypesForEvent,
+  getPastEvents,
+};
