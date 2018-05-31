@@ -1,6 +1,6 @@
 {
   "name": "react-redux-saga-web3",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "main": "lib/index.js",
   "dependencies": {
     "prettier": "^1.13.3",
@@ -30,7 +30,7 @@
     "build": "babel src/ --out-dir lib/",
     "clean": "rimraf lib/",
     "dev": "run-when-changed --watch 'src/**/*.js' --exec 'npm run prepublish'",
-    "prepublish": "npm run clean && npm run build",
+    "prepare": "npm run clean && npm run build",
     "precommit": "lint-staged",
     "prettier": "prettier --write \"src/**/*.js\""
   },
