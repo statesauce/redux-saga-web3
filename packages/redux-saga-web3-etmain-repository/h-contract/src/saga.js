@@ -1,21 +1,14 @@
-import Web3EthContract from "web3-eth-contract";
 import { call, takeEvery, put, take } from "redux-saga/effects";
 import { eventChannel, END } from "redux-saga";
 
 import { formatName } from "./utils";
 
-function create(contractName, abi, options = {}) {
-  const { address = "", provider } = options;
-
-  Web3EthContract.setProvider(provider);
-
-  const contract = new Web3EthContract(abi, address);
-
+function create(contractName, contract) {
   return () => {
     const methods = Object.keys(contract.methods).reduce(
       (reduction, method) => {
         // web3 has duplicate instances of all methods
-        if (method.slice(-2) === "()" || method.slice(2) === "0x") {
+        if (method.slice(-2) === "()" || method.substring(0, 2) === "0x") {
           return reduction;
         }
         const patternPrefix = `${formatName(contractName)}/METHODS/${formatName(
@@ -68,12 +61,10 @@ function create(contractName, abi, options = {}) {
         const eventChannel = createEventChannel(options);
         try {
           while (true) {
-            console.log("wait");
             var event = yield take(eventChannel);
             yield put(event);
           }
         } finally {
-          console.log("close");
           eventChannel.close();
         }
       }
@@ -87,20 +78,19 @@ function create(contractName, abi, options = {}) {
     }, []);
 
     const patternPrefix = `${formatName(contractName)}/GET_PAST_EVENTS`;
-    const getPastEvents = [
-      takeEvery(patternPrefix, function* getPastEvents({
-        type,
+    const getPastEvents = takeEvery(patternPrefix, function* getPastEvents({
+      type,
+      event,
+      ...options
+    }) {
+      const events = yield call(
+        contract.getPastEvents.bind(contract),
         event,
-        ...options
-      }) {
-        const events = yield call(
-          contract.getPastEvents.bind(contract),
-          event,
-          options
-        );
-        yield put({ type: `${patternPrefix}/SUCCESS`, events });
-      }),
-    ];
+        options
+      );
+
+      yield put({ type: `${patternPrefix}/SUCCESS`, events });
+    });
 
     return [...methods, ...events, getPastEvents];
   };
