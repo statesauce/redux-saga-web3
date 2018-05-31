@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "main": "lib/index.js",
   "dependencies": {
+    "prettier": "^1.13.3",
     "redux": "^3.7.2",
     "redux-saga": "^0.16.0",
     "web3": "^1.0.0-beta.34"
@@ -16,6 +17,7 @@
     "babel-watch": "^2.0.7",
     "husky": "^0.14.3",
     "lint-staged": "^7.1.2",
+    "prettier": "^1.13.3",
     "rimraf": "^2.6.2",
     "run-when-changed": "^2.1.0"
   },
