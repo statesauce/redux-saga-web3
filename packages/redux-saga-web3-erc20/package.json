@@ -1,6 +1,6 @@
 {
   "name": "redux-saga-web3-erc20",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "main": "lib/index.js",
   "dependencies": {
     "prettier": "^1.13.3",
@@ -9,7 +9,7 @@
     "react-redux": "^5.0.7",
     "redux": "^3.7.2",
     "redux-saga": "^0.16.0",
-    "redux-saga-web3-eth-contract": "^0.0.1",
+    "redux-saga-web3-eth-contract": "^0.0.3",
     "web3": "^1.0.0-beta.34",
     "web3-eth-contract": "^1.0.0-beta.34"
   },
@@ -31,7 +31,7 @@
     "build": "babel src/ --out-dir lib/",
     "clean": "rimraf lib/",
     "dev": "run-when-changed --watch 'src/**/*.js' --exec 'npm run prepublish'",
-    "prepublish": "npm run clean && npm run build",
+    "prepare": "npm run clean && npm run build",
     "precommit": "lint-staged",
     "prettier": "prettier --write \"src/**/*.js\""
   },
