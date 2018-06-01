@@ -17,4 +17,24 @@ function getPastEvents(contractName, event, options = {}) {
   };
 }
 
-export { createEventSubscription, getPastEvents };
+function createMethodCall(contractName, methodName, options = {}) {
+  return (...args) => ({
+    type: `${formatName(contractName)}/METHODS/${formatName(methodName)}/CALL`,
+    args,
+    options,
+  });
+}
+
+function createMethodSend(contractName, methodName, options = {}) {
+  return {
+    type: `${formatName(contractName)}/METHODS/${formatName(methodName)}/SEND`,
+    ...options,
+  };
+}
+
+export {
+  createEventSubscription,
+  getPastEvents,
+  createMethodCall,
+  createMethodSend,
+};

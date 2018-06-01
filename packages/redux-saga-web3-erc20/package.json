@@ -32,6 +32,7 @@
     "clean": "rimraf lib/",
     "dev": "run-when-changed --watch 'src/**/*.js' --exec 'npm run prepublish'",
     "prepare": "npm run clean && npm run build",
+    "prepublish": "npm run prepare",
     "precommit": "lint-staged",
     "prettier": "prettier --write \"src/**/*.js\""
   },
