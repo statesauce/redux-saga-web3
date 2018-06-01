@@ -5,7 +5,7 @@ import accountsSaga from './accounts'
 import defaultAccountSaga from './defaultAccount'
 import contractSaga from './contract'
 
-import getWeb3Proxy from '../../util/getWeb3Proxy'
+import getWeb3Proxy from '../util/getWeb3Proxy'
 
 export function * initWeb3 ({ payload: rpcAddr }) {
   try {

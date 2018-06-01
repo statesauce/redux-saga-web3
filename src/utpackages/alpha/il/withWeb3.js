@@ -1,7 +1,7 @@
 import { fromJS } from 'immutable'
 
-import web3InitialState from '../store/initialState'
-import { reducers as web3Reducers } from '../store/reducers'
+import web3InitialState from '../initialState'
+import { reducers as web3Reducers } from '../reducers'
 
 export const withWeb3InitialState = (myAppState = null) => {
   return myAppState ? Object.assign({}, web3InitialState, myAppState) : web3InitialState

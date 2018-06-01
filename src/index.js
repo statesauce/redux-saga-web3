@@ -1,8 +1,8 @@
-import { types, creators, selectors } from './store/constants'
-import initialState from './store/initialState'
-import { reducers } from './store/reducers'
-import store, { configureStore } from './store'
-import web3RootSaga, { sagas, web3Saga, accountsSaga, defaultAccountSaga, contractSaga, web3WithChildrenSaga, childAccountsSaga, childDefaultAccountSaga } from './store/sagas'
+import { types, creators, selectors } from './constants'
+import initialState from './initialState'
+import { reducers } from './reducers'
+import store, { createStore } from './store'
+import web3RootSaga, { sagas, web3Saga, accountsSaga, defaultAccountSaga, contractSaga, web3WithChildrenSaga, childAccountsSaga, childDefaultAccountSaga } from './sagas'
 
 import { getWeb3Proxy, initContract, withWeb3InitialState, withWeb3Reducer, withWeb3InitialStateImmutable, stateTransformer } from './util'
 
@@ -27,7 +27,7 @@ export {
 
 export {
   store,
-  configureStore,
+  createStore,
   web3RootSaga,
   web3WithChildrenSaga,
   childAccountsSaga,

@@ -1,7 +1,7 @@
 import { call, put, takeEvery } from 'redux-saga/effects'
 import { types, creators } from '../constants'
 
-import initializeContract from '../../util/initContract'
+import initializeContract from '../util/initContract'
 
 export const initContract = function * ({ payload: artifact }) {
   try {

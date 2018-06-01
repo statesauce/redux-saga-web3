@@ -23,7 +23,7 @@ import App from './App'
 import registerServiceWorker from './registerServiceWorker'
 
 import { Provider } from 'react-redux'
-import { store } from './statesauce/src/statesauce.js'
+import { store } from './statesauce/src/index.js'
 
 render(
   <Provider store={store} >
