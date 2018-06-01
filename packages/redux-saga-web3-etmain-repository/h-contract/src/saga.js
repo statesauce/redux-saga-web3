@@ -4,6 +4,17 @@ import { eventChannel, END } from "redux-saga";
 import { formatName } from "./utils";
 
 function create(contractName, contract) {
+  function getContract(options) {
+    const { at } = options;
+    let _contract = contract;
+    if (at) {
+      _contract = contract.clone();
+      _contract.options.address = at;
+    }
+
+    return _contract;
+  }
+
   return () => {
     const methods = Object.keys(contract.methods).reduce(
       (reduction, method) => {
@@ -16,10 +27,16 @@ function create(contractName, contract) {
         )}`;
         return [
           ...reduction,
-          takeEvery(`${patternPrefix}_CALL`, ({}) => [
-            call(contract.methods[method].call),
-            put({ type: `${patternPrefix}_CALL/SUCCESS` }),
-          ]),
+          takeEvery(`${patternPrefix}/CALL`, function* send({ options }) {
+            const response = yield call(
+              getContract(options).methods[method].call
+            );
+            yield put({
+              type: `${patternPrefix}/CALL/SUCCESS`,
+              payload: response,
+              options,
+            });
+          }),
         ];
       },
       []
