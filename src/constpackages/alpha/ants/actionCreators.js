@@ -1,48 +1,48 @@
 import * as types from './actionTypes'
 
 export const initWeb3Request = rpcAddr => ({
-  type: types.INIT_WEB3_REQUEST,
+  type: types.WEB3.INIT_REQUEST,
   payload: rpcAddr
 })
 export const initWeb3Success = web3 => ({
-  type: types.INIT_WEB3_SUCCESS,
+  type: types.WEB3.INIT_SUCCESS,
   payload: web3
 })
 export const initWeb3Failure = err => ({
-  type: types.INIT_WEB3_FAILURE,
+  type: types.WEB3.INIT_FAILURE,
   payload: err
 })
 
 export const getAccountsRequest = () => ({
-  type: types.GET_ACCOUNTS_REQUEST
+  type: types.ACCOUNTS.GET_REQUEST
 })
 export const getAccountsSuccess = accounts => ({
-  type: types.GET_ACCOUNTS_SUCCESS,
+  type: types.ACCOUNTS.GET_SUCCESS,
   payload: accounts
 })
 export const getAccountsFailure = err => ({
-  type: types.GET_ACCOUNTS_FAILURE,
+  type: types.ACCOUNTS.GET_FAILURE,
   payload: err
 })
 
 export const receiveDefaultAccount = defaultAccount => ({
-  type: types.RECEIVE_DEFAULT_ACCOUNT,
+  type: types.DEFAULT_ACCOUNT.RECEIVE,
   payload: defaultAccount
 })
 export const changeDefaultAccount = newDefaultAccount => ({
-  type: types.CHANGE_DEFAULT_ACCOUNT,
+  type: types.DEFAULT_ACCOUNT.CHANGE,
   payload: newDefaultAccount
 })
 
 export const initContractRequest = artifact => ({
-  type: types.INIT_CONTRACT_REQUEST,
+  type: types.CONTRACT.INIT_REQUEST,
   payload: artifact
 })
 export const initContractFailure = err => ({
-  type: types.INIT_CONTRACT_FAILURE,
+  type: types.CONTRACT.INIT_FAILURE,
   payload: err
 })
 export const initContractSuccess = contract => ({
-  type: types.INIT_CONTRACT_SUCCESS,
+  type: types.CONTRACT.INIT_SUCCESS,
   payload: contract
 })

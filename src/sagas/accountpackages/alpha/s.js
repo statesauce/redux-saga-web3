@@ -37,10 +37,10 @@ export const initPollAccountsSaga = function * () {
 }
 
 export const accountsSaga = function * () {
-  yield takeEvery(types.GET_ACCOUNTS_REQUEST, getAccounts)
+  yield takeEvery(types.ACCOUNTS.GET_REQUEST, getAccounts)
 }
 
 export default function * childAccountsSaga () {
-  yield takeEvery(types.INIT_WEB3_SUCCESS, initPollAccountsSaga)
-  yield takeEvery(types.GET_ACCOUNTS_REQUEST, getAccounts)
+  yield takeEvery(types.WEB3.INIT_SUCCESS, initPollAccountsSaga)
+  yield takeEvery(types.ACCOUNTS.GET_REQUEST, getAccounts)
 }

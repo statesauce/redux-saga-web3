@@ -6,9 +6,9 @@ const defaultState = fromJS(initialState.web3)
 
 const web3Reducer = (state = defaultState, { type, payload }) => {
   switch (type) {
-    case types.INIT_WEB3_REQUEST:
+    case types.WEB3.INIT_REQUEST:
       return state
-    case types.INIT_WEB3_SUCCESS:
+    case types.WEB3.INIT_SUCCESS:
       return payload
     default:
       return state

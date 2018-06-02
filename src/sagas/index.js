@@ -28,5 +28,5 @@ export {
 }
 
 export default function * web3RootSaga () {
-  yield takeEvery(types.INIT_WEB3_REQUEST, web3WithChildrenSaga)
+  yield takeEvery(types.WEB3.INIT_REQUEST, web3WithChildrenSaga)
 }

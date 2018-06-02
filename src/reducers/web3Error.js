@@ -6,13 +6,13 @@ const defaultState = fromJS(initialState.web3ProviderStatus)
 
 const web3Error = (state = defaultState, { type, payload }) => {
   switch (type) {
-    case types.INIT_WEB3_FAILURE:
+    case types.WEB3.INIT_FAILURE:
       return payload
-    case types.GET_ACCOUNTS_FAILURE:
+    case types.ACCOUNTS.GET_FAILURE:
       return payload
-    case types.INIT_CONTRACT_FAILURE:
+    case types.CONTRACT.INIT_FAILURE:
       return payload
-    case types.INIT_WEB3_SUCCESS:
+    case types.WEB3.INIT_SUCCESS:
       return null
     default:
       return state

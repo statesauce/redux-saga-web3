@@ -14,5 +14,5 @@ export const initContract = function * ({ payload: artifact }) {
 }
 
 export default function * contractSaga () {
-  yield takeEvery(types.INIT_CONTRACT_REQUEST, initContract)
+  yield takeEvery(types.CONTRACT.INIT_REQUEST, initContract)
 }

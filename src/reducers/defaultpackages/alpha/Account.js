@@ -6,9 +6,9 @@ const defaultState = fromJS(initialState.defaultAccount)
 
 export default (state = defaultState, { type, payload }) => {
   switch (type) {
-    case types.RECEIVE_DEFAULT_ACCOUNT:
+    case types.DEFAULT_ACCOUNT.RECEIVE:
       return payload
-    case types.CHANGE_DEFAULT_ACCOUNT:
+    case types.DEFAULT_ACCOUNT.CHANGE:
       return payload
     default:
       return state

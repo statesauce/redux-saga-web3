@@ -12,9 +12,9 @@ export const getDefaultAccount = function * () {
 }
 
 export function * defaultAccountSaga () {
-  yield takeEvery(types.GET_ACCOUNTS_SUCCESS, getDefaultAccount)
+  yield takeEvery(types.ACCOUNTS.GET_SUCCESS, getDefaultAccount)
 }
 
 export default function * childDefaultAccountSaga () {
-  yield takeEvery(types.INIT_WEB3_SUCCESS, getDefaultAccount)
+  yield takeEvery(types.WEB3.INIT_SUCCESS, getDefaultAccount)
 }

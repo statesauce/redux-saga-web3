@@ -17,7 +17,7 @@ export function * initWeb3 ({ payload: rpcAddr }) {
 }
 
 export function * web3Saga () {
-  yield takeEvery(types.INIT_WEB3_REQUEST, initWeb3)
+  yield takeEvery(types.WEB3.INIT_REQUEST, initWeb3)
 }
 
 export default function * web3WithChildrenSaga (action) {

@@ -6,7 +6,7 @@ const defaultState = fromJS(initialState.accounts)
 
 export default (state = defaultState, { type, payload }) => {
   switch (type) {
-    case types.GET_ACCOUNTS_SUCCESS:
+    case types.ACCOUNTS.GET_SUCCESS:
       return payload
     default:
       return state
