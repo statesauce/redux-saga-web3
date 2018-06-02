@@ -22,9 +22,7 @@ export const selectedAddress = state => state.get(WEB3)[CURRENT_PROVIDER][PUBLIC
 // storeSelectors
 export const getAccountsFromStore = state => state.get(ACCOUNTS)
 export const getContract = state => state.get(CONTRACT)
-export const getDefaultAccount = state => state.get(DEFAULT_ACCOUNT)
 export const fromStore = {
   getAccountsFromStore,
-  getContract,
-  getDefaultAccount
+  getContract
 }

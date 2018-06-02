@@ -25,15 +25,6 @@ export const getAccountsFailure = err => ({
   payload: err
 })
 
-export const receiveDefaultAccount = defaultAccount => ({
-  type: types.DEFAULT_ACCOUNT.RECEIVE,
-  payload: defaultAccount
-})
-export const changeDefaultAccount = newDefaultAccount => ({
-  type: types.DEFAULT_ACCOUNT.CHANGE,
-  payload: newDefaultAccount
-})
-
 export const initContractRequest = artifact => ({
   type: types.CONTRACT.INIT_REQUEST,
   payload: artifact

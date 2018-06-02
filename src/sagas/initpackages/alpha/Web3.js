@@ -2,7 +2,6 @@ import { all, call, put, fork, takeEvery } from 'redux-saga/effects'
 import { types, creators } from '../constants'
 
 import accountsSaga from './accounts'
-import defaultAccountSaga from './defaultAccount'
 import contractSaga from './contract'
 
 import getWeb3Proxy from '../util/getWeb3Proxy'
@@ -24,7 +23,6 @@ export default function * web3WithChildrenSaga (action) {
   yield all([
     call(initWeb3, action),
     fork(accountsSaga),
-    fork(contractSaga),
-    fork(defaultAccountSaga)
+    fork(contractSaga)
   ])
 }
