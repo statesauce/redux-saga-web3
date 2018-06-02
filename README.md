@@ -5,72 +5,41 @@ An out-of-the-box state management library for Ethereum and web3.
 :warning: This is unfinished software. Please use at your own risk.
 
 To see statesauce in action, see quickstart:
-# quickstart
+
+#### Installation
 
 ```
-npm i -g create-react-app
-create-react-app testsauce
-cd testsauce
-npm i react-redux redux immutable redux-immutable redux-logger redux-saga redux-thunk truffle-contract web3
+npm i statesauce
 ```
-- Drag statesauce folder into testsauce/src. In statesauce, you can remove package.json, package-lock, etc.
-- In testsauce/index.js paste the following code:
+
+#### Usage
+
 ```js
-import React from 'react'
-import { render } from 'react-dom'
-import './index.css'
-import App from './App'
-import registerServiceWorker from './registerServiceWorker'
+import React from "react";
+import { render } from "react-dom";
+import { connect } from "react-redux";
 
-import { Provider } from 'react-redux'
-import { store } from './statesauce/src/index.js'
+import Provider from "statesauce/lib/Provider";
 
-render(
-  <Provider store={store} >
-    <App />
-  </Provider>,
-  document.getElementById('root')
-)
-registerServiceWorker()
-```
-- In testsauce/App.js paste the following code:
-```js
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import logo from './logo.svg'
-import './App.css'
+const Accounts = ({ accounts: { isLoading, items } }) =>
+  isLoading ? (
+    "Loading"
+  ) : (
+    <div>
+      Accounts:
+      <ul>{items.map(account => <li>{account}</li>)}</ul>
+    </div>
+  );
 
-import { creators, selectors } from './statesauce/src/statesauce'
+const EnhancedAccounts = connect(state => ({
+  accounts: state.accounts
+}))(Accounts);
 
-class App extends Component {
-  componentDidMount () {
-    this.props.sauceIt('http://127.0.0.1:8545')
-  }
-  render () {
-    return (
-      <div className='App'>
-        <header className='App-header'>
-          <img src={logo} className='App-logo' alt='logo' />
-          <h1 className='App-title'>Welcome to React</h1>
-        </header>
-        <p className='App-intro'>
-          To get started, edit <code>src/App.js</code> and save to reload.
-          Your default account is {this.props.defaultAccount}
-        </p>
-      </div>
-    )
-  }
-}
+const App = () => (
+  <Provider>
+    <EnhancedAccounts />
+  </Provider>
+);
 
-const mapStateToProps = state => ({
-  defaultAccount: selectors.fromStore.getDefaultAccount(state)
-})
-
-const mapDispatchToProps = dispatch => ({
-  sauceIt (rpcAddr) {
-    dispatch(creators.initWeb3Request(rpcAddr))
-  }
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(App)
+render(<App />, document.getElementById("root"));
 ```
