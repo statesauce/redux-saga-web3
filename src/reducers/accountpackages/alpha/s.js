@@ -4,11 +4,30 @@ import { types } from '../constants'
 
 const defaultState = fromJS(initialState.accounts)
 
-export default (state = defaultState, { type, payload }) => {
+const accountsReducer = (state = defaultState, { type, payload }) => {
   switch (type) {
+    case types.ACCOUNTS.GET_REQUEST:
+      return {
+        ...state,
+        isLoading: true
+      }
     case types.ACCOUNTS.GET_SUCCESS:
-      return payload
+      return {
+        ...state,
+        isLoading: false,
+        items: payload,
+        default: payload[0],
+        error: null
+      }
+    case types.ACCOUNTS.GET_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
+        error: payload
+      }
     default:
       return state
   }
 }
+
+export default accountsReducer
