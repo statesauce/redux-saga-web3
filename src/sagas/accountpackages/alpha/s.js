@@ -1,46 +1,16 @@
-import { delay } from 'redux-saga'
-import { all, call, put, select, takeEvery } from 'redux-saga/effects'
-import { types, creators, selectors } from '../constants'
-
-/* TODO
-  MAKE POLL INTERVAL CONFIG EASIER,
-  REMOVE UNUSED EXPORT
-*/
-const pollInterval = 8000
+import { call, put, takeEvery, getContext } from 'redux-saga/effects'
+import { types, creators } from '../constants'
 
 export const getAccounts = function * () {
-  const getter = yield select(selectors.getAccounts)
+  const web3 = yield getContext('web3')
   try {
-    const payload = yield call(getter)
+    const payload = yield call(web3.eth.getAccounts)
     yield put(creators.getAccountsSuccess(payload))
-  } catch (err) {
-    yield put(creators.getAccountsFailure(err))
+  } catch (error) {
+    yield put(creators.getAccountsFailure(error))
   }
 }
 
-export const pollAccounts = function * () {
-  while (true) {
-    try {
-      yield call(delay, pollInterval)
-      yield put(creators.getAccountsRequest())
-    } catch (err) {
-      yield put(creators.getAccountsFailure(err))
-    }
-  }
-}
-
-export const initPollAccountsSaga = function * () {
-  yield all([
-    put(creators.getAccountsRequest()),
-    call(pollAccounts)
-  ])
-}
-
-export const accountsSaga = function * () {
-  yield takeEvery(types.ACCOUNTS.GET_REQUEST, getAccounts)
-}
-
-export default function * childAccountsSaga () {
-  yield takeEvery(types.WEB3.INIT_SUCCESS, initPollAccountsSaga)
+export function * accountsSaga () {
   yield takeEvery(types.ACCOUNTS.GET_REQUEST, getAccounts)
 }

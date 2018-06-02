@@ -4,11 +4,17 @@ import web3InitialState from '../initialState'
 import { reducers as web3Reducers } from '../reducers'
 
 export const withWeb3InitialState = (myAppState = null) => {
-  return myAppState ? Object.assign({}, web3InitialState, myAppState) : web3InitialState
+  return myAppState ? {
+    ...web3InitialState,
+    myAppState
+  } : web3InitialState
 }
 
 export const withWeb3Reducer = (myAppReducers = null) => {
-  Object.assign({}, web3Reducers, myAppReducers)
+  return myAppReducers ? {
+    ...web3Reducers,
+    myAppReducers
+  } : web3Reducers
 }
 
 // IMMUTABLE

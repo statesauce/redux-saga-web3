@@ -1,28 +1,17 @@
-import { all, call, put, fork, takeEvery } from 'redux-saga/effects'
+import { put, takeEvery, getContext } from 'redux-saga/effects'
 import { types, creators } from '../constants'
 
-import accountsSaga from './accounts'
-import contractSaga from './contract'
-
-import getWeb3Proxy from '../util/getWeb3Proxy'
-
-export function * initWeb3 ({ payload: rpcAddr }) {
+export function * initWeb3 ({ provider }) {
   try {
-    const web3 = yield call(getWeb3Proxy, rpcAddr)
-    yield put.resolve(creators.initWeb3Success(web3))
-  } catch (err) {
-    yield put.resolve(creators.initWeb3Failure(err))
+    const web3 = yield getContext('web3')
+    web3.setProvider(provider)
+    yield put(creators.initWeb3Success(web3))
+    yield put(creators.getAccountsRequest())
+  } catch (error) {
+    yield put(creators.initWeb3Failure(error))
   }
 }
 
 export function * web3Saga () {
   yield takeEvery(types.WEB3.INIT_REQUEST, initWeb3)
-}
-
-export default function * web3WithChildrenSaga (action) {
-  yield all([
-    call(initWeb3, action),
-    fork(accountsSaga),
-    fork(contractSaga)
-  ])
 }
