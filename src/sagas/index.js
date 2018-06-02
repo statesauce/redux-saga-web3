@@ -23,6 +23,6 @@ export {
   childAccountsSaga
 }
 
-export default function * web3RootSaga () {
+export default function * rootSaga () {
   yield takeEvery(types.WEB3.INIT_REQUEST, web3WithChildrenSaga)
 }

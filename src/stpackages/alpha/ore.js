@@ -1,19 +1,15 @@
-import { createStore as createReduxStore, applyMiddleware, compose } from 'redux'
+import { createStore as createReduxStore, applyMiddleware, compose, combineReducers } from 'redux'
 import { createLogger } from 'redux-logger'
 import thunkMiddleWare from 'redux-thunk'
 import createSagaMiddleware from 'redux-saga'
-import { combineReducers } from 'redux-immutable'
-import { fromJS } from 'immutable'
 
-import web3InitialState from './initialState'
+import initialState from './initialState'
 import reducers from './reducers'
-import web3RootSaga from './sagas'
-import { stateTransformer } from '../util'
+import rootSaga from './sagas'
 
-const immutableInitialState = fromJS(web3InitialState)
 const reducer = combineReducers(reducers)
 const sagaMiddleware = createSagaMiddleware()
-const logger = createLogger({ stateTransformer })
+const logger = createLogger()
 
 const middleWare = compose(applyMiddleware(
   thunkMiddleWare,
@@ -21,19 +17,18 @@ const middleWare = compose(applyMiddleware(
   logger
 ))
 
-export const createStore = (initialState = immutableInitialState) => {
+export const createStore = (initialState = {}) => {
   const store = createReduxStore(reducer, initialState, middleWare)
 
-  store.sagaTask = sagaMiddleware.run(web3RootSaga)
+  store.sagaTask = sagaMiddleware.run(rootSaga)
   return store
 }
 
-const store = createStore(immutableInitialState)
+const store = createStore(initialState)
 
 export {
   reducers,
-  web3InitialState,
-  immutableInitialState
+  initialState
 }
 
 export default store

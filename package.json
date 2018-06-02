@@ -5,13 +5,11 @@
   "author": "Seth Feibus <sefeibus@gmail.com>",
   "private": true,
   "dependencies": {
-    "immutable": "^3.8.2",
     "prop-types": "^15.6.1",
     "react": "^16.4.0",
     "react-redux": "^5.0.7",
     "react-scripts": "^1.1.4",
     "redux": "^3.7.2",
-    "redux-immutable": "^4.0.0",
     "redux-logger": "^3.0.6",
     "redux-saga": "^0.16.0",
     "redux-thunk": "^2.2.0",

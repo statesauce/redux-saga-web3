@@ -1,10 +1,7 @@
-import { fromJS } from 'immutable'
-import { initialState } from '../initialState'
+import { accounts as initialState } from '../initialState'
 import { types } from '../constants'
 
-const defaultState = fromJS(initialState.accounts)
-
-const accountsReducer = (state = defaultState, { type, payload }) => {
+const accountsReducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case types.ACCOUNTS.GET_REQUEST:
       return {
