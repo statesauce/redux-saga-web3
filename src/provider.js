@@ -1,7 +1,7 @@
 import React, { Component, Children } from 'react'
 import { Provider as ReduxProvider, connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { createStore } from './store'
+import store from './store'
 
 import { initWeb3Request } from './constants/actionCreators'
 
@@ -14,9 +14,9 @@ class StateSauce extends Component {
     super(props)
 
     if (props.provider) {
-      props.onInitSauce(props.provider)
+      props.initWeb3Request(props.provider)
     } else if (window.web3 && window.web3.currentProvider) {
-      props.onInitSauce(window.web3.currentProvider)
+      props.initWeb3Request(window.web3.currentProvider)
     } else {
       throw new Error('Web3 Provider not injected or provided')
     }
@@ -27,15 +27,9 @@ class StateSauce extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  onInitSauce (provider) {
-    dispatch(initWeb3Request(provider))
-  }
-})
-
-const EnhancedStateSauce = connect(state => state, mapDispatchToProps)(
-  StateSauce
-)
+const EnhancedStateSauce = connect(state => state, {
+  initWeb3Request
+})(StateSauce)
 
 class Provider extends Component {
   constructor (props, context) {
@@ -43,7 +37,7 @@ class Provider extends Component {
 
     // Redux store not available
     if (!context.store) {
-      this.store = createStore()
+      this.store = store
     }
   }
 

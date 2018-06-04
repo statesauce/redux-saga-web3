@@ -2,40 +2,21 @@ import { types, creators, selectors } from './constants'
 import initialState from './initialState'
 import { reducers } from './reducers'
 import store, { createStore } from './store'
-import web3RootSaga, { sagas, web3Saga, accountsSaga, contractSaga } from './sagas'
+import sagas, { generators } from './sagas'
+import Provider from './Provider'
 
-import { getWeb3Proxy, initContract, withWeb3InitialState, withWeb3Reducer, withWeb3InitialStateImmutable, stateTransformer } from './util'
+import * as utils from './util'
 
 export {
   types,
   creators,
-  selectors
-}
-
-export {
+  selectors,
   initialState,
   reducers,
-  sagas
-}
-
-export {
-  web3RootSaga,
-  web3Saga,
-  accountsSaga,
-  contractSaga
-}
-
-export {
+  sagas,
+  generators,
   store,
-  createStore
-}
-
-// utils
-export {
-  getWeb3Proxy,
-  initContract,
-  withWeb3InitialState,
-  withWeb3Reducer,
-  withWeb3InitialStateImmutable,
-  stateTransformer
+  createStore,
+  Provider,
+  utils
 }

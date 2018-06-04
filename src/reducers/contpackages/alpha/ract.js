@@ -1,7 +1,7 @@
-import { contract as initialState } from '../initialState'
+import initialState from '../initialState'
 import { types } from '../constants'
 
-const ContractReducer = (state = initialState, { type, payload }) => {
+const ContractReducer = (state = initialState.contract, { type, payload }) => {
   switch (type) {
     case types.CONTRACT.INIT_REQUEST:
       return {

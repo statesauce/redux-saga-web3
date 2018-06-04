@@ -1,7 +1,7 @@
-import { web3 as initialState } from '../initialState'
+import initialState from '../initialState'
 import { types } from '../constants'
 
-const web3Reducer = (state = initialState, { type, payload }) => {
+const web3Reducer = (state = initialState.web3, { type, payload }) => {
   switch (type) {
     case types.WEB3.INIT_REQUEST:
       return {

@@ -1,7 +1,7 @@
-import { accounts as initialState } from '../initialState'
+import initialState from '../initialState'
 import { types } from '../constants'
 
-const accountsReducer = (state = initialState, { type, payload }) => {
+const accountsReducer = (state = initialState.accounts, { type, payload }) => {
   switch (type) {
     case types.ACCOUNTS.GET_REQUEST:
       return {

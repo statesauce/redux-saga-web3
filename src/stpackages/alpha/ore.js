@@ -2,13 +2,18 @@ import { createStore as createReduxStore, applyMiddleware, compose, combineReduc
 import { createLogger } from 'redux-logger'
 import thunkMiddleWare from 'redux-thunk'
 import createSagaMiddleware from 'redux-saga'
+import Web3 from 'web3'
 
 import initialState from './initialState'
 import reducers from './reducers'
-import web3RootSaga from './sagas'
+import { rootSaga } from './sagas'
 
 const reducer = combineReducers(reducers)
-const sagaMiddleware = createSagaMiddleware()
+const sagaMiddleware = createSagaMiddleware({
+  context: {
+    web3: new Web3()
+  }
+})
 const logger = createLogger()
 
 const middleWare = compose(applyMiddleware(
@@ -20,7 +25,7 @@ const middleWare = compose(applyMiddleware(
 export const createStore = (initialState = {}) => {
   const store = createReduxStore(reducer, initialState, middleWare)
 
-  store.sagaTask = sagaMiddleware.run(web3RootSaga)
+  store.sagaTask = sagaMiddleware.run(rootSaga)
   return store
 }
 
