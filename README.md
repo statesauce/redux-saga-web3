@@ -25,7 +25,7 @@ const Accounts = ({ accounts: { isLoading, items } }) =>
   ) : (
     <div>
       Accounts:
-      <ul>{items.map(account => <li>{account}</li>)}</ul>
+      <ul>{items && items.map(account => <li key={account}>{account}</li>)}</ul>
     </div>
   )
 
