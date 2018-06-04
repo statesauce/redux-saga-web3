@@ -1,16 +1,50 @@
+import { createTypesForMethod } from "redux-saga-web3-eth-contract";
+
 const initialState = {
-  isLoading: false,
-  items: null,
-  error: null,
+  contracts: {},
 };
+
+const BALANCE_OF = createTypesForMethod("ERC20", "balanceOf");
 
 export default (state = initialState, { type, payload }) => {
   switch (type) {
-    case "GET":
+    case BALANCE_OF.CALL: {
+      const {
+        options: { at },
+        args: [who],
+      } = payload;
+
       return {
         ...state,
-        isLoading: true,
+        contracts: {
+          [at]: {
+            balances: {
+              [who]: { isLoading: true, value: null },
+            },
+          },
+        },
       };
+    }
+    case BALANCE_OF.SUCCESS: {
+      const {
+        options: { at },
+        args: [who],
+        value,
+      } = payload;
+
+      return {
+        ...state,
+        contracts: {
+          [at]: {
+            balances: {
+              [who]: { isLoading: true, value },
+            },
+          },
+        },
+      };
+      return state;
+    }
+    default:
       return state;
   }
 };

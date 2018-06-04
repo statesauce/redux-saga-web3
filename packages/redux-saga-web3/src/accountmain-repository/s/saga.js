@@ -13,6 +13,7 @@ export const getAccounts = function*() {
       payload: payload
     });
   } catch (error) {
+    debugger
     yield put({
       type: ACCOUNTS.GET_FAILURE,
       payload: error
@@ -20,6 +21,6 @@ export const getAccounts = function*() {
   }
 };
 
-export default function* accountsSaga() {
+export default function* saga() {
   yield takeEvery(ACCOUNTS.GET, getAccounts);
 }
