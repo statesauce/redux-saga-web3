@@ -5,7 +5,9 @@ function createEventSubscription(contractName, eventName, options = {}) {
     type: `${formatName(contractName)}/EVENTS/${formatName(
       eventName
     )}/SUBSCRIBE`,
-    ...options,
+    payload: {
+      options,
+    },
   };
 }
 
@@ -20,8 +22,10 @@ function getPastEvents(contractName, event, options = {}) {
 function createMethodCall(contractName, methodName, options = {}) {
   return (...args) => ({
     type: `${formatName(contractName)}/METHODS/${formatName(methodName)}/CALL`,
-    args,
-    options,
+    payload: {
+      args,
+      options,
+    },
   });
 }
 

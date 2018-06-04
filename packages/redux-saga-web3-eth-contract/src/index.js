@@ -5,7 +5,7 @@ import {
   createMethodSend,
   getPastEvents,
 } from "./actions";
-import { createTypesForEvent } from "./types";
+import { createTypesForEvent, createTypesForMethod } from "./types";
 
 export {
   createSaga,
@@ -13,5 +13,6 @@ export {
   createMethodCall,
   createMethodSend,
   createTypesForEvent,
+  createTypesForMethod,
   getPastEvents,
 };

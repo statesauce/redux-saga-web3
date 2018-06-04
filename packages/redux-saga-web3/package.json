@@ -24,7 +24,7 @@
   "scripts": {
     "build": "babel src/ --out-dir lib/",
     "clean": "rimraf lib/",
-    "dev": "run-when-changed --watch 'src/**/*.js' --exec 'npm run prepublish'",
+    "dev": "run-when-changed --watch 'src/**/*.js' --exec 'npm run prepare'",
     "prepare": "npm run clean && npm run build",
     "precommit": "lint-staged",
     "prettier": "prettier --write \"src/**/*.js\""

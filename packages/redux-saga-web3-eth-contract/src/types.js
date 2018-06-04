@@ -5,9 +5,10 @@ import { eventChannel, END } from "redux-saga";
 import { formatName } from "./utils";
 
 function createTypesForMethod(name, method) {
-  const baseType = `${formatName(name)}/METHODS/${formatName(method)}_CALL`;
+  const baseType = `${formatName(name)}/METHODS/${formatName(method)}/CALL`;
 
   return {
+    CALL: baseType,
     SUCCESS: baseType + "/SUCCESS",
     ERROR: baseType + "/ERROR",
   };
@@ -17,6 +18,7 @@ function createTypesForEvent(name, event) {
   const baseType = `${formatName(name)}/EVENTS/${formatName(event)}/SUBSCRIBE`;
 
   return {
+    SUBSCRIBE: baseType,
     DATA: baseType + "/DATA",
     ERROR: baseType + "/ERROR",
   };

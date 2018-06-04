@@ -1,6 +1,7 @@
 import { call, takeEvery, put, take } from "redux-saga/effects";
 import { eventChannel, END } from "redux-saga";
 
+import { createTypesForMethod } from "./types";
 import { formatName } from "./utils";
 
 function create(contractName, contract) {
@@ -22,19 +23,20 @@ function create(contractName, contract) {
         if (method.slice(-2) === "()" || method.substring(0, 2) === "0x") {
           return reduction;
         }
-        const patternPrefix = `${formatName(contractName)}/METHODS/${formatName(
-          method
-        )}`;
+        const TYPES = createTypesForMethod(contractName, method);
         return [
           ...reduction,
-          takeEvery(`${patternPrefix}/CALL`, function* send({ options }) {
+          takeEvery(TYPES.CALL, function* send({ payload: { args, options } }) {
             const response = yield call(
-              getContract(options).methods[method].call
+              getContract(options).methods[method](...args).call
             );
             yield put({
-              type: `${patternPrefix}/CALL/SUCCESS`,
-              payload: response,
-              options,
+              type: TYPES.SUCCESS,
+              payload: {
+                value: response,
+                args,
+                options,
+              },
             });
           }),
         ];
