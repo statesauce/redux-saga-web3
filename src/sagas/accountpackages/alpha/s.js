@@ -1,10 +1,10 @@
 import { call, put, takeEvery, select } from 'redux-saga/effects'
-import { types, creators } from '../constants'
+import { types, creators, selectors } from '../constants'
 
 export const getAccounts = function * () {
-  const web3 = yield select(state => state.web3.instance)
+  const getter = yield select(selectors.getAccounts)
   try {
-    const payload = yield call(web3.eth.getAccounts)
+    const payload = yield call(getter)
     yield put(creators.getAccountsSuccess(payload))
   } catch (error) {
     yield put(creators.getAccountsFailure(error))
