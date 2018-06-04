@@ -5,7 +5,7 @@ import createSagaMiddleware from 'redux-saga'
 
 import initialState from './initialState'
 import reducers from './reducers'
-import rootSaga from './sagas'
+import web3RootSaga from './sagas'
 
 const reducer = combineReducers(reducers)
 const sagaMiddleware = createSagaMiddleware()
@@ -20,7 +20,7 @@ const middleWare = compose(applyMiddleware(
 export const createStore = (initialState = {}) => {
   const store = createReduxStore(reducer, initialState, middleWare)
 
-  store.sagaTask = sagaMiddleware.run(rootSaga)
+  store.sagaTask = sagaMiddleware.run(web3RootSaga)
   return store
 }
 

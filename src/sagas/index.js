@@ -13,3 +13,5 @@ export {
   accountsSaga,
   contractSaga
 }
+
+export default web3Saga

@@ -13,31 +13,31 @@ npm i statesauce
 #### Usage
 
 ```js
-import React from "react";
-import { render } from "react-dom";
-import { connect } from "react-redux";
+import React from 'react'
+import { render } from 'react-dom'
+import { connect } from 'react-redux'
 
-import Provider from "statesauce/lib/Provider";
+import Provider from 'statesauce/lib/Provider'
 
 const Accounts = ({ accounts: { isLoading, items } }) =>
   isLoading ? (
-    "Loading"
+    'Loading'
   ) : (
     <div>
       Accounts:
       <ul>{items.map(account => <li>{account}</li>)}</ul>
     </div>
-  );
+  )
 
 const EnhancedAccounts = connect(state => ({
   accounts: state.accounts
-}))(Accounts);
+}))(Accounts)
 
 const App = () => (
   <Provider>
     <EnhancedAccounts />
   </Provider>
-);
+)
 
-render(<App />, document.getElementById("root"));
+render(<App />, document.getElementById('root'))
 ```

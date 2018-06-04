@@ -18,6 +18,6 @@ export const withWeb3Reducer = (myAppReducers = null) => {
 }
 
 // IMMUTABLE
-export const withWeb3InitialStateImmutable = myAppState => fromJS(withWeb3InitialState(myAppState))
+export const withWeb3InitialStateImmutable = (myAppState = null) => fromJS(withWeb3InitialState(myAppState))
 
 export const stateTransformer = state => state.toJS()

@@ -2,7 +2,7 @@ import { types, creators, selectors } from './constants'
 import initialState from './initialState'
 import { reducers } from './reducers'
 import store, { createStore } from './store'
-import { sagas, web3Saga, accountsSaga, contractSaga } from './sagas'
+import web3RootSaga, { sagas, web3Saga, accountsSaga, contractSaga } from './sagas'
 
 import { getWeb3Proxy, initContract, withWeb3InitialState, withWeb3Reducer, withWeb3InitialStateImmutable, stateTransformer } from './util'
 
@@ -19,6 +19,7 @@ export {
 }
 
 export {
+  web3RootSaga,
   web3Saga,
   accountsSaga,
   contractSaga
