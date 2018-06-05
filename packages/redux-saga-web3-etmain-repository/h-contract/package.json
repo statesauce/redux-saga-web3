@@ -1,6 +1,6 @@
 {
   "name": "redux-saga-web3-eth-contract",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "main": "lib/index.js",
   "dependencies": {
     "lodash.snakecase": "^4.1.1",
