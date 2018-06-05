@@ -1,6 +1,6 @@
 {
   "name": "redux-saga-web3-erc20",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "main": "lib/index.js",
   "dependencies": {
     "prettier": "^1.13.3",
@@ -9,7 +9,7 @@
     "react-redux": "^5.0.7",
     "redux": "^3.7.2",
     "redux-saga": "^0.16.0",
-    "redux-saga-web3-eth-contract": "^0.0.5",
+    "redux-saga-web3-eth-contract": "^0.0.6",
     "web3": "^1.0.0-beta.34",
     "web3-eth-contract": "^1.0.0-beta.34"
   },

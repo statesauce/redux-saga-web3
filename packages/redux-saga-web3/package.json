@@ -1,6 +1,6 @@
 {
   "name": "redux-saga-web3",
-  "version": "0.0.3",
+  "version": "0.0.6",
   "main": "lib/index.js",
   "dependencies": {
     "prettier": "^1.13.3",
