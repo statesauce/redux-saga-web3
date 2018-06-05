@@ -37,13 +37,14 @@ export default (state = initialState, { type, payload }) => {
         contracts: {
           [at]: {
             balances: {
-              [who]: { isLoading: true, value },
+              [who]: { isLoading: false, value },
             },
           },
         },
       };
       return state;
     }
+
     default:
       return state;
   }
