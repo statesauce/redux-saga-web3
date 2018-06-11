@@ -19,25 +19,24 @@ import { connect } from 'react-redux'
 
 import Provider from 'statesauce/lib/Provider'
 
-const Accounts = ({ accounts: { isLoading, items } }) =>
-  isLoading ? (
-    'Loading'
-  ) : (
-    <div>
-      Accounts:
-      <ul>{items && items.map(account => <li key={account}>{account}</li>)}</ul>
-    </div>
-  )
-
-const EnhancedAccounts = connect(state => ({
-  accounts: state.accounts
-}))(Accounts)
-
-const App = () => (
-  <Provider>
-    <EnhancedAccounts />
-  </Provider>
+const AppComponent = ({ accounts: { isLoading, items } }) => (
+  <div> Accounts:
+    <ul>
+      {isLoading
+        ? <li>Loading...</li>
+        : items && items.map(account => <li key={account}>{account}</li>)
+      }
+    </ul>
+  </div>
 )
 
-render(<App />, document.getElementById('root'))
+const AppContainer = connect(state => ({
+  accounts: state.accounts
+}))(AppComponent)
+
+render(
+  <Provider>
+    <AppContainer />
+  </Provider>,
+  document.getElementById('root'))
 ```

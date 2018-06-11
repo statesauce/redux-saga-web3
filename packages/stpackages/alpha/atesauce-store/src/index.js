@@ -1,0 +1,38 @@
+import reducers from 'statesauce-reducers'
+import { rootSaga } from 'statesauce-sagas'
+
+import { createStore as createReduxStore, applyMiddleware, compose, combineReducers } from 'redux'
+import { createLogger } from 'redux-logger'
+import createSagaMiddleware from 'redux-saga'
+import thunkMiddleWare from 'redux-thunk'
+import Web3 from 'web3'
+
+const reducer = combineReducers(reducers)
+const sagaMiddleware = createSagaMiddleware({
+  context: {
+    web3: new Web3()
+  }
+})
+const logger = createLogger()
+
+const middleWare = compose(applyMiddleware(
+  thunkMiddleWare,
+  sagaMiddleware,
+  logger
+))
+
+const createStore = (initialState = {}) => {
+  const store = createReduxStore(reducer, initialState, middleWare)
+
+  store.sagaTask = sagaMiddleware.run(rootSaga)
+  return store
+}
+
+const store = createStore()
+
+export {
+  reducers,
+  createStore
+}
+
+export default store

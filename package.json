@@ -1,21 +1,9 @@
 {
   "name": "statesauce",
   "version": "0.0.1",
-  "main": "src/statesauce.js",
-  "author": "Seth Feibus <sefeibus@gmail.com>",
-  "private": true,
-  "dependencies": {
-    "prop-types": "^15.6.1",
-    "react": "^16.4.0",
-    "react-redux": "^5.0.7",
-    "react-scripts": "^1.1.4",
-    "redux": "^3.7.2",
-    "redux-logger": "^3.0.6",
-    "redux-saga": "^0.16.0",
-    "redux-thunk": "^2.2.0",
-    "truffle-contract": "^3.0.4",
-    "web3": "^1.0.0-beta.34"
-  },
+  "main": "packages/statesauce/src",
+  "author": "Seth Feibus <sethfork@users.noreply.github.com>",
+  "license": "MIT",
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-plugin-transform-runtime": "^6.23.0",
@@ -26,20 +14,9 @@
     "babel-watch": "^2.0.7",
     "husky": "^0.14.3",
     "lint-staged": "^7.1.2",
+    "prettier": "^1.13.3",
     "rimraf": "^2.6.2",
     "run-when-changed": "^2.1.0",
     "standard": "^11.0.1"
-  },
-  "scripts": {
-    "build": "npm run clean && babel src/ --out-dir lib/",
-    "clean": "rimraf lib/",
-    "dev": "run-when-changed --watch 'src/**/*.js' --exec 'npm run build'",
-    "prettier": "prettier --write \"src/**/*.js\""
-  },
-  "lint-staged": {
-    "*.{js,json,css,md}": [
-      "prettier --write",
-      "git add"
-    ]
   }
 }
