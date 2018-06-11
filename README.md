@@ -2,7 +2,7 @@
 
 An out-of-the-box state management library for Ethereum and web3.
 
-:warning: This is unfinished software. Please use at your own risk.
+:warning: This is alpha software. There may be breaking changes.
 
 #### Installation
 
@@ -17,7 +17,7 @@ import React from 'react'
 import { render } from 'react-dom'
 import { connect } from 'react-redux'
 
-import Provider from 'statesauce/lib/Provider'
+import Provider from 'statesauce-provider'
 
 const AppComponent = ({ accounts: { isLoading, items } }) => (
   <div> Accounts:
