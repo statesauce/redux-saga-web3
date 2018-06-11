@@ -1,9 +1,11 @@
 import store from 'statesauce-store'
-import { initWeb3Request } from 'statesauce-constants/actionCreators'
+import { creators } from 'statesauce-constants'
 
 import React, { Component, Children } from 'react'
 import { Provider as ReduxProvider, connect } from 'react-redux'
 import PropTypes from 'prop-types'
+
+const { initWeb3Request } = creators
 
 class StateSauce extends Component {
   static propTypes () {
