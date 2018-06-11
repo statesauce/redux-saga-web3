@@ -1,6 +1,6 @@
 {
   "name": "statesauce-store",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "statesauce",
   "main": "src/index.js",
   "author": "Seth Feibus <sethfork@users.noreply.github.com>",
@@ -18,8 +18,8 @@
     "redux-logger": "^3.0.6",
     "redux-saga": "^0.16.0",
     "redux-thunk": "^2.2.0",
-    "statesauce-reducers": "^0.1.0",
-    "statesauce-sagas": "^0.1.0",
+    "statesauce-reducers": "^0.1.1",
+    "statesauce-sagas": "^0.1.1",
     "web3": "^1.0.0-beta.34"
   },
   "devDependencies": {

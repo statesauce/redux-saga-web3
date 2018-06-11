@@ -1,6 +1,6 @@
 {
   "name": "statesauce-reducers",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "statesauce",
   "main": "src/index.js",
   "author": "Seth Feibus <sethfork@users.noreply.github.com>",
@@ -14,7 +14,7 @@
     "prettier": "prettier --write \"src/**/*.js\""
   },
   "dependencies": {
-    "statesauce-constants": "^0.1.0"
+    "statesauce-constants": "^0.1.1"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
