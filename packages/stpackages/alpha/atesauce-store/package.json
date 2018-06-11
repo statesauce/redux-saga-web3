@@ -2,7 +2,7 @@
   "name": "statesauce-store",
   "version": "0.1.1",
   "description": "statesauce",
-  "main": "src/index.js",
+  "main": "lib/index.js",
   "author": "Seth Feibus <sethfork@users.noreply.github.com>",
   "license": "MIT",
   "scripts": {

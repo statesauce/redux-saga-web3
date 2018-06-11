@@ -2,6 +2,7 @@
   "name": "statesauce-sagas",
   "version": "0.1.1",
   "description": "statesauce",
+  "main": "lib/index.js",
   "author": "Seth Feibus <sethfork@users.noreply.github.com>",
   "license": "MIT",
   "scripts": {

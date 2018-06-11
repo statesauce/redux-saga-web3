@@ -1,7 +1,7 @@
 {
   "name": "statesauce",
   "version": "0.1.0",
-  "main": "packages/statesauce/src",
+  "main": "packages/statesauce/lib/index.js",
   "author": "Seth Feibus <sethfork@users.noreply.github.com>",
   "license": "MIT",
   "devDependencies": {
