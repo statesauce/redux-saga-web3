@@ -1,6 +1,6 @@
 {
   "name": "statesauce-provider",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Provider react component for statesauce store",
   "main": "lib/index.js",
   "author": "Seth Feibus <sethfork@users.noreply.github.com>",
@@ -17,8 +17,8 @@
     "prop-types": "^15.6.1",
     "react": "^16.4.0",
     "react-redux": "^5.0.7",
-    "statesauce-constants": "^0.1.1",
-    "statesauce-store": "^0.1.1"
+    "statesauce-constants": "^0.1.2",
+    "statesauce-store": "^0.1.2"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

@@ -1,6 +1,6 @@
 {
   "name": "statesauce",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "main": "lib/index.js",
   "author": "Seth Feibus <sethfork@users.noreply.github.com>",
   "license": "MIT",
@@ -13,12 +13,12 @@
     "prettier": "prettier --write \"src/**/*.js\""
   },
   "dependencies": {
-    "statesauce-constants": "^0.1.1",
-    "statesauce-provider": "^0.1.1",
-    "statesauce-reducers": "^0.1.1",
-    "statesauce-sagas": "^0.1.1",
-    "statesauce-store": "^0.1.1",
-    "statesauce-utils": "^0.1.1"
+    "statesauce-constants": "^0.1.2",
+    "statesauce-provider": "^0.1.2",
+    "statesauce-reducers": "^0.1.2",
+    "statesauce-sagas": "^0.1.2",
+    "statesauce-store": "^0.1.2",
+    "statesauce-utils": "^0.1.2"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

@@ -1,6 +1,6 @@
 {
   "name": "statesauce-sagas",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "statesauce",
   "main": "lib/index.js",
   "author": "Seth Feibus <sethfork@users.noreply.github.com>",
@@ -15,8 +15,8 @@
   },
   "dependencies": {
     "redux-saga": "^0.16.0",
-    "statesauce-constants": "^0.1.1",
-    "statesauce-utils": "^0.1.1"
+    "statesauce-constants": "^0.1.2",
+    "statesauce-utils": "^0.1.2"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
