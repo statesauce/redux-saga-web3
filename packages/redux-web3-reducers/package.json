@@ -1,6 +1,6 @@
 {
   "name": "redux-web3-reducers",
-  "version": "0.1.3",
+  "version": "0.2.0",
   "main": "lib/index.js",
   "contributors": [
     "Seth Feibus <sethfork@users.noreply.github.com>",
@@ -16,7 +16,7 @@
     "prettier": "prettier --write \"src/**/*.js\""
   },
   "dependencies": {
-    "redux-web3-constants": "^0.1.3"
+    "redux-web3-constants": "^0.2.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
