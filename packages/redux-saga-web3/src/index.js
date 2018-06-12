@@ -7,7 +7,7 @@ import accountsTypes from "./accounts/types";
 import blocksActions from "./blocks/actions";
 import blocksReducer from "./blocks/reducer";
 import blocksSaga from "./blocks/saga";
-import blocksSelectors from "./blocks/selectors";
+import * as blocksSelectors from "./blocks/selectors";
 import blocksTypes from "./blocks/types";
 
 const actions = {
