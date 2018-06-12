@@ -1,8 +1,9 @@
 import types from "./types";
 
-function subscribeNewHeaders() {
+function subscribeNewHeaders(options = {}) {
   return {
     type: types.SUBSCRIBE,
+    payload: { options },
   };
 }
 
