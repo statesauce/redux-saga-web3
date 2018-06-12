@@ -20,6 +20,7 @@ function createTypesForEvent(name, event) {
   return {
     SUBSCRIBE: baseType,
     DATA: baseType + "/DATA",
+    CHANGED: baseType + "/CHANGED",
     ERROR: baseType + "/ERROR",
   };
 }
