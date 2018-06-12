@@ -1,4 +1,4 @@
-# statesauce
+# redux-web3
 
 An out-of-the-box state management library for Ethereum and web3.
 
@@ -7,7 +7,7 @@ An out-of-the-box state management library for Ethereum and web3.
 #### Installation
 
 ```
-npm i statesauce
+npm i redux-web3
 ```
 
 #### Usage
@@ -17,26 +17,28 @@ import React from 'react'
 import { render } from 'react-dom'
 import { connect } from 'react-redux'
 
-import Provider from 'statesauce-provider'
+import Provider from 'redux-web3-provider'
 
-const AppComponent = ({ accounts: { isLoading, items } }) => (
+const AppComponent = ({ isLoading, accounts }) => (
   <div> Accounts:
     <ul>
       {isLoading
         ? <li>Loading...</li>
-        : items && items.map(account => <li key={account}>{account}</li>)
+        : accounts && accounts.map(act => <li key={act}>{act}</li>)
       }
     </ul>
   </div>
 )
 
-const AppContainer = connect(state => ({
-  accounts: state.accounts
+const AppContainer = connect({ accounts } => ({
+  isLoading: accounts.isLoading,
+  accounts: accounts.items
 }))(AppComponent)
 
 render(
   <Provider>
     <AppContainer />
   </Provider>,
-  document.getElementById('root'))
+  document.getElementById('root')
+)
 ```

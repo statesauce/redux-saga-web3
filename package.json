@@ -1,8 +1,11 @@
 {
-  "name": "statesauce",
-  "version": "0.1.0",
-  "main": "packages/statesauce/lib/index.js",
-  "author": "Seth Feibus <sethfork@users.noreply.github.com>",
+  "name": "redux-web3",
+  "version": "0.1.3",
+  "main": "packages/redux-web3/lib/index.js",
+  "contributors": [
+    "Seth Feibus <sethfork@users.noreply.github.com>",
+    "Tarrence van As <tarrence13@gmail.com>"
+  ],
   "license": "MIT",
   "devDependencies": {
     "babel-cli": "^6.26.0",
