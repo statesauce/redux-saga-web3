@@ -42,3 +42,8 @@ render(
   document.getElementById('root')
 )
 ```
+
+#### Motivation
+
+#### References
+[Flux standard action](https://github.com/redux-utilities/flux-standard-action)
