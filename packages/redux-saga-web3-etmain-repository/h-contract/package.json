@@ -31,7 +31,7 @@
     "prettier": "prettier --write \"src/**/*.js\""
   },
   "lint-staged": {
-    "*.{js,json,css,md}": [
+    "*.{js}": [
       "npm run prettier -- --write",
       "git add"
     ]
