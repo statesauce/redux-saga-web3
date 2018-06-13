@@ -4,5 +4,8 @@
   "devDependencies": {
     "lerna": "^2.8.0",
     "prettier": "1.13.0"
+  },
+  "dependencies": {
+    "husky": "^0.14.3"
   }
 }
