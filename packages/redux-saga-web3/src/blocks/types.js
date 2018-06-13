@@ -1,5 +1,3 @@
-export default {
-  SUBSCRIBE: "BLOCKS/SUBSCRIBE",
-  DATA: "BLOCKS/SUBSCRIBE/DATA",
-  ERROR: "BLOCKS/SUBSCRIBE/ERROR",
-};
+import { createTypes } from "redux-saga-web3-eth-subscribe";
+
+export default createTypes("blocks", "newBlockHeaders");
