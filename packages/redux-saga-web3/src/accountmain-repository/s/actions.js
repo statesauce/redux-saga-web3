@@ -1,11 +1,18 @@
-import types from "./types";
+import types from './types'
 
-function getAccounts() {
-  return {
-    type: types.GET,
-  };
+const accountsActions = {
+  getRequest: () => ({
+    type: types.GET_REQUEST
+  }),
+  getFailure: (error) => ({
+    type: types.GET_FAILURE,
+    payload: error,
+    error: true
+  }),
+  getSuccess: (accounts) => ({
+    type: types.GET_SUCCESS,
+    payload: accounts
+  })
 }
 
-export default {
-  getAccounts,
-};
+export default accountsActions
