@@ -2,7 +2,7 @@ import Web3EthContract from "web3-eth-contract";
 import { call, takeEvery, put, take } from "redux-saga/effects";
 import { eventChannel, END } from "redux-saga";
 
-import { formatName } from "./utils";
+import { formatName } from "redux-saga-web3-utils";
 
 function createTypesForMethod(name, method) {
   const baseType = `${formatName(name)}/METHODS/${formatName(method)}/CALL`;

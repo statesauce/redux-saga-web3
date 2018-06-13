@@ -3,7 +3,6 @@
   "version": "0.0.3",
   "main": "lib/index.js",
   "dependencies": {
-    "prettier": "^1.13.3",
     "prop-types": "^15.6.1",
     "react": "^16.4.0",
     "react-redux": "^5.0.7",
