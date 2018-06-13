@@ -1,4 +1,4 @@
-import * as types from "./types";
+import * as types from './types';
 
 function getBlockHeader(blockHashOrBlockNumber) {
   return {
