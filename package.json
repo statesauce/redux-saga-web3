@@ -2,16 +2,11 @@
   "name": "redux-saga-web3",
   "author": "Tarrence van As <tarrence13@gmail.com>",
   "scripts": {
-    "precommit": "lint-staged"
-  },
-  "lint-staged": {
-    "*.{js}": ["prettier --write", "git add"]
+    "precommit": "lerna run --concurrency 1 --stream precommit"
   },
   "devDependencies": {
     "lerna": "^2.8.0",
-    "prettier": "1.13.0"
-  },
-  "dependencies": {
+    "prettier": "1.13.0",
     "husky": "^0.14.3"
   }
 }
