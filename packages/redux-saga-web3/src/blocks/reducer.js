@@ -1,4 +1,4 @@
-import BLOCKS from "./types";
+import * as types from "./types";
 
 const initialState = {
   isLoading: false,
@@ -8,12 +8,12 @@ const initialState = {
 
 export default (state = initialState, { type, payload }) => {
   switch (type) {
-    case BLOCKS.SUBSCRIBE:
+    case types.newBlockHeaders.SUBSCRIBE:
       return {
         ...state,
         isLoading: true,
       };
-    case BLOCKS.DATA:
+    case types.newBlockHeaders.DATA:
       const { number } = payload;
       return {
         ...state,
@@ -24,7 +24,7 @@ export default (state = initialState, { type, payload }) => {
           [number]: payload,
         },
       };
-    case BLOCKS.ERROR:
+    case types.newBlockHeaders.ERROR:
       return {
         ...state,
         isLoading: false,
