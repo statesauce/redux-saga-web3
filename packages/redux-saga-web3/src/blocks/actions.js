@@ -1,5 +1,12 @@
 import * as types from "./types";
 
+function getBlockHeader(blockHashOrBlockNumber) {
+  return {
+    type: types.blockHeaders.GET_REQUEST,
+    payload: { blockHashOrBlockNumber },
+  };
+}
+
 function subscribeNewHeaders(options = {}) {
   return {
     type: types.newBlockHeaders.SUBSCRIBE,
@@ -7,13 +14,7 @@ function subscribeNewHeaders(options = {}) {
   };
 }
 
-// function getBlockHeader(options = {}) {
-//   return {
-//     type: types.blocks.SUBSCRIBE,
-//     payload: { options },
-//   };
-// }
-
 export default {
+  getBlockHeader,
   subscribeNewHeaders,
 };
