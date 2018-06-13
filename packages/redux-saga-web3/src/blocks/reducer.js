@@ -1,35 +1,67 @@
 import * as types from "./types";
 
 const initialState = {
-  isLoading: false,
+  isSubscribed: false,
+  latest: null,
   headers: null,
   error: null,
 };
 
-export default (state = initialState, { type, payload }) => {
+export default (state = initialState, { type, meta, payload }) => {
   switch (type) {
-    case types.newBlockHeaders.SUBSCRIBE:
+    case types.blockHeaders.GET_REQUEST: {
       return {
         ...state,
-        isLoading: true,
       };
-    case types.newBlockHeaders.DATA:
-      const { number } = payload;
+    }
+
+    case types.newBlockHeaders.SUBSCRIBE: {
       return {
         ...state,
-        isLoading: false,
-        latest: number,
+        isSubscribed: true,
+      };
+    }
+
+    case types.blockHeaders.GET_SUCCESS: {
+      const { number } = payload;
+      const { blockHashOrBlockNumber } = meta;
+      const { latest: prevLatest } = state;
+      const latest =
+        blockHashOrBlockNumber === "latest" && number > prevLatest
+          ? number
+          : prevLatest;
+      return {
+        ...state,
+        latest,
         headers: {
           ...state.headers,
           [number]: payload,
         },
       };
-    case types.newBlockHeaders.ERROR:
+    }
+
+    case types.newBlockHeaders.DATA: {
+      const { number } = payload;
+      const { latest: prevLatest } = state;
+      const latest = number > prevLatest ? number : prevLatest;
       return {
         ...state,
-        isLoading: false,
+        latest,
+        headers: {
+          ...state.headers,
+          [number]: payload,
+        },
+      };
+    }
+
+    case types.blockHeaders.GET_FAILURE:
+    case types.newBlockHeaders.ERROR: {
+      return {
+        ...state,
         error: payload,
       };
+    }
+
     default:
       return state;
   }

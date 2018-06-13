@@ -1,4 +1,3 @@
-import { delay } from "redux-saga";
 import { call, put, takeEvery, getContext } from "redux-saga/effects";
 
 import ACCOUNTS from "./types";
@@ -13,7 +12,6 @@ export const getAccounts = function*() {
       payload: payload
     });
   } catch (error) {
-    debugger
     yield put({
       type: ACCOUNTS.GET_FAILURE,
       payload: error
