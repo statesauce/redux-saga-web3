@@ -1,4 +1,4 @@
-import { formatName } from "./utils";
+import { formatName } from "redux-saga-web3-utils";
 
 function createEventSubscription(contractName, eventName, options = {}) {
   return {

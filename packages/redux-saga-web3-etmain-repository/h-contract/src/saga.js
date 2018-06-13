@@ -2,7 +2,7 @@ import { call, takeEvery, put, take } from "redux-saga/effects";
 import { eventChannel, END } from "redux-saga";
 
 import { createTypesForMethod } from "./types";
-import { formatName } from "./utils";
+import { formatName } from "redux-saga-web3-utils";
 
 function create(contractName, contract) {
   function getContract(options) {
