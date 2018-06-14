@@ -26,7 +26,7 @@ export default (state = initialState, { type, meta, payload }) => {
       };
     }
     case BALANCE_OF.SUCCESS: {
-      const { value } = payload;
+      const value = payload;
       const {
         options: { at },
         args: [who],

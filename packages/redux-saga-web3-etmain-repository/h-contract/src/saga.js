@@ -36,9 +36,7 @@ function create(contractName, contract) {
             );
             yield put({
               type: CALL_TYPES.SUCCESS,
-              payload: {
-                value: response,
-              },
+              payload: response,
               meta: {
                 args,
                 options,
@@ -54,9 +52,7 @@ function create(contractName, contract) {
             );
             yield put({
               type: SEND_TYPES.SUCCESS,
-              payload: {
-                value: response,
-              },
+              payload: response,
               meta: {
                 args,
                 options,
