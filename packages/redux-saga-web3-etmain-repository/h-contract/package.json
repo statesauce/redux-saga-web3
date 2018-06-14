@@ -29,11 +29,5 @@
     "prepare": "npm run clean && npm run build",
     "precommit": "lint-staged",
     "prettier": "prettier --write \"src/**/*.js\""
-  },
-  "lint-staged": {
-    "*.{js,json,css,md}": [
-      "npm run prettier -- --write",
-      "git add"
-    ]
   }
 }
