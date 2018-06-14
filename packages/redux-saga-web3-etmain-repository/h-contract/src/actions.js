@@ -30,10 +30,13 @@ function createMethodCall(contractName, methodName, options = {}) {
 }
 
 function createMethodSend(contractName, methodName, options = {}) {
-  return {
+  return (...args) => ({
     type: `${formatName(contractName)}/METHODS/${formatName(methodName)}/SEND`,
-    ...options,
-  };
+    payload: {
+      args,
+      options,
+    },
+  });
 }
 
 export {

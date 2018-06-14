@@ -27,7 +27,6 @@ function createChannel(eth, subscriptionName, types, options) {
 
 function* watchChannel(subscriptionName, types, { options }) {
   const { provider } = options;
-  const web3 = yield getContext("web3");
 
   let channel;
 
@@ -35,7 +34,7 @@ function* watchChannel(subscriptionName, types, { options }) {
     const eth = new Web3Eth(provider);
     channel = createChannel(eth, subscriptionName, types, options);
   } else {
-    console.log("dookie");
+    const web3 = yield getContext("web3");
     channel = createChannel(web3.eth, subscriptionName, types, options);
   }
 

@@ -1,7 +1,7 @@
 import { call, takeEvery, put, take } from "redux-saga/effects";
 import { eventChannel, END } from "redux-saga";
 
-import { createTypesForMethod } from "./types";
+import { createTypesForMethodCall, createTypesForMethodSend } from "./types";
 import { formatName } from "redux-saga-web3-utils";
 
 function create(contractName, contract) {
@@ -23,17 +23,41 @@ function create(contractName, contract) {
         if (method.slice(-2) === "()" || method.substring(0, 2) === "0x") {
           return reduction;
         }
-        const TYPES = createTypesForMethod(contractName, method);
+        const CALL_TYPES = createTypesForMethodCall(contractName, method);
+        const SEND_TYPES = createTypesForMethodSend(contractName, method);
         return [
           ...reduction,
-          takeEvery(TYPES.CALL, function* send({ payload: { args, options } }) {
+          takeEvery(CALL_TYPES.CALL, function* send({
+            payload: { args, options },
+          }) {
             const response = yield call(
-              getContract(options).methods[method](...args).call
+              getContract(options).methods[method](...args).call,
+              options
             );
             yield put({
-              type: TYPES.SUCCESS,
+              type: CALL_TYPES.SUCCESS,
               payload: {
                 value: response,
+              },
+              meta: {
+                args,
+                options,
+              },
+            });
+          }),
+          takeEvery(SEND_TYPES.SEND, function* send({
+            payload: { args, options },
+          }) {
+            const response = yield call(
+              getContract(options).methods[method](...args).send,
+              options
+            );
+            yield put({
+              type: SEND_TYPES.SUCCESS,
+              payload: {
+                value: response,
+              },
+              meta: {
                 args,
                 options,
               },

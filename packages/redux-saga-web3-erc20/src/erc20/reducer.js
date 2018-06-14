@@ -1,12 +1,12 @@
-import { createTypesForMethod } from "redux-saga-web3-eth-contract";
+import { createTypesForMethodCall } from "redux-saga-web3-eth-contract";
 
 const initialState = {
   contracts: {},
 };
 
-const BALANCE_OF = createTypesForMethod("ERC20", "balanceOf");
+const BALANCE_OF = createTypesForMethodCall("ERC20", "balanceOf");
 
-export default (state = initialState, { type, payload }) => {
+export default (state = initialState, { type, meta, payload }) => {
   switch (type) {
     case BALANCE_OF.CALL: {
       const {
@@ -26,12 +26,11 @@ export default (state = initialState, { type, payload }) => {
       };
     }
     case BALANCE_OF.SUCCESS: {
+      const { value } = payload;
       const {
         options: { at },
         args: [who],
-        value,
-      } = payload;
-
+      } = meta;
       return {
         ...state,
         contracts: {
