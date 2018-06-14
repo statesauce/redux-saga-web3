@@ -4,11 +4,21 @@ import { eventChannel, END } from "redux-saga";
 
 import { formatName } from "redux-saga-web3-utils";
 
-function createTypesForMethod(name, method) {
+function createTypesForMethodCall(name, method) {
   const baseType = `${formatName(name)}/METHODS/${formatName(method)}/CALL`;
 
   return {
     CALL: baseType,
+    SUCCESS: baseType + "/SUCCESS",
+    ERROR: baseType + "/ERROR",
+  };
+}
+
+function createTypesForMethodSend(name, method) {
+  const baseType = `${formatName(name)}/METHODS/${formatName(method)}/SEND`;
+
+  return {
+    SEND: baseType,
     SUCCESS: baseType + "/SUCCESS",
     ERROR: baseType + "/ERROR",
   };
@@ -43,4 +53,9 @@ function createTypes(name, abi) {
   };
 }
 
-export { createTypes, createTypesForEvent, createTypesForMethod };
+export {
+  createTypes,
+  createTypesForEvent,
+  createTypesForMethodCall,
+  createTypesForMethodSend,
+};
