@@ -6,7 +6,7 @@ A redux-saga interface to an ERC721 contract instance.
 
 Add the reducer to your redux store:
 
-```
+```javascript
 import { reducer as ERC721Reducer } from "redux-saga-web3-erc721";
 
 ...
@@ -19,12 +19,20 @@ const reducers = combineReducers({
 
 Interact with an ERC721 instance through actions and selectors:
 
-```
-import { actions as ERC721Actions, selectors as ERC721Selectors } from "redux-saga-web3-erc721";
+```javascript
+import {
+  actions as ERC721Actions,
+  selectors as ERC721Selectors,
+} from "redux-saga-web3-erc721";
 
-connect(state => ({
-  balance: ERC721Selectors.selectBalanceOf(state, { owner: "0xbeef" });
-}), dispatch => ({
-  getBalanceOf: (owner, at) => dispatch(ERC721Actions.balanceOf(owner, { at }));
-}))(Component)
+export default connect(
+  (state, { owner, at }) => ({
+    balance: ERC721Selectors.selectBalanceOf(state, { owner, at }),
+  }),
+  dispatch => ({
+    getBalanceOf(owner, at) {
+      dispatch(ERC721Actions.balanceOf(owner, { at }));
+    },
+  })
+)(Component);
 ```
