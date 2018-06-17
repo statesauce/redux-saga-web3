@@ -1,83 +1,352 @@
 export default [
   {
+    constant: true,
+    inputs: [],
+    name: "name",
+    outputs: [
+      {
+        name: "_name",
+        type: "string",
+      },
+    ],
+    payable: false,
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    constant: true,
+    inputs: [
+      {
+        name: "_tokenId",
+        type: "uint256",
+      },
+    ],
+    name: "getApproved",
+    outputs: [
+      {
+        name: "_operator",
+        type: "address",
+      },
+    ],
+    payable: false,
+    stateMutability: "view",
+    type: "function",
+  },
+  {
     constant: false,
     inputs: [
-      { name: "spender", type: "address" },
-      { name: "value", type: "uint256" },
+      {
+        name: "_to",
+        type: "address",
+      },
+      {
+        name: "_tokenId",
+        type: "uint256",
+      },
     ],
     name: "approve",
-    outputs: [{ name: "", type: "bool" }],
+    outputs: [],
     payable: false,
+    stateMutability: "nonpayable",
     type: "function",
   },
   {
     constant: true,
     inputs: [],
     name: "totalSupply",
-    outputs: [{ name: "", type: "uint256" }],
+    outputs: [
+      {
+        name: "",
+        type: "uint256",
+      },
+    ],
     payable: false,
+    stateMutability: "view",
     type: "function",
   },
   {
     constant: false,
     inputs: [
-      { name: "from", type: "address" },
-      { name: "to", type: "address" },
-      { name: "value", type: "uint256" },
+      {
+        name: "_from",
+        type: "address",
+      },
+      {
+        name: "_to",
+        type: "address",
+      },
+      {
+        name: "_tokenId",
+        type: "uint256",
+      },
     ],
     name: "transferFrom",
-    outputs: [{ name: "", type: "bool" }],
+    outputs: [],
     payable: false,
+    stateMutability: "nonpayable",
     type: "function",
   },
   {
     constant: true,
-    inputs: [{ name: "who", type: "address" }],
+    inputs: [
+      {
+        name: "_owner",
+        type: "address",
+      },
+      {
+        name: "_index",
+        type: "uint256",
+      },
+    ],
+    name: "tokenOfOwnerByIndex",
+    outputs: [
+      {
+        name: "_tokenId",
+        type: "uint256",
+      },
+    ],
+    payable: false,
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    constant: false,
+    inputs: [
+      {
+        name: "_from",
+        type: "address",
+      },
+      {
+        name: "_to",
+        type: "address",
+      },
+      {
+        name: "_tokenId",
+        type: "uint256",
+      },
+    ],
+    name: "safeTransferFrom",
+    outputs: [],
+    payable: false,
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    constant: true,
+    inputs: [
+      {
+        name: "_tokenId",
+        type: "uint256",
+      },
+    ],
+    name: "exists",
+    outputs: [
+      {
+        name: "_exists",
+        type: "bool",
+      },
+    ],
+    payable: false,
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    constant: true,
+    inputs: [
+      {
+        name: "_index",
+        type: "uint256",
+      },
+    ],
+    name: "tokenByIndex",
+    outputs: [
+      {
+        name: "",
+        type: "uint256",
+      },
+    ],
+    payable: false,
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    constant: true,
+    inputs: [
+      {
+        name: "_tokenId",
+        type: "uint256",
+      },
+    ],
+    name: "ownerOf",
+    outputs: [
+      {
+        name: "_owner",
+        type: "address",
+      },
+    ],
+    payable: false,
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    constant: true,
+    inputs: [
+      {
+        name: "_owner",
+        type: "address",
+      },
+    ],
     name: "balanceOf",
-    outputs: [{ name: "", type: "uint256" }],
+    outputs: [
+      {
+        name: "_balance",
+        type: "uint256",
+      },
+    ],
     payable: false,
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    constant: true,
+    inputs: [],
+    name: "symbol",
+    outputs: [
+      {
+        name: "_symbol",
+        type: "string",
+      },
+    ],
+    payable: false,
+    stateMutability: "view",
     type: "function",
   },
   {
     constant: false,
     inputs: [
-      { name: "to", type: "address" },
-      { name: "value", type: "uint256" },
+      {
+        name: "_operator",
+        type: "address",
+      },
+      {
+        name: "_approved",
+        type: "bool",
+      },
     ],
-    name: "transfer",
-    outputs: [{ name: "", type: "bool" }],
+    name: "setApprovalForAll",
+    outputs: [],
     payable: false,
+    stateMutability: "nonpayable",
     type: "function",
   },
   {
     constant: false,
     inputs: [
-      { name: "spender", type: "address" },
-      { name: "value", type: "uint256" },
-      { name: "extraData", type: "bytes" },
+      {
+        name: "_from",
+        type: "address",
+      },
+      {
+        name: "_to",
+        type: "address",
+      },
+      {
+        name: "_tokenId",
+        type: "uint256",
+      },
+      {
+        name: "_data",
+        type: "bytes",
+      },
     ],
-    name: "approveAndCall",
-    outputs: [{ name: "", type: "bool" }],
+    name: "safeTransferFrom",
+    outputs: [],
     payable: false,
+    stateMutability: "nonpayable",
     type: "function",
   },
   {
     constant: true,
     inputs: [
-      { name: "owner", type: "address" },
-      { name: "spender", type: "address" },
+      {
+        name: "_tokenId",
+        type: "uint256",
+      },
     ],
-    name: "allowance",
-    outputs: [{ name: "", type: "uint256" }],
+    name: "tokenURI",
+    outputs: [
+      {
+        name: "",
+        type: "string",
+      },
+    ],
     payable: false,
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    constant: true,
+    inputs: [
+      {
+        name: "_owner",
+        type: "address",
+      },
+      {
+        name: "_operator",
+        type: "address",
+      },
+    ],
+    name: "isApprovedForAll",
+    outputs: [
+      {
+        name: "",
+        type: "bool",
+      },
+    ],
+    payable: false,
+    stateMutability: "view",
     type: "function",
   },
   {
     anonymous: false,
     inputs: [
-      { indexed: true, name: "owner", type: "address" },
-      { indexed: true, name: "spender", type: "address" },
-      { indexed: false, name: "value", type: "uint256" },
+      {
+        indexed: true,
+        name: "_from",
+        type: "address",
+      },
+      {
+        indexed: true,
+        name: "_to",
+        type: "address",
+      },
+      {
+        indexed: false,
+        name: "_tokenId",
+        type: "uint256",
+      },
+    ],
+    name: "Transfer",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        name: "_owner",
+        type: "address",
+      },
+      {
+        indexed: true,
+        name: "_approved",
+        type: "address",
+      },
+      {
+        indexed: false,
+        name: "_tokenId",
+        type: "uint256",
+      },
     ],
     name: "Approval",
     type: "event",
@@ -85,11 +354,23 @@ export default [
   {
     anonymous: false,
     inputs: [
-      { indexed: true, name: "from", type: "address" },
-      { indexed: true, name: "to", type: "address" },
-      { indexed: false, name: "value", type: "uint256" },
+      {
+        indexed: true,
+        name: "_owner",
+        type: "address",
+      },
+      {
+        indexed: true,
+        name: "_operator",
+        type: "address",
+      },
+      {
+        indexed: false,
+        name: "_approved",
+        type: "bool",
+      },
     ],
-    name: "Transfer",
+    name: "ApprovalForAll",
     type: "event",
   },
 ];
