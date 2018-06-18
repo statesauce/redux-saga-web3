@@ -76,6 +76,10 @@ function create(contractName, contract) {
             emit({
               type: `${patternPrefix}/SUBSCRIBE/DATA`,
               payload: data,
+              meta: {
+                event,
+                options,
+              },
             });
           });
           subscription.on("changed", data =>
@@ -88,6 +92,10 @@ function create(contractName, contract) {
             emit({
               type: `${patternPrefix}/SUBSCRIBE/ERROR`,
               payload: data,
+              meta: {
+                event,
+                options,
+              },
             });
             emit(END);
           });
@@ -128,7 +136,14 @@ function create(contractName, contract) {
         options
       );
 
-      yield put({ type: `${patternPrefix}/SUCCESS`, events });
+      yield put({
+        type: `${patternPrefix}/SUCCESS`,
+        payload: events,
+        meta: {
+          event,
+          options,
+        },
+      });
     });
 
     return [...methods, ...events, getPastEvents];
