@@ -1,0 +1,34 @@
+{
+  "name": "redux-saga-web3",
+  "version": "0.0.7",
+  "main": "lib/index.js",
+  "dependencies": {
+    "redux": "^3.7.2",
+    "redux-saga": "^0.16.0",
+    "redux-saga-web3-eth-subscribe": "^0.0.7",
+    "reselect": "^3.0.1",
+    "web3": "^1.0.0-beta.34",
+    "web3-eth": "^1.0.0-beta.34"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "babel-preset-stage-3": "^6.24.1",
+    "babel-watch": "^2.0.7",
+    "husky": "^0.14.3",
+    "lint-staged": "^7.1.2",
+    "prettier": "^1.13.3",
+    "rimraf": "^2.6.2",
+    "run-when-changed": "^2.1.0"
+  },
+  "scripts": {
+    "build": "babel src/ --out-dir lib/",
+    "clean": "rimraf lib/",
+    "dev": "run-when-changed --watch 'src/**/*.js' --exec 'npm run prepare'",
+    "prepare": "npm run clean && npm run build",
+    "precommit": "lint-staged",
+    "prettier": "prettier --write \"src/**/*.js\""
+  }
+}

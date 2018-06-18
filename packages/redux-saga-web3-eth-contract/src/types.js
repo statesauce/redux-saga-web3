@@ -35,6 +35,16 @@ function createTypesForEvent(name, event) {
   };
 }
 
+function createTypesForGetPastEvents(name, event) {
+  const baseType = `${formatName(name)}/GET_PAST_EVENTS`;
+
+  return {
+    CALL: baseType,
+    SUCCESS: baseType + "/SUCCESS",
+    ERROR: baseType + "/ERROR",
+  };
+}
+
 function createTypes(name, abi) {
   const contract = new Web3EthContract(abi);
 
@@ -58,4 +68,5 @@ export {
   createTypesForEvent,
   createTypesForMethodCall,
   createTypesForMethodSend,
+  createTypesForGetPastEvents,
 };

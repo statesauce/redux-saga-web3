@@ -7,6 +7,7 @@ import {
 } from "./actions";
 import {
   createTypesForEvent,
+  createTypesForGetPastEvents,
   createTypesForMethodCall,
   createTypesForMethodSend,
 } from "./types";
@@ -17,6 +18,7 @@ export {
   createMethodCall,
   createMethodSend,
   createTypesForEvent,
+  createTypesForGetPastEvents,
   createTypesForMethodCall,
   createTypesForMethodSend,
   getPastEvents,
