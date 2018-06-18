@@ -1,12 +1,25 @@
 {
-  "name": "redux-saga-web3",
-  "author": "Tarrence van As <tarrence13@gmail.com>",
-  "scripts": {
-    "precommit": "lerna run --concurrency 1 --stream precommit"
-  },
+  "name": "redux-web3",
+  "version": "0.1.3",
+  "main": "packages/redux-web3/lib/index.js",
+  "contributors": [
+    "Seth Feibus <sethfork@users.noreply.github.com>",
+    "Tarrence van As <tarrence13@gmail.com>"
+  ],
+  "license": "MIT",
   "devDependencies": {
-    "lerna": "^2.8.0",
-    "prettier": "1.13.0",
-    "husky": "^0.14.3"
+    "babel-cli": "^6.26.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "babel-preset-stage-3": "^6.24.1",
+    "babel-watch": "^2.0.7",
+    "husky": "^0.14.3",
+    "lint-staged": "^7.1.2",
+    "prettier": "^1.13.3",
+    "rimraf": "^2.6.2",
+    "run-when-changed": "^2.1.0",
+    "standard": "^11.0.1"
   }
 }
