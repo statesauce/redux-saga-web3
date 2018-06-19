@@ -30,8 +30,8 @@ export default(state = initialState, {type, meta, payload}) => {
             [at]: {
               ...state.contracts[at],
               name: {
-                isLoading: true,
-                value: null
+                ...state.contracts[at].name,
+                isLoading: true
               }
             }
           }
@@ -51,7 +51,8 @@ export default(state = initialState, {type, meta, payload}) => {
               ...state.contracts[at],
               name: {
                 value,
-                isLoading: false
+                isLoading: false,
+                error: null
               }
             }
           }
@@ -59,7 +60,7 @@ export default(state = initialState, {type, meta, payload}) => {
       }
     case NAME.ERROR:
       {
-        const value = payload;
+        const error = payload;
         const {options: {
             at
           }} = meta;
@@ -70,7 +71,8 @@ export default(state = initialState, {type, meta, payload}) => {
             [at]: {
               ...state.contracts[at],
               name: {
-                value,
+                ...state.contracts[at].name,
+                error,
                 isLoading: false
               }
             }
@@ -89,8 +91,8 @@ export default(state = initialState, {type, meta, payload}) => {
             [at]: {
               ...state.contracts[at],
               symbol: {
-                isLoading: true,
-                value: null
+                ...state.contracts[at].symbol,
+                isLoading: true
               }
             }
           }
@@ -110,7 +112,8 @@ export default(state = initialState, {type, meta, payload}) => {
               ...state.contracts[at],
               symbol: {
                 value,
-                isLoading: false
+                isLoading: false,
+                error: null
               }
             }
           }
@@ -118,7 +121,7 @@ export default(state = initialState, {type, meta, payload}) => {
       }
     case SYMBOL.ERROR:
       {
-        const value = payload;
+        const error = payload;
         const {options: {
             at
           }} = meta;
@@ -129,7 +132,8 @@ export default(state = initialState, {type, meta, payload}) => {
             [at]: {
               ...state.contracts[at],
               symbol: {
-                value,
+                ...state.contracts[at].symbol,
+                error,
                 isLoading: false
               }
             }
@@ -148,8 +152,8 @@ export default(state = initialState, {type, meta, payload}) => {
             [at]: {
               ...state.contracts[at],
               totalSupply: {
-                isLoading: true,
-                value: null
+                ...state.contracts[at].totalSupply,
+                isLoading: true
               }
             }
           }
@@ -169,7 +173,8 @@ export default(state = initialState, {type, meta, payload}) => {
               ...state.contracts[at],
               totalSupply: {
                 value,
-                isLoading: false
+                isLoading: false,
+                error: null
               }
             }
           }
@@ -177,7 +182,7 @@ export default(state = initialState, {type, meta, payload}) => {
       }
     case TOTAL_SUPPLY.ERROR:
       {
-        const value = payload;
+        const error = payload;
         const {options: {
             at
           }} = meta;
@@ -188,7 +193,8 @@ export default(state = initialState, {type, meta, payload}) => {
             [at]: {
               ...state.contracts[at],
               totalSupply: {
-                value,
+                ...state.contracts[at].totalSupply,
+                error,
                 isLoading: false
               }
             }
@@ -207,8 +213,8 @@ export default(state = initialState, {type, meta, payload}) => {
             [at]: {
               balances: {
                 [who]: {
-                  isLoading: true,
-                  value: null
+                  ...state.contracts[at].balances[who],
+                  isLoading: true
                 }
               }
             }
@@ -227,8 +233,31 @@ export default(state = initialState, {type, meta, payload}) => {
             [at]: {
               balances: {
                 [who]: {
+                  value,
                   isLoading: false,
-                  value
+                  error: null
+                }
+              }
+            }
+          }
+        };
+        return state;
+      }
+    case BALANCE_OF.ERROR:
+      {
+        const error = payload;
+        const {options: {
+            at
+          }, args: [who]} = meta;
+        return {
+          ...state,
+          contracts: {
+            [at]: {
+              balances: {
+                [who]: {
+                  ...state.contracts[at].balances[who],
+                  error,
+                  isLoading: false
                 }
               }
             }
