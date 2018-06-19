@@ -1,6 +1,6 @@
 {
   "name": "redux-saga-web3-erc721",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "main": "lib/index.js",
   "dependencies": {
     "react": "^16.4.0",
