@@ -15,11 +15,7 @@ function getPastEvents(contractName, event, options = {}) {
   return {
     type: `${formatName(contractName)}/GET_PAST_EVENTS`,
     payload: { event },
-    meta: {
-      options: {
-        ...options,
-      },
-    },
+    meta: { options },
   };
 }
 
