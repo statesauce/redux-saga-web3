@@ -127,8 +127,8 @@ function create(contractName, contract) {
     const patternPrefix = `${formatName(contractName)}/GET_PAST_EVENTS`;
     const getPastEvents = takeEvery(patternPrefix, function* getPastEvents({
       type,
-      event,
-      ...options
+      payload: event,
+      meta: { options },
     }) {
       const events = yield call(
         contract.getPastEvents.bind(contract),

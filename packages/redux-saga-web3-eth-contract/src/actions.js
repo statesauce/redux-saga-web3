@@ -14,8 +14,8 @@ function createEventSubscription(contractName, eventName, options = {}) {
 function getPastEvents(contractName, event, options = {}) {
   return {
     type: `${formatName(contractName)}/GET_PAST_EVENTS`,
-    event,
-    ...options,
+    payload: event,
+    meta: { options },
   };
 }
 
