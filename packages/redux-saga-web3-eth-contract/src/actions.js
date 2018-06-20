@@ -12,16 +12,19 @@ function createEventSubscription(
     )}/SUBSCRIBE`,
     payload: {
       options,
-      meta,
     },
+    meta,
   };
 }
 
-function getPastEvents(contractName, event, options = {}) {
+function getPastEvents(contractName, event, options = {}, meta = {}) {
   return {
     type: `${formatName(contractName)}/GET_PAST_EVENTS`,
-    payload: event,
-    meta: { options },
+    payload: {
+      options,
+      event,
+    },
+    meta,
   };
 }
 
@@ -31,8 +34,8 @@ function createMethodCall(contractName, methodName, options = {}, meta = {}) {
     payload: {
       args,
       options,
-      meta,
     },
+    meta,
   });
 }
 
@@ -42,8 +45,8 @@ function createMethodSend(contractName, methodName, options = {}, meta = {}) {
     payload: {
       args,
       options,
-      meta,
     },
+    meta,
   });
 }
 
