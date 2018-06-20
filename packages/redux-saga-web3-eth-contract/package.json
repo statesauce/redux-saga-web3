@@ -1,6 +1,6 @@
 {
   "name": "redux-saga-web3-eth-contract",
-  "version": "0.0.16",
+  "version": "0.0.17",
   "main": "lib/index.js",
   "dependencies": {
     "redux": "^3.7.2",
