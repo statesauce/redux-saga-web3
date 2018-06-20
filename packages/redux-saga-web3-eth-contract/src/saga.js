@@ -29,6 +29,7 @@ function create(contractName, contract) {
           ...reduction,
           takeEvery(CALL_TYPES.CALL, function* send({
             payload: { args, options },
+            meta,
           }) {
             const response = yield call(
               getContract(options).methods[method](...args).call,
@@ -38,6 +39,7 @@ function create(contractName, contract) {
               type: CALL_TYPES.SUCCESS,
               payload: response,
               meta: {
+                ...meta,
                 args,
                 options,
               },
@@ -45,6 +47,7 @@ function create(contractName, contract) {
           }),
           takeEvery(SEND_TYPES.SEND, function* send({
             payload: { args, options },
+            meta,
           }) {
             const response = yield call(
               getContract(options).methods[method](...args).send,
@@ -54,6 +57,7 @@ function create(contractName, contract) {
               type: SEND_TYPES.SUCCESS,
               payload: response,
               meta: {
+                ...meta,
                 args,
                 options,
               },
