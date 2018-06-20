@@ -73,8 +73,18 @@ function create(contractName, contract) {
         event
       )}`;
 
-      function createEventChannel(options = {}) {
-        const subscription = contract.events[event](options);
+      function createEventChannel({ payload }) {
+        const { options } = payload;
+        const { provider } = options;
+        let subscription;
+        if (provider) {
+          const newProviderContract = contract.clone();
+          newProviderContract.setProvider(provider);
+          subscription = newProviderContract.events[event](options);
+        } else {
+          subscription = contract.events[event](options);
+        }
+
         return eventChannel(emit => {
           subscription.on("data", data => {
             emit({
@@ -108,8 +118,8 @@ function create(contractName, contract) {
         });
       }
 
-      function* watchChannel(options) {
-        const eventChannel = createEventChannel(options);
+      function* watchChannel(payload) {
+        const eventChannel = createEventChannel(payload);
         try {
           while (true) {
             var event = yield take(eventChannel);
@@ -122,8 +132,8 @@ function create(contractName, contract) {
 
       return [
         ...reduction,
-        takeEvery(`${patternPrefix}/SUBSCRIBE`, ({ type, at, ...options }) => [
-          call(watchChannel, options),
+        takeEvery(`${patternPrefix}/SUBSCRIBE`, ({ type, at, ...payload }) => [
+          call(watchChannel, payload),
         ]),
       ];
     }, []);
