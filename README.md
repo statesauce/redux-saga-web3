@@ -1,4 +1,4 @@
-# redux-web3
+# redux-saga-web3
 
 An out-of-the-box state management library for Ethereum and web3.
 
