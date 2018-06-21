@@ -45,23 +45,80 @@ function create(contractName, contract) {
               },
             });
           }),
-          takeEvery(SEND_TYPES.SEND, function* send({
-            payload: { args, options },
+          takeEvery(SEND_TYPES.SEND, function* watchTransactionChannel({
+            payload,
             meta,
           }) {
-            const response = yield call(
-              getContract(options).methods[method](...args).send,
-              options
+            function createTransactionEventChannel(payload, meta) {
+              const { args, options } = payload;
+
+              const emitter = getContract(options)
+                .methods[method](...args)
+                .send(options);
+
+              return eventChannel(emit => {
+                emitter.on("transactionHash", data => {
+                  emit({
+                    type: SEND_TYPES.TRANSACTION_HASH,
+                    payload: data,
+                    meta: {
+                      ...meta,
+                      args,
+                      options,
+                    },
+                  });
+                });
+                emitter.on("receipt", data =>
+                  emit({
+                    type: SEND_TYPES.RECEIPT,
+                    payload: data,
+                    meta: {
+                      ...meta,
+                      args,
+                      options,
+                    },
+                  })
+                );
+                emitter.on("confirmation", data =>
+                  emit({
+                    type: SEND_TYPES.CONFIRMATION,
+                    payload: data,
+                    meta: {
+                      ...meta,
+                      args,
+                      options,
+                    },
+                  })
+                );
+                emitter.on("error", data => {
+                  emit({
+                    type: SEND_TYPES.ERROR,
+                    payload: data,
+                    meta: {
+                      ...meta,
+                      event,
+                      options,
+                    },
+                  });
+                  emit(END);
+                });
+
+                return () => {};
+              });
+            }
+
+            const transactionEventChannel = createTransactionEventChannel(
+              payload, meta
             );
-            yield put({
-              type: SEND_TYPES.SUCCESS,
-              payload: response,
-              meta: {
-                ...meta,
-                args,
-                options,
-              },
-            });
+
+            try {
+              while (true) {
+                var event = yield take(transactionEventChannel);
+                yield put(event);
+              }
+            } finally {
+              transactionEventChannel.close();
+            }
           }),
         ];
       },
@@ -73,7 +130,7 @@ function create(contractName, contract) {
         event
       )}`;
 
-      function createEventChannel({ payload }) {
+      function createSubscriptionEventChannel({ payload }) {
         const { options } = payload;
         const { provider } = options;
         let subscription;
@@ -114,26 +171,28 @@ function create(contractName, contract) {
             emit(END);
           });
 
-          return subscription.unsubscribe;
+          return () => {}; //subscription.unsubscribe;
         });
       }
 
-      function* watchChannel(payload) {
-        const eventChannel = createEventChannel(payload);
+      function* watchSubscriptionChannel(payload) {
+        const subscriptionEventChannel = createSubscriptionEventChannel(
+          payload
+        );
         try {
           while (true) {
-            var event = yield take(eventChannel);
+            var event = yield take(subscriptionEventChannel);
             yield put(event);
           }
         } finally {
-          eventChannel.close();
+          subscriptionEventChannel.close();
         }
       }
 
       return [
         ...reduction,
         takeEvery(`${patternPrefix}/SUBSCRIBE`, ({ type, at, ...payload }) => [
-          call(watchChannel, payload),
+          call(watchSubscriptionChannel, payload),
         ]),
       ];
     }, []);
