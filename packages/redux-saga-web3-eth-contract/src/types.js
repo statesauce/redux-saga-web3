@@ -19,7 +19,9 @@ function createTypesForMethodSend(name, method) {
 
   return {
     SEND: baseType,
-    SUCCESS: baseType + "/SUCCESS",
+    TRANSACTION_HASH: baseType + "/TRANSACTION_HASH",
+    RECEIPT: baseType + "/RECEIPT",
+    CONFIRMATION: baseType + "/CONFIRMATION",
     ERROR: baseType + "/ERROR",
   };
 }
