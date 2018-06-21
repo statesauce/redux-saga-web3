@@ -7,51 +7,51 @@ import { CONTRACT_NAME } from "./constants";
 // Implements actions interface for ERC721: https://github.com/ethereum/EIPs/blob/master/EIPS/eip-721.md
 
 // Start call methods
-export function name(options = {}) {
-  return createMethodCall(CONTRACT_NAME, "name", options)();
+export function name(options = {}, meta = {}) {
+  return createMethodCall(CONTRACT_NAME, "name", options, meta)();
 }
 
-export function symbol(options = {}) {
-  return createMethodCall(CONTRACT_NAME, "symbol", options)();
+export function symbol(options = {}, meta = {}) {
+  return createMethodCall(CONTRACT_NAME, "symbol", options, meta)();
 }
 
-export function totalSupply(options = {}) {
-  return createMethodCall(CONTRACT_NAME, "totalSupply", options)();
+export function totalSupply(options = {}, meta = {}) {
+  return createMethodCall(CONTRACT_NAME, "totalSupply", options, meta)();
 }
 
-export function balanceOf(owner, options = {}) {
-  return createMethodCall(CONTRACT_NAME, "balanceOf", options)(owner);
+export function balanceOf(owner, options = {}, meta = {}) {
+  return createMethodCall(CONTRACT_NAME, "balanceOf", options, meta)(owner);
 }
 
-export function ownerOf(tokenId, options = {}) {
-  return createMethodCall(CONTRACT_NAME, "ownerOf", options)(tokenId);
+export function ownerOf(tokenId, options = {}, meta = {}) {
+  return createMethodCall(CONTRACT_NAME, "ownerOf", options, meta)(tokenId);
 }
 
-export function exists(tokenId, options = {}) {
-  return createMethodCall(CONTRACT_NAME, "exists", options)(tokenId);
+export function exists(tokenId, options = {}, meta = {}) {
+  return createMethodCall(CONTRACT_NAME, "exists", options, meta)(tokenId);
 }
 
-export function tokenURI(tokenId, options = {}) {
-  return createMethodCall(CONTRACT_NAME, "tokenURI", options)(tokenId);
+export function tokenURI(tokenId, options = {}, meta = {}) {
+  return createMethodCall(CONTRACT_NAME, "tokenURI", options, meta)(tokenId);
 }
 
-export function tokenByIndex(index, options = {}) {
-  return createMethodCall(CONTRACT_NAME, "tokenByIndex", options)(index);
+export function tokenByIndex(index, options = {}, meta = {}) {
+  return createMethodCall(CONTRACT_NAME, "tokenByIndex", options, meta)(index);
 }
 
-export function tokenOfOwnerByIndex(owner, index, options = {}) {
-  return createMethodCall(CONTRACT_NAME, "tokenOfOwnerByIndex", options)(
+export function tokenOfOwnerByIndex(owner, index, options = {}, meta = {}) {
+  return createMethodCall(CONTRACT_NAME, "tokenOfOwnerByIndex", options, meta)(
     owner,
     index
   );
 }
 
-export function getApproved(tokenId, options = {}) {
-  return createMethodCall(CONTRACT_NAME, "getApproved", options)(tokenId);
+export function getApproved(tokenId, options = {}, meta = {}) {
+  return createMethodCall(CONTRACT_NAME, "getApproved", options, meta)(tokenId);
 }
 
-export function isApprovedForAll(owner, operator, options = {}) {
-  return createMethodCall(CONTRACT_NAME, "isApprovedForAll", options)(
+export function isApprovedForAll(owner, operator, options = {}, meta = {}) {
+  return createMethodCall(CONTRACT_NAME, "isApprovedForAll", options, meta)(
     owner,
     operator
   );
@@ -59,34 +59,36 @@ export function isApprovedForAll(owner, operator, options = {}) {
 // End call methods
 
 // Start send methods
-export function transferFrom(from, to, tokenId, options = {}) {
-  return createMethodSend(CONTRACT_NAME, "transferFrom", options)(
+export function transferFrom(from, to, tokenId, options = {}, meta = {}) {
+  return createMethodSend(CONTRACT_NAME, "transferFrom", options, meta)(
     from,
     to,
     tokenId
   );
 }
 
-export function safeTransferFrom(from, to, tokenId, options = {}) {
-  return createMethodSend(CONTRACT_NAME, "safeTransferFrom", options)(
+export function safeTransferFrom(from, to, tokenId, options = {}, meta = {}) {
+  return createMethodSend(CONTRACT_NAME, "safeTransferFrom", options, meta)(
     from,
     to,
     tokenId
   );
 }
 
-export function approve(to, tokenId, options = {}) {
-  return createMethodSend(CONTRACT_NAME, "approve", options)(to, tokenId);
+export function approve(to, tokenId, options = {}, meta = {}) {
+  return createMethodSend(CONTRACT_NAME, "approve", options, meta)(to, tokenId);
 }
 
-export function setApprovalForAll(operator, approved, options = {}) {
-  return createMethodSend(CONTRACT_NAME, "setApprovalForAll", options)(
+export function setApprovalForAll(operator, approved, options = {}, meta = {}) {
+  return createMethodSend(CONTRACT_NAME, "setApprovalForAll", options, meta)(
     operator,
     approved
   );
 }
 
-export function takeOwnership(tokenId, options = {}) {
-  return createMethodSend(CONTRACT_NAME, "takeOwnership", options)(tokenId);
+export function takeOwnership(tokenId, options = {}, meta = {}) {
+  return createMethodSend(CONTRACT_NAME, "takeOwnership", options, meta)(
+    tokenId
+  );
 }
 // End send methods
