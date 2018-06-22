@@ -108,7 +108,8 @@ function create(contractName, contract) {
             }
 
             const transactionEventChannel = createTransactionEventChannel(
-              payload, meta
+              payload,
+              meta
             );
 
             try {
@@ -203,21 +204,32 @@ function create(contractName, contract) {
       payload: { event, options },
       meta,
     }) {
-      const events = yield call(
-        contract.getPastEvents.bind(contract),
-        event,
-        options
-      );
-
-      yield put({
-        type: `${patternPrefix}/SUCCESS`,
-        payload: events,
-        meta: {
-          ...meta,
+      try {
+        const events = yield call(contract.getPastEvents.bind(contract), [
           event,
           options,
-        },
-      });
+        ]);
+        yield put({
+          type: `${patternPrefix}/SUCCESS`,
+          payload: events,
+          meta: {
+            ...meta,
+            event,
+            options,
+          },
+        });
+      } catch (err) {
+        yield put({
+          type: `${patternPrefix}/ERROR`,
+          payload: err,
+          meta: {
+            ...meta,
+            event,
+            options,
+          },
+          error: true,
+        });
+      }
     });
 
     return [...methods, ...events, getPastEvents];
