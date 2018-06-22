@@ -1,4 +1,4 @@
-import { fromJS } from "immutable";
+import { Map } from "immutable";
 import * as types from "./types";
 
 const keys = {
@@ -8,7 +8,7 @@ const keys = {
   ERROR: "error",
 };
 
-const initialState = fromJS({
+const initialState = Map({
   isSubscribed: false,
   latest: null,
   headers: null,
