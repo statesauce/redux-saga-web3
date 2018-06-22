@@ -25,10 +25,8 @@ function* root() {
   yield all([...Object.values(sagas).map(saga => fork(saga))]);
 }
 
-const createStore = (initialState = {}) => {
+export default function createStore(initialState = {}) {
   const store = createReduxStore(reducer, initialState, middleware);
   store.sagaTask = sagaMiddleware.run(root);
   return store;
-};
-
-export { createStore };
+}

@@ -2,11 +2,11 @@ import React, { Component, Children } from "react";
 import { compose, connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Provider as ReduxProvider } from "react-redux";
-import { createStore } from "./store";
+import createStore from "./store";
 
 class Initializer extends Component {
   static propTypes = {
-    options: PropTypes.object
+    options: PropTypes.object,
   };
 
   constructor(props) {
@@ -31,14 +31,15 @@ const mapDispatchToProps = dispatch => {
     onInit: provider =>
       dispatch({
         type: "WEB3/INIT",
-        provider
-      })
+        provider,
+      }),
   };
 };
 
-const EnhancedInitializer = connect(state => state, mapDispatchToProps)(
-  Initializer
-);
+const EnhancedInitializer = connect(
+  state => state,
+  mapDispatchToProps
+)(Initializer);
 
 class Provider extends Component {
   constructor(props, context) {
@@ -60,7 +61,7 @@ class Provider extends Component {
         </ReduxProvider>
       );
     } else {
-      console.log("existing store found")
+      console.log("existing store found");
       return (
         <EnhancedInitializer {...this.props}>
           {this.props.children}
@@ -71,7 +72,7 @@ class Provider extends Component {
 }
 
 Provider.contextTypes = {
-  store: PropTypes.object
+  store: PropTypes.object,
 };
 
 export default Provider;

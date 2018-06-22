@@ -1,3 +1,4 @@
 import Provider from "./Provider";
+import createStore from "./store";
 
-export { Provider };
+export { Provider, createStore };
