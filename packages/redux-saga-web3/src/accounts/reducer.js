@@ -1,30 +1,36 @@
+import { fromJS } from "immutable";
 import ACCOUNTS from "./types";
 
-const initialState = {
+const keys = {
+  IS_LOADING: "isLoading",
+  ITEMS: "items",
+  ERROR: "error",
+};
+
+const initialState = fromJS({
   isLoading: false,
   items: null,
   error: null,
-};
+});
 
 export default (state = initialState, { type, payload, error }) => {
   switch (type) {
     case ACCOUNTS.GET_REQUEST:
-      return {
-        ...state,
-        isLoading: true,
-      };
+      return state.set(keys.IS_LOADING, true);
     case ACCOUNTS.GET_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-        items: payload,
-      };
+      return state.merge(
+        new Map({
+          [keys.IS_LOADING]: false,
+          [keys.ITEMS]: payload,
+        })
+      );
     case ACCOUNTS.GET_FAILURE:
-      return {
-        ...state,
-        isLoading: false,
-        error: payload,
-      };
+      return state.merge(
+        new Map({
+          [keys.IS_LOADING]: false,
+          [keys.ERROR]: payload,
+        })
+      );
     default:
       return state;
   }

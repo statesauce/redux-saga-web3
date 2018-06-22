@@ -1,9 +1,18 @@
 import { createSelector } from "reselect";
 
+const BLOCKS = "blocks";
+const HEADERS = "headers";
+const LATEST = "latest";
+
 const getLatestBlockNumber = state =>
-  state.blocks && state.blocks.headers ? state.blocks.latest : null;
+  state.get(BLOCKS) && state.get(BLOCKS)[HEADERS]
+    ? state.get(BLOCKS)[LATEST]
+    : null;
+
 const getBlockHeaders = state =>
-  state.blocks && state.blocks.headers ? state.blocks.headers : null;
+  state.get(BLOCKS) && state.get(BLOCKS)[HEADERS]
+    ? state.get(BLOCKS)[HEADERS]
+    : null;
 
 export const getLatestBlockHeader = createSelector(
   getLatestBlockNumber,

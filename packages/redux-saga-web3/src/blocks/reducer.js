@@ -1,65 +1,65 @@
+import { fromJS } from "immutable";
 import * as types from "./types";
 
-const initialState = {
+const keys = {
+  IS_SUBSCRIBED: "isSubscribed",
+  LATEST: "latest",
+  HEADERS: "headers",
+  ERROR: "error",
+};
+
+const initialState = fromJS({
   isSubscribed: false,
   latest: null,
   headers: null,
   error: null,
-};
+});
 
 export default (state = initialState, { type, meta, payload }) => {
   switch (type) {
     case types.blockHeaders.GET_REQUEST: {
-      return {
-        ...state,
-      };
+      return state;
     }
-
     case types.newBlockHeaders.SUBSCRIBE: {
-      return {
-        ...state,
-        isSubscribed: true,
-      };
+      return state.set(keys.IS_SUBSCRIBED, true);
     }
-
     case types.blockHeaders.GET_SUCCESS: {
+      const prevLatest = state.get(keys.LATEST);
       const { number } = payload;
       const { blockHashOrBlockNumber } = meta;
-      const { latest: prevLatest } = state;
+
       const latest =
-        blockHashOrBlockNumber === "latest" && number > prevLatest
+        blockHashOrBlockNumber === keys.LATEST && number > prevLatest
           ? number
           : prevLatest;
-      return {
-        ...state,
-        latest,
-        headers: {
-          ...state.headers,
-          [number]: payload,
-        },
-      };
-    }
 
+      return state.mergeDeep(
+        Map({
+          [keys.LATEST]: latest,
+          [keys.HEADERS]: Map({
+            [number]: payload,
+          }),
+        })
+      );
+    }
     case types.newBlockHeaders.DATA: {
+      const prevLatest = state.get(keys.LATEST);
       const { number } = payload;
-      const { latest: prevLatest } = state;
-      const latest = number > prevLatest ? number : prevLatest;
-      return {
-        ...state,
-        latest,
-        headers: {
-          ...state.headers,
-          [number]: payload,
-        },
-      };
-    }
 
+      const latest = number > prevLatest ? number : prevLatest;
+
+      return state.mergeDeep(
+        Map({
+          [keys.LATEST]: latest,
+          [keys.HEADERS]: Map({
+            [number]: payload,
+          }),
+        })
+      );
+    }
     case types.blockHeaders.GET_FAILURE:
     case types.newBlockHeaders.ERROR: {
-      return {
-        ...state,
-        error: payload,
-      };
+      return state.set(keys.ERROR, payload);
     }
 
     default:
