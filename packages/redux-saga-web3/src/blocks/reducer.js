@@ -1,4 +1,4 @@
-import { Map } from "immutable";
+import { Map, fromJS } from "immutable";
 import * as types from "./types";
 
 const keys = {
@@ -17,9 +17,6 @@ const initialState = Map({
 
 export default (state = initialState, { type, meta, payload }) => {
   switch (type) {
-    case types.blockHeaders.GET_REQUEST: {
-      return state;
-    }
     case types.newBlockHeaders.SUBSCRIBE: {
       return state.set(keys.IS_SUBSCRIBED, true);
     }
@@ -37,7 +34,7 @@ export default (state = initialState, { type, meta, payload }) => {
         Map({
           [keys.LATEST]: latest,
           [keys.HEADERS]: Map({
-            [number]: payload,
+            [number]: fromJS(payload),
           }),
         })
       );
@@ -52,7 +49,7 @@ export default (state = initialState, { type, meta, payload }) => {
         Map({
           [keys.LATEST]: latest,
           [keys.HEADERS]: Map({
-            [number]: payload,
+            [number]: fromJS(payload),
           }),
         })
       );

@@ -1,11 +1,9 @@
 const ACCOUNTS = "accounts";
 const ITEMS = "items";
 
-const getAccounts = state =>
-  state.get(ACCOUNTS) && state.get(ACCOUNTS)[ITEMS]
-    ? state.get(ACCOUNTS)[ITEMS]
-    : null;
+const selectAccounts = state =>
+  state.hasIn([ACCOUNTS, ITEMS]) ? state.getIn([ACCOUNTS, ITEMS]) : null;
 
 export default {
-  getAccounts,
+  selectAccounts,
 };

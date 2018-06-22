@@ -1,4 +1,4 @@
-import { Map } from "immutable";
+import { Map, fromJS } from "immutable";
 import ACCOUNTS from "./types";
 
 const keys = {
@@ -21,7 +21,7 @@ export default (state = initialState, { type, payload, error }) => {
       return state.merge(
         Map({
           [keys.IS_LOADING]: false,
-          [keys.ITEMS]: payload,
+          [keys.ITEMS]: fromJS(payload),
         })
       );
     case ACCOUNTS.GET_FAILURE:
