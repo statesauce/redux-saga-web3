@@ -1,6 +1,6 @@
 import { createSelector } from "reselect";
 
-const selectTokens = state => state.tokens.contracts;
+const selectTokens = state => state.getIn(["ERC20Tokens", "contracts"]);
 const selectAddress = (_, props) => props.address;
 const selectUser = (_, props) => props.user;
 
