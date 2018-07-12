@@ -7,13 +7,12 @@ const selectUser = (_, props) => props.user;
 export const selectToken = createSelector(
   selectTokens,
   selectAddress,
-  (tokens, address) => (tokens.has("address") ? tokens.get("address") : null)
+  (tokens, address) => (tokens.has(address) ? tokens.get(address) : null)
 );
 
 export const selectBalances = createSelector(
   selectToken,
-  (token, address) =>
-    token && token.has("balances") ? token.get("balances") : null
+  token => (token && token.has("balances") ? token.get("balances") : null)
 );
 
 export const selectBalanceOf = createSelector(
