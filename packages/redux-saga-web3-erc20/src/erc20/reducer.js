@@ -1,8 +1,9 @@
 import { createTypesForMethodCall } from "redux-saga-web3-eth-contract";
+import { Map, fromJS } from "immutable";
 
-const initialState = {
-  contracts: {},
-};
+const initialState = Map({
+  contracts: Map(),
+});
 
 const BALANCE_OF = createTypesForMethodCall("ERC20", "balanceOf");
 
@@ -14,16 +15,10 @@ export default (state = initialState, { type, meta, payload }) => {
         args: [who],
       } = payload;
 
-      return {
-        ...state,
-        contracts: {
-          [at]: {
-            balances: {
-              [who]: { isLoading: true, value: null },
-            },
-          },
-        },
-      };
+      return state.setIn(
+        ["contracts", at, "balances", who],
+        Map({ isLoading: true, value: null })
+      );
     }
     case BALANCE_OF.SUCCESS: {
       const value = payload;
@@ -31,17 +26,11 @@ export default (state = initialState, { type, meta, payload }) => {
         options: { at },
         args: [who],
       } = meta;
-      return {
-        ...state,
-        contracts: {
-          [at]: {
-            balances: {
-              [who]: { isLoading: false, value },
-            },
-          },
-        },
-      };
-      return state;
+
+      return state.setIn(
+        ["contracts", at, "balances", who],
+        Map({ isLoading: false, value })
+      );
     }
 
     default:
