@@ -1,6 +1,6 @@
 {
   "name": "redux-saga-web3-erc20",
-  "version": "0.0.12",
+  "version": "0.0.24",
   "main": "lib/index.js",
   "dependencies": {
     "immutable": "^3.8.2",
