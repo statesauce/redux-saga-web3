@@ -8,7 +8,7 @@
     "react-redux": "^5.0.7",
     "redux": "^3.7.2",
     "redux-saga": "^0.16.0",
-    "redux-saga-web3-eth-contract": "^0.0.11",
+    "redux-saga-web3-eth-contract": "^0.0.28",
     "reselect": "^3.0.1",
     "web3-eth-contract": "^1.0.0-beta.34"
   },
