@@ -4,8 +4,12 @@ import { eventChannel, END } from "redux-saga";
 
 import { formatName } from "redux-saga-web3-utils";
 
+function createBaseTypeForMethod(name, method) {
+  return `${formatName(name)}/METHODS/${formatName(method)}`;
+}
+
 function createTypesForMethodCall(name, method) {
-  const baseType = `${formatName(name)}/METHODS/${formatName(method)}/CALL`;
+  const baseType = `${createBaseTypeForMethod(name, method)}/CALL`;
 
   return {
     CALL: baseType,
@@ -15,7 +19,7 @@ function createTypesForMethodCall(name, method) {
 }
 
 function createTypesForMethodSend(name, method) {
-  const baseType = `${formatName(name)}/METHODS/${formatName(method)}/SEND`;
+  const baseType = `${createBaseTypeForMethod(name, method)}/SEND`;
 
   return {
     SEND: baseType,
@@ -47,28 +51,30 @@ function createTypesForGetPastEvents(name, event) {
   };
 }
 
-function createTypes(name, abi) {
-  const contract = new Web3EthContract(abi);
-
-  return () => {
-    const methods = Object.keys(contract.methods).reduce(
-      (reduction, method) => {
-        // web3 has duplicate instances of all methods
-        if (method.slice(-2) === "()" || method.slice(2) === "0x") {
-          return reduction;
-        }
-
-        return;
-      },
-      []
-    );
-  };
+function decomposeType(type) {
+  const splitType = type.split("/");
+  if (splitType.length < 4) {
+    return { base: "", directive: "", phase: "" };
+  } else if (splitType.length === 4) {
+    return {
+      base: splitType.slice(0, 3).join("/"),
+      directive: splitType[3],
+      phase: "",
+    };
+  } else {
+    return {
+      base: splitType.slice(0, 3).join("/"),
+      directive: splitType[3],
+      phase: splitType[4],
+    };
+  }
 }
 
 export {
-  createTypes,
+  createBaseTypeForMethod,
   createTypesForEvent,
   createTypesForMethodCall,
   createTypesForMethodSend,
   createTypesForGetPastEvents,
+  decomposeType,
 };

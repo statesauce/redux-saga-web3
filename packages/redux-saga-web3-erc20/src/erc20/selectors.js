@@ -12,7 +12,7 @@ export const selectToken = createSelector(
 
 export const selectBalances = createSelector(
   selectToken,
-  token => (token && token.has("balances") ? token.get("balances") : null)
+  token => (token && token.has("balanceOf") ? token.get("balanceOf") : null)
 );
 
 export const selectBalanceOf = createSelector(
