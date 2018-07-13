@@ -1,6 +1,6 @@
 {
   "name": "redux-saga-web3-eth-contract",
-  "version": "0.0.26",
+  "version": "0.0.27",
   "main": "lib/index.js",
   "dependencies": {
     "redux": "^3.7.2",
@@ -25,8 +25,7 @@
   "scripts": {
     "build": "babel src/ --out-dir lib/",
     "clean": "rimraf lib/",
-    "dev":
-      "run-when-changed --watch 'src/**/*.js'  --watch node_modules/**/*.js --exec 'npm run prepare'",
+    "dev": "run-when-changed --watch 'src/**/*.js'  --watch node_modules/**/*.js --exec 'npm run prepare'",
     "prepare": "npm run clean && npm run build",
     "precommit": "lint-staged",
     "prettier": "prettier --write \"src/**/*.js\""
