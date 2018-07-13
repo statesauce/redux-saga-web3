@@ -1,29 +1,15 @@
 import { Map, Stack, fromJS } from "immutable";
 
-import { createBaseTypeForMethod } from "./types";
+import { createBaseTypeForMethod, decomposeType } from "./types";
 
 const PHASES = {
+  CALL: "CALLED",
+  SEND: "SENT",
   SUCCESS: "SUCCESS",
+  TRANSACTION_HASH: "PENDING",
+  RECEIPT: "SUCCESS",
+  ERROR: "ERROR",
 };
-
-function decomposeType(type) {
-  const splitType = type.split("/");
-  if (splitType.length < 4) {
-    return { base: "", directive: "", phase: "" };
-  } else if (splitType.length === 4) {
-    return {
-      base: splitType.slice(0, 3).join("/"),
-      directive: splitType[3],
-      phase: "",
-    };
-  } else {
-    return {
-      base: splitType.slice(0, 3).join("/"),
-      directive: splitType[3],
-      phase: splitType[4],
-    };
-  }
-}
 
 export function create(namespace, abi) {
   const initialState = Map({
@@ -44,28 +30,25 @@ export function create(namespace, abi) {
       const methodABI = types.get(base);
       if (phase === "") {
         const { args, options } = payload;
-        const phase = directive === "CALL" ? "CALLED" : "SENT";
         return state.setIn(
           ["contracts", options.at, methodABI.get("name"), ...args],
-          Map({ value: null, phase })
-        );
-      } else if (phase === "SUCCESS") {
-        const { args, options } = meta;
-        return state.setIn(
-          ["contracts", options.at, methodABI.get("name"), ...args],
-          Map({ value: payload, phase: "SUCCESS" })
+          Map({ value: null, phase: PHASES[directive] })
         );
       } else if (phase === "TRANSACTION_HASH") {
         const { args, options } = meta;
         return state.setIn(
           ["contracts", options.at, methodABI.get("name"), ...args],
-          Map({ transactionHash: payload, phase: "PENDING" })
+          Map({ transactionHash: payload, phase: PHASES[phase] })
         );
       } else if (phase === "RECEIPT") {
         const { args, options } = meta;
         return state.setIn(
           ["contracts", options.at, methodABI.get("name"), ...args],
-          Map({ receipt: payload, confirmations: Stack(), phase: "SUCCESS" })
+          Map({
+            receipt: payload,
+            confirmations: Stack(),
+            phase: PHASES[phase],
+          })
         );
       } else if (phase === "CONFIRMED") {
         const { args, options } = meta;
@@ -87,7 +70,7 @@ export function create(namespace, abi) {
             ])
             .push(payload)
         );
-      } else if (phase === "ERROR") {
+      } else {
         const { args, options } = meta;
         return state.setIn(
           ["contracts", options.at, methodABI.get("name"), ...args],

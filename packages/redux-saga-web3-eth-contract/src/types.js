@@ -51,10 +51,30 @@ function createTypesForGetPastEvents(name, event) {
   };
 }
 
+function decomposeType(type) {
+  const splitType = type.split("/");
+  if (splitType.length < 4) {
+    return { base: "", directive: "", phase: "" };
+  } else if (splitType.length === 4) {
+    return {
+      base: splitType.slice(0, 3).join("/"),
+      directive: splitType[3],
+      phase: "",
+    };
+  } else {
+    return {
+      base: splitType.slice(0, 3).join("/"),
+      directive: splitType[3],
+      phase: splitType[4],
+    };
+  }
+}
+
 export {
   createBaseTypeForMethod,
   createTypesForEvent,
   createTypesForMethodCall,
   createTypesForMethodSend,
   createTypesForGetPastEvents,
+  decomposeType,
 };
