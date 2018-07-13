@@ -1,4 +1,5 @@
 import { create as createSaga } from "./saga";
+import { create as createReducer } from "./reducer";
 import {
   createEventSubscription,
   createMethodCall,
@@ -13,6 +14,7 @@ import {
 } from "./types";
 
 export {
+  createReducer,
   createSaga,
   createEventSubscription,
   createMethodCall,

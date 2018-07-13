@@ -1,5 +1,10 @@
-import { createTypesForMethodCall } from "redux-saga-web3-eth-contract";
+import {
+  createTypesForMethodCall,
+  createReducer,
+} from "redux-saga-web3-eth-contract";
 import { Map, fromJS } from "immutable";
+
+import abi from "./abi";
 
 const initialState = Map({
   contracts: Map(),
@@ -7,33 +12,35 @@ const initialState = Map({
 
 const BALANCE_OF = createTypesForMethodCall("ERC20", "balanceOf");
 
-export default (state = initialState, { type, meta, payload }) => {
-  switch (type) {
-    case BALANCE_OF.CALL: {
-      const {
-        options: { at },
-        args: [who],
-      } = payload;
+export default createReducer("ERC20", abi);
 
-      return state.setIn(
-        ["contracts", at, "balances", who],
-        Map({ isLoading: true, value: null })
-      );
-    }
-    case BALANCE_OF.SUCCESS: {
-      const value = payload;
-      const {
-        options: { at },
-        args: [who],
-      } = meta;
-
-      return state.setIn(
-        ["contracts", at, "balances", who],
-        Map({ isLoading: false, value })
-      );
-    }
-
-    default:
-      return state;
-  }
-};
+// export default (state = initialState, { type, meta, payload }) => {
+//   switch (type) {
+//     case BALANCE_OF.CALL: {
+//       const {
+//         options: { at },
+//         args: [who],
+//       } = payload;
+//
+//       return state.setIn(
+//         ["contracts", at, "balances", who],
+//         Map({ isLoading: true, value: null })
+//       );
+//     }
+//     case BALANCE_OF.SUCCESS: {
+//       const value = payload;
+//       const {
+//         options: { at },
+//         args: [who],
+//       } = meta;
+//
+//       return state.setIn(
+//         ["contracts", at, "balances", who],
+//         Map({ isLoading: false, value })
+//       );
+//     }
+//
+//     default:
+//       return state;
+//   }
+// };
