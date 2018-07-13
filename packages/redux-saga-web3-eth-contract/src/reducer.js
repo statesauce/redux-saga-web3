@@ -74,7 +74,7 @@ export function create(namespace, abi) {
         const { args, options } = meta;
         return state.setIn(
           ["contracts", options.at, methodABI.get("name"), ...args],
-          Map({ value: payload, phase: "ERROR" })
+          Map({ value: payload, phase: PHASES[phase] })
         );
       }
     }
