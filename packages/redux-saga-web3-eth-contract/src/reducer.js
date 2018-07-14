@@ -16,10 +16,10 @@ export function create(namespace, abi) {
     contracts: Map(),
   });
 
-  const types = abi.reduce((reduction, subABI) => {
+  const types = abi.reduce((reduction, member) => {
     return reduction.merge(
       Map({
-        [createBaseTypeForMethod(namespace, subABI.name)]: fromJS(subABI),
+        [createBaseTypeForMethod(namespace, member.name)]: fromJS(member),
       })
     );
   }, Map());
