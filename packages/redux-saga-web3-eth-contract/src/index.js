@@ -5,10 +5,11 @@ import { create as createReducer } from "./reducer";
 import {
   createActionsForInterface,
   createActionEventSubscription,
-  createActionMethodCall,
-  createActionMethodSend,
+  createActionForMethodCall,
+  createActionForMethodSend,
   createActionGetPastEvents,
 } from "./actions";
+import { createSelectorForMethod } from "./selectors";
 import {
   createTypesForEvent,
   createTypesForGetPastEvents,
@@ -32,8 +33,8 @@ export {
   createSaga,
   createActionsForInterface,
   createActionEventSubscription,
-  createActionMethodCall,
-  createActionMethodSend,
+  createActionForMethodCall,
+  createActionForMethodSend,
   createTypesForEvent,
   createTypesForGetPastEvents,
   createTypesForMethodCall,
