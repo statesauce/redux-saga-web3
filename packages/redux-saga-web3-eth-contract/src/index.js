@@ -24,7 +24,7 @@ import {
 class ReduxSagaWeb3EthContract {
   constructor(namespace, abi, address) {
     this.contract = new Web3EthContract(abi, address);
-    this.reducer = createReducer(namespace, abi);
+    this.reducer = { [namespace]: createReducer(namespace, abi) };
     this.saga = createSaga(namespace, this.contract);
     this.types = createTypesForInterface(namespace, abi);
     this.actions = createActionsForInterface(namespace, abi);

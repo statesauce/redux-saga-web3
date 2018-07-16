@@ -5,6 +5,7 @@ const selectContracts = (state, { namespace }) =>
 
 const selectAddress = (_, props) => props.at;
 const selectArgs = (_, props) => props.args;
+const selectMethod = (_, props) => props.method;
 
 const selectContract = createSelector(
   selectContracts,
@@ -14,15 +15,15 @@ const selectContract = createSelector(
 
 const selectMethodState = createSelector(
   selectContract,
+  selectMethod,
   selectArgs,
-  (contract, args) => {
-    debugger;
-    return contract ? contract.getIn([...args]) : null;
-  }
+  (contract, method, args) =>
+    contract ? contract.getIn([method, ...args]) : null
 );
 
 function createSelectorForMethod(namespace, method, options = {}) {
-  return (state, ...args) => selectMethodState(state, { at: options.at, args });
+  return (state, ...args) =>
+    selectMethodState(state, { at: options.at, method, namespace, args });
 }
 
 function createSelectorsForInterface(namespace, abi) {
