@@ -4,12 +4,15 @@ import { create as createSaga } from "./saga";
 import { create as createReducer } from "./reducer";
 import {
   createActionsForInterface,
-  createActionEventSubscription,
+  createActionForEventSubscription,
   createActionForMethodCall,
   createActionForMethodSend,
-  createActionGetPastEvents,
+  createActionForGetPastEvents,
 } from "./actions";
-import { createSelectorForMethod } from "./selectors";
+import {
+  createSelectorForMethod,
+  createSelectorsForInterface,
+} from "./selectors";
 import {
   createTypesForEvent,
   createTypesForGetPastEvents,
@@ -25,20 +28,25 @@ class ReduxSagaWeb3EthContract {
     this.saga = createSaga(namespace, this.contract);
     this.types = createTypesForInterface(namespace, abi);
     this.actions = createActionsForInterface(namespace, abi);
+    this.selectors = createSelectorsForInterface(namespace, abi);
   }
 }
+
+ReduxSagaWeb3EthContract.setProvider = function(provider) {
+  Web3EthContract.setProvider(provider);
+};
 
 export {
   createReducer,
   createSaga,
   createActionsForInterface,
-  createActionEventSubscription,
+  createActionForEventSubscription,
   createActionForMethodCall,
   createActionForMethodSend,
   createTypesForEvent,
   createTypesForGetPastEvents,
   createTypesForMethodCall,
   createTypesForMethodSend,
-  createActionGetPastEvents,
+  createActionForGetPastEvents,
 };
 export default ReduxSagaWeb3EthContract;

@@ -9,17 +9,34 @@ const selectArgs = (_, props) => props.args;
 const selectContract = createSelector(
   selectContracts,
   selectAddress,
-  (contracts, address) => contracts.get(address)
+  (contracts, address) => (contracts ? contracts.get(address) : null)
 );
 
 const selectMethodState = createSelector(
   selectContract,
   selectArgs,
-  (contract, args) => contract.getIn([...args])
+  (contract, args) => {
+    debugger;
+    return contract ? contract.getIn([...args]) : null;
+  }
 );
 
 function createSelectorForMethod(namespace, method, options = {}) {
   return (state, ...args) => selectMethodState(state, { at: options.at, args });
 }
 
-export { createSelectorForMethod };
+function createSelectorsForInterface(namespace, abi) {
+  return abi.reduce(
+    (reduction, member) => {
+      if (member.type === "function") {
+        reduction.methods[member.name] = options =>
+          createSelectorForMethod(namespace, member.name, options);
+      }
+
+      return reduction;
+    },
+    { methods: {}, events: {} }
+  );
+}
+
+export { createSelectorsForInterface, createSelectorForMethod };
