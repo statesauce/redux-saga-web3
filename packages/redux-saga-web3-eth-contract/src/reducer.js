@@ -113,35 +113,34 @@ export function create(namespace, abi) {
           );
         }
       } else if (methodABI.get("type") === "event") {
-        console.log("event reducer");
-      } else if (methodABI.get("type") === "pastEvents") {
-        console.log("get past events");
         const { event, options } = meta;
 
-        if (state.hasIn(["contracts", options.at, "events", event])) {
-          // Merge new events and sort in decending order by block number
-          return state.setIn(
-            ["contracts", options.at, "events", event],
-            state
-              .getIn(["contracts", options.at, "events", event])
-              .union(fromJS(payload).toOrderedSet())
-              .sort((a, b) => {
-                if (a.get("blockNumber") < b.get("blockNumber")) {
-                  return 1;
-                }
-                if (a.get("blockNumber") > b.get("blockNumber")) {
-                  return -1;
-                }
-                if (a.get("blockNumber") === b.get("blockNumber")) {
-                  return 0;
-                }
-              })
-          );
-        } else {
-          return state.setIn(
-            ["contracts", options.at, "events", event],
-            fromJS(payload).toOrderedSet()
-          );
+        if (phase === "SUCCESS") {
+          if (state.hasIn(["contracts", options.at, "events", event])) {
+            // Merge new events and sort in decending order by block number
+            return state.setIn(
+              ["contracts", options.at, "events", event],
+              state
+                .getIn(["contracts", options.at, "events", event])
+                .union(fromJS(payload).toOrderedSet())
+                .sort((a, b) => {
+                  if (a.get("blockNumber") < b.get("blockNumber")) {
+                    return 1;
+                  }
+                  if (a.get("blockNumber") > b.get("blockNumber")) {
+                    return -1;
+                  }
+                  if (a.get("blockNumber") === b.get("blockNumber")) {
+                    return 0;
+                  }
+                })
+            );
+          } else {
+            return state.setIn(
+              ["contracts", options.at, "events", event],
+              fromJS(payload).toOrderedSet()
+            );
+          }
         }
       }
     }

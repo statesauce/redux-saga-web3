@@ -14,8 +14,8 @@ import {
   createSelectorsForInterface,
 } from "./selectors";
 import {
-  createTypesForEvent,
-  createTypesForGetPastEvents,
+  createTypesForEventSubscribe,
+  createTypesForEventGet,
   createTypesForMethodCall,
   createTypesForMethodSend,
   createTypesForInterface,
@@ -43,8 +43,8 @@ export {
   createActionForEventSubscription,
   createActionForMethodCall,
   createActionForMethodSend,
-  createTypesForEvent,
-  createTypesForGetPastEvents,
+  createTypesForEventSubscribe,
+  createTypesForEventGet,
   createTypesForMethodCall,
   createTypesForMethodSend,
   createActionForGetPastEvents,

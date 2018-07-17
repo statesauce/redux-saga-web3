@@ -5,7 +5,8 @@ import {
   createType,
   createTypesForMethodCall,
   createTypesForMethodSend,
-  createTypesForEvent,
+  createTypesForEventSubscribe,
+  createTypesForEventGet,
 } from "./types";
 import { formatName } from "redux-saga-web3-utils";
 
@@ -132,8 +133,8 @@ function create(namespace, contract) {
     );
 
     const events = Object.keys(contract.events).reduce((reduction, event) => {
-      const patternPrefix = createTypesForEvent(namespace, event);
-
+      const SUBSCRIBE_TYPES = createTypesForEventSubscribe(namespace, event);
+      const GET_TYPES = createTypesForEventGet(namespace, event);
       function createSubscriptionEventChannel({ payload }) {
         const { options } = payload;
         const { provider } = options;
@@ -149,7 +150,7 @@ function create(namespace, contract) {
         return eventChannel(emit => {
           subscription.on("data", data => {
             emit({
-              type: `${patternPrefix}/SUBSCRIBE/DATA`,
+              type: SUBSCRIBE_TYPES.DATA,
               payload: data,
               meta: {
                 event,
@@ -159,13 +160,13 @@ function create(namespace, contract) {
           });
           subscription.on("changed", data =>
             emit({
-              type: `${patternPrefix}/SUBSCRIBE/CHANGED`,
+              type: SUBSCRIBE_TYPES.CHANGED,
               payload: data,
             })
           );
           subscription.on("error", data => {
             emit({
-              type: `${patternPrefix}/SUBSCRIBE/ERROR`,
+              type: SUBSCRIBE_TYPES.ERROR,
               payload: data,
               meta: {
                 event,
@@ -195,48 +196,46 @@ function create(namespace, contract) {
 
       return [
         ...reduction,
-        takeEvery(`${patternPrefix}/SUBSCRIBE`, ({ type, at, ...payload }) => [
+        takeEvery(SUBSCRIBE_TYPES.SUBSCRIBE, ({ type, at, ...payload }) => [
           call(watchSubscriptionChannel, payload),
         ]),
+        takeEvery(GET_TYPES.GET, function* getPastEvents({
+          type,
+          payload: { event, options },
+          meta,
+        }) {
+          try {
+            const events = yield call(
+              contract.getPastEvents.bind(contract),
+              event,
+              options
+            );
+            yield put({
+              type: GET_TYPES.SUCCESS,
+              payload: events,
+              meta: {
+                ...meta,
+                event,
+                options,
+              },
+            });
+          } catch (err) {
+            yield put({
+              type: GET_TYPES.ERROR,
+              payload: err,
+              meta: {
+                ...meta,
+                event,
+                options,
+              },
+              error: true,
+            });
+          }
+        }),
       ];
     }, []);
 
-    const patternPrefix = createType(namespace, "getPastEvents");
-    const getPastEvents = takeEvery(patternPrefix, function* getPastEvents({
-      type,
-      payload: { event, options },
-      meta,
-    }) {
-      try {
-        const events = yield call(
-          contract.getPastEvents.bind(contract),
-          event,
-          options
-        );
-        yield put({
-          type: `${patternPrefix}/SUCCESS`,
-          payload: events,
-          meta: {
-            ...meta,
-            event,
-            options,
-          },
-        });
-      } catch (err) {
-        yield put({
-          type: `${patternPrefix}/ERROR`,
-          payload: err,
-          meta: {
-            ...meta,
-            event,
-            options,
-          },
-          error: true,
-        });
-      }
-    });
-
-    return [...methods, ...events, getPastEvents];
+    return [...methods, ...events];
   };
 }
 

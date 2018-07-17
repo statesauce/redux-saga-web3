@@ -24,7 +24,7 @@ function createActionForGetPastEvents(
   meta = {}
 ) {
   return {
-    type: createType(namespace, "GET_PAST_EVENTS"),
+    type: createType(namespace, "EVENTS", event, "GET"),
     payload: {
       options,
       event,
