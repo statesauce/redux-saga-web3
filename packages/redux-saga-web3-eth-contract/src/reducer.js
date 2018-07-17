@@ -29,7 +29,7 @@ export function create(namespace, abi) {
           : createBaseTypeForEvent(namespace, member.name)]: fromJS(member),
       })
     );
-  }, Map({ [createType(namespace, "getPastEvents")]: Map({ type: "pastEvents" }) }));
+  }, Map());
 
   return function(state = initialState, { type, meta, payload }) {
     const { base, directive, phase } = decomposeType(type);
