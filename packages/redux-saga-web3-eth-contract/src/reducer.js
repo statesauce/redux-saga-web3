@@ -1,6 +1,11 @@
-import { Map, Stack, fromJS } from "immutable";
+import { Map, OrderedSet, Stack, fromJS } from "immutable";
 
-import { createBaseTypeForMethod, decomposeType } from "./types";
+import {
+  createType,
+  createBaseTypeForMethod,
+  createBaseTypeForEvent,
+  decomposeType,
+} from "./types";
 
 const PHASES = {
   CALL: "CALLED",
@@ -19,63 +24,125 @@ export function create(namespace, abi) {
   const types = abi.reduce((reduction, member) => {
     return reduction.merge(
       Map({
-        [createBaseTypeForMethod(namespace, member.name)]: fromJS(member),
+        [member.type === "function"
+          ? createBaseTypeForMethod(namespace, member.name)
+          : createBaseTypeForEvent(namespace, member.name)]: fromJS(member),
       })
     );
-  }, Map());
+  }, Map({ [createType(namespace, "getPastEvents")]: Map({ type: "pastEvents" }) }));
 
   return function(state = initialState, { type, meta, payload }) {
     const { base, directive, phase } = decomposeType(type);
     if (types.has(base)) {
       const methodABI = types.get(base);
-      if (phase === "") {
-        const { args, options } = payload;
-        return state.setIn(
-          ["contracts", options.at, methodABI.get("name"), ...args],
-          Map({ value: null, phase: PHASES[directive] })
-        );
-      } else if (phase === "TRANSACTION_HASH") {
-        const { args, options } = meta;
-        return state.setIn(
-          ["contracts", options.at, methodABI.get("name"), ...args],
-          Map({ transactionHash: payload, phase: PHASES[phase] })
-        );
-      } else if (phase === "RECEIPT") {
-        const { args, options } = meta;
-        return state.setIn(
-          ["contracts", options.at, methodABI.get("name"), ...args],
-          Map({
-            receipt: payload,
-            confirmations: Stack(),
-            phase: PHASES[phase],
-          })
-        );
-      } else if (phase === "CONFIRMED") {
-        const { args, options } = meta;
-        return state.setIn(
-          [
-            "contracts",
-            options.at,
-            methodABI.get("name"),
-            ...args,
-            "confirmations",
-          ],
-          state
-            .getIn([
+
+      if (methodABI.get("type") === "function") {
+        if (phase === "") {
+          const { args, options } = payload;
+          return state.setIn(
+            [
               "contracts",
               options.at,
+              "methods",
+              methodABI.get("name"),
+              ...args,
+            ],
+            Map({ value: null, phase: PHASES[directive] })
+          );
+        } else if (phase === "TRANSACTION_HASH") {
+          const { args, options } = meta;
+          return state.setIn(
+            [
+              "contracts",
+              options.at,
+              "methods",
+              methodABI.get("name"),
+              ...args,
+            ],
+            Map({ transactionHash: payload, phase: PHASES[phase] })
+          );
+        } else if (phase === "RECEIPT") {
+          const { args, options } = meta;
+          return state.setIn(
+            [
+              "contracts",
+              options.at,
+              "methods",
+              methodABI.get("name"),
+              ...args,
+            ],
+            Map({
+              receipt: payload,
+              confirmations: Stack(),
+              phase: PHASES[phase],
+            })
+          );
+        } else if (phase === "CONFIRMED") {
+          const { args, options } = meta;
+          return state.setIn(
+            [
+              "contracts",
+              options.at,
+              "methods",
               methodABI.get("name"),
               ...args,
               "confirmations",
-            ])
-            .push(payload)
-        );
-      } else {
-        const { args, options } = meta;
-        return state.setIn(
-          ["contracts", options.at, methodABI.get("name"), ...args],
-          Map({ value: payload, phase: PHASES[phase] })
-        );
+            ],
+            state
+              .getIn([
+                "contracts",
+                options.at,
+                "methods",
+                methodABI.get("name"),
+                ...args,
+                "confirmations",
+              ])
+              .push(payload)
+          );
+        } else {
+          const { args, options } = meta;
+          return state.setIn(
+            [
+              "contracts",
+              options.at,
+              "methods",
+              methodABI.get("name"),
+              ...args,
+            ],
+            Map({ value: payload, phase: PHASES[phase] })
+          );
+        }
+      } else if (methodABI.get("type") === "event") {
+        console.log("event reducer");
+      } else if (methodABI.get("type") === "pastEvents") {
+        console.log("get past events");
+        const { event, options } = meta;
+
+        if (state.hasIn(["contracts", options.at, "events", event])) {
+          // Merge new events and sort in decending order by block number
+          return state.setIn(
+            ["contracts", options.at, "events", event],
+            state
+              .getIn(["contracts", options.at, "events", event])
+              .union(fromJS(payload).toOrderedSet())
+              .sort((a, b) => {
+                if (a.get("blockNumber") < b.get("blockNumber")) {
+                  return 1;
+                }
+                if (a.get("blockNumber") > b.get("blockNumber")) {
+                  return -1;
+                }
+                if (a.get("blockNumber") === b.get("blockNumber")) {
+                  return 0;
+                }
+              })
+          );
+        } else {
+          return state.setIn(
+            ["contracts", options.at, "events", event],
+            fromJS(payload).toOrderedSet()
+          );
+        }
       }
     }
 

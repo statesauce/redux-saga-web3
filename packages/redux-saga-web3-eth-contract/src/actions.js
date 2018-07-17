@@ -79,13 +79,17 @@ function createActionsForInterface(namespace, abi) {
           ),
         });
       } else if (member.type === "event") {
-        reduction.events[member.name] = (options, meta) =>
-          createActionForEventSubscription(
-            namespace,
-            member.name,
-            options,
-            meta
-          );
+        reduction.events[member.name] = {
+          subscribe: (options, meta) =>
+            createActionForEventSubscription(
+              namespace,
+              member.name,
+              options,
+              meta
+            ),
+          get: (options, meta) =>
+            createActionForGetPastEvents(namespace, member.name, options, meta),
+        };
       }
       return reduction;
     },

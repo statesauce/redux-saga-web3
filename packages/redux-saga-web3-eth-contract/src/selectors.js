@@ -18,7 +18,7 @@ const selectMethodState = createSelector(
   selectMethod,
   selectArgs,
   (contract, method, args) =>
-    contract ? contract.getIn([method, ...args]) : null
+    contract ? contract.getIn(["methods", method, ...args]) : null
 );
 
 function createSelectorForMethod(namespace, method, options = {}) {

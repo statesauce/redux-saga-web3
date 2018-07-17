@@ -63,8 +63,14 @@ function createTypesForGetPastEvents(name, event) {
 
 function decomposeType(type) {
   const splitType = type.split("/");
-  if (splitType.length < 4) {
+  if (splitType.length < 3) {
     return { base: "", directive: "", phase: "" };
+  } else if (splitType.length === 3) {
+    return {
+      base: splitType.slice(0, 2).join("/"),
+      directive: "",
+      phase: splitType[2],
+    };
   } else if (splitType.length === 4) {
     return {
       base: splitType.slice(0, 3).join("/"),
@@ -102,6 +108,7 @@ function createTypesForInterface(namespace, abi) {
 
 export {
   createType,
+  createBaseTypeForEvent,
   createBaseTypeForMethod,
   createTypesForEvent,
   createTypesForMethodCall,
