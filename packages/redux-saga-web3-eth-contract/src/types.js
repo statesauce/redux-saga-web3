@@ -4,12 +4,22 @@ import { eventChannel, END } from "redux-saga";
 
 import { formatName } from "redux-saga-web3-utils";
 
-function createBaseTypeForMethod(name, method) {
-  return `${formatName(name)}/METHODS/${formatName(method)}`;
+function createType(...args) {
+  return args
+    .reduce((baseType, arg) => `${baseType}${formatName(arg)}/`, "")
+    .slice(0, -1);
 }
 
-function createTypesForMethodCall(name, method) {
-  const baseType = `${createBaseTypeForMethod(name, method)}/CALL`;
+function createBaseTypeForMethod(namespace, method) {
+  return createType(namespace, "METHODS", method);
+}
+
+function createBaseTypeForEvent(namespace, event) {
+  return createType(namespace, "EVENTS", event);
+}
+
+function createTypesForMethodCall(namespace, method) {
+  const baseType = `${createBaseTypeForMethod(namespace, method)}/CALL`;
 
   return {
     CALL: baseType,
@@ -18,8 +28,8 @@ function createTypesForMethodCall(name, method) {
   };
 }
 
-function createTypesForMethodSend(name, method) {
-  const baseType = `${createBaseTypeForMethod(name, method)}/SEND`;
+function createTypesForMethodSend(namespace, method) {
+  const baseType = `${createBaseTypeForMethod(namespace, method)}/SEND`;
 
   return {
     SEND: baseType,
@@ -53,8 +63,14 @@ function createTypesForGetPastEvents(name, event) {
 
 function decomposeType(type) {
   const splitType = type.split("/");
-  if (splitType.length < 4) {
+  if (splitType.length < 3) {
     return { base: "", directive: "", phase: "" };
+  } else if (splitType.length === 3) {
+    return {
+      base: splitType.slice(0, 2).join("/"),
+      directive: "",
+      phase: splitType[2],
+    };
   } else if (splitType.length === 4) {
     return {
       base: splitType.slice(0, 3).join("/"),
@@ -70,11 +86,34 @@ function decomposeType(type) {
   }
 }
 
+function createTypesForInterface(namespace, abi) {
+  return abi.reduce(
+    (reduction, member) => {
+      if (member.type === "function") {
+        reduction.methods[member.name] = {
+          call: createTypesForMethodCall(namespace, member.name),
+          send: createTypesForMethodSend(namespace, member.name),
+        };
+      } else if (member.type === "event") {
+        reduction.events[member.name] = createTypesForEvent(
+          namespace,
+          member.name
+        );
+      }
+      return reduction;
+    },
+    { methods: {}, events: {} }
+  );
+}
+
 export {
+  createType,
+  createBaseTypeForEvent,
   createBaseTypeForMethod,
   createTypesForEvent,
   createTypesForMethodCall,
   createTypesForMethodSend,
   createTypesForGetPastEvents,
+  createTypesForInterface,
   decomposeType,
 };

@@ -1,10 +1,15 @@
 import { call, takeEvery, put, take } from "redux-saga/effects";
 import { eventChannel, END } from "redux-saga";
 
-import { createTypesForMethodCall, createTypesForMethodSend } from "./types";
+import {
+  createType,
+  createTypesForMethodCall,
+  createTypesForMethodSend,
+  createTypesForEvent,
+} from "./types";
 import { formatName } from "redux-saga-web3-utils";
 
-function create(contractName, contract) {
+function create(namespace, contract) {
   function getContract(options) {
     const { at } = options;
     let _contract = contract;
@@ -23,8 +28,8 @@ function create(contractName, contract) {
         if (method.slice(-2) === "()" || method.substring(0, 2) === "0x") {
           return reduction;
         }
-        const CALL_TYPES = createTypesForMethodCall(contractName, method);
-        const SEND_TYPES = createTypesForMethodSend(contractName, method);
+        const CALL_TYPES = createTypesForMethodCall(namespace, method);
+        const SEND_TYPES = createTypesForMethodSend(namespace, method);
         return [
           ...reduction,
           takeEvery(CALL_TYPES.CALL, function* send({
@@ -127,9 +132,7 @@ function create(contractName, contract) {
     );
 
     const events = Object.keys(contract.events).reduce((reduction, event) => {
-      const patternPrefix = `${formatName(contractName)}/EVENTS/${formatName(
-        event
-      )}`;
+      const patternPrefix = createTypesForEvent(namespace, event);
 
       function createSubscriptionEventChannel({ payload }) {
         const { options } = payload;
@@ -198,17 +201,18 @@ function create(contractName, contract) {
       ];
     }, []);
 
-    const patternPrefix = `${formatName(contractName)}/GET_PAST_EVENTS`;
+    const patternPrefix = createType(namespace, "getPastEvents");
     const getPastEvents = takeEvery(patternPrefix, function* getPastEvents({
       type,
       payload: { event, options },
       meta,
     }) {
       try {
-        const events = yield call(contract.getPastEvents.bind(contract), [
+        const events = yield call(
+          contract.getPastEvents.bind(contract),
           event,
-          options,
-        ]);
+          options
+        );
         yield put({
           type: `${patternPrefix}/SUCCESS`,
           payload: events,

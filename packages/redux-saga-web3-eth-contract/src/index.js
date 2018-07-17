@@ -1,27 +1,52 @@
+import Web3EthContract from "web3-eth-contract";
+
 import { create as createSaga } from "./saga";
 import { create as createReducer } from "./reducer";
 import {
-  createEventSubscription,
-  createMethodCall,
-  createMethodSend,
-  getPastEvents,
+  createActionsForInterface,
+  createActionForEventSubscription,
+  createActionForMethodCall,
+  createActionForMethodSend,
+  createActionForGetPastEvents,
 } from "./actions";
+import {
+  createSelectorForMethod,
+  createSelectorsForInterface,
+} from "./selectors";
 import {
   createTypesForEvent,
   createTypesForGetPastEvents,
   createTypesForMethodCall,
   createTypesForMethodSend,
+  createTypesForInterface,
 } from "./types";
+
+class ReduxSagaWeb3EthContract {
+  constructor(namespace, abi, address) {
+    this.contract = new Web3EthContract(abi, address);
+    this.reducer = { [namespace]: createReducer(namespace, abi) };
+    this.saga = createSaga(namespace, this.contract);
+    this.types = createTypesForInterface(namespace, abi);
+    this.actions = createActionsForInterface(namespace, abi);
+    this.selectors = createSelectorsForInterface(namespace, abi);
+  }
+}
+
+ReduxSagaWeb3EthContract.setProvider = function(provider) {
+  Web3EthContract.setProvider(provider);
+};
 
 export {
   createReducer,
   createSaga,
-  createEventSubscription,
-  createMethodCall,
-  createMethodSend,
+  createActionsForInterface,
+  createActionForEventSubscription,
+  createActionForMethodCall,
+  createActionForMethodSend,
   createTypesForEvent,
   createTypesForGetPastEvents,
   createTypesForMethodCall,
   createTypesForMethodSend,
-  getPastEvents,
+  createActionForGetPastEvents,
 };
+export default ReduxSagaWeb3EthContract;

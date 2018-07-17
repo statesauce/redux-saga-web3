@@ -1,15 +1,15 @@
 import { formatName } from "redux-saga-web3-utils";
 
-function createEventSubscription(
-  contractName,
-  eventName,
+import { createType } from "./types";
+
+function createActionForEventSubscription(
+  namespace,
+  event,
   options = {},
   meta = {}
 ) {
   return {
-    type: `${formatName(contractName)}/EVENTS/${formatName(
-      eventName
-    )}/SUBSCRIBE`,
+    type: createType(namespace, "EVENTS", event, "SUBSCRIBE"),
     payload: {
       options,
     },
@@ -17,9 +17,14 @@ function createEventSubscription(
   };
 }
 
-function getPastEvents(contractName, event, options = {}, meta = {}) {
+function createActionForGetPastEvents(
+  namespace,
+  event,
+  options = {},
+  meta = {}
+) {
   return {
-    type: `${formatName(contractName)}/GET_PAST_EVENTS`,
+    type: createType(namespace, "GET_PAST_EVENTS"),
     payload: {
       options,
       event,
@@ -28,9 +33,9 @@ function getPastEvents(contractName, event, options = {}, meta = {}) {
   };
 }
 
-function createMethodCall(contractName, methodName, options = {}, meta = {}) {
+function createActionForMethodCall(namespace, method, options = {}, meta = {}) {
   return (...args) => ({
-    type: `${formatName(contractName)}/METHODS/${formatName(methodName)}/CALL`,
+    type: createType(namespace, "METHODS", method, "CALL"),
     payload: {
       args,
       options,
@@ -39,20 +44,63 @@ function createMethodCall(contractName, methodName, options = {}, meta = {}) {
   });
 }
 
-function createMethodSend(contractName, methodName, options = {}, meta = {}) {
+function createActionForMethodSend(
+  namespace,
+  methodName,
+  options = {},
+  meta = {}
+) {
   return (...args) => ({
-    type: `${formatName(contractName)}/METHODS/${formatName(methodName)}/SEND`,
+    type: createType(namespace, "METHODS", methodName, "SEND"),
     payload: {
       args,
       options,
     },
     meta,
   });
+}
+
+function createActionsForInterface(namespace, abi) {
+  return abi.reduce(
+    (reduction, member) => {
+      if (member.type === "function") {
+        reduction.methods[member.name] = (options, meta) => ({
+          call: createActionForMethodCall(
+            namespace,
+            member.name,
+            options,
+            meta
+          ),
+          send: createActionForMethodSend(
+            namespace,
+            member.name,
+            options,
+            meta
+          ),
+        });
+      } else if (member.type === "event") {
+        reduction.events[member.name] = {
+          subscribe: (options, meta) =>
+            createActionForEventSubscription(
+              namespace,
+              member.name,
+              options,
+              meta
+            ),
+          get: (options, meta) =>
+            createActionForGetPastEvents(namespace, member.name, options, meta),
+        };
+      }
+      return reduction;
+    },
+    { methods: {}, events: {} }
+  );
 }
 
 export {
-  createEventSubscription,
-  getPastEvents,
-  createMethodCall,
-  createMethodSend,
+  createActionsForInterface,
+  createActionForEventSubscription,
+  createActionForGetPastEvents,
+  createActionForMethodCall,
+  createActionForMethodSend,
 };
