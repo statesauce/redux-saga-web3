@@ -12,7 +12,9 @@ const selectFilter = (_, props) => props.filter;
 const selectContract = createSelector(
   selectContracts,
   selectAddress,
-  (contracts, address) => (contracts ? contracts.get(address) : null)
+  (contracts, address) => {
+    return contracts ? contracts.get(address) : null;
+  }
 );
 
 const selectMethodState = createSelector(
@@ -31,10 +33,10 @@ const selectEventState = createSelector(
     if (!contract) {
       return null;
     } else if (!filter) {
-      return contract.getIn(["methods", event]);
+      return contract.getIn(["events", event]);
     } else {
       // TODO: Implement event filtering
-      return contract.getIn(["methods", event]).filter(item => true);
+      return contract.getIn(["events", event]).filter(item => true);
     }
   }
 );

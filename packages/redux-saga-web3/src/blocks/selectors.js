@@ -10,8 +10,8 @@ const selectLatestBlockNumber = state =>
 const selectBlockHeaders = state =>
   state.hasIn([BLOCKS, HEADERS]) ? state.getIn([BLOCKS, HEADERS]) : null;
 
-export const getLatestBlockHeader = createSelector(
+export const selectLatestBlockHeader = createSelector(
   selectLatestBlockNumber,
   selectBlockHeaders,
-  (latest, headers) => headers[latest]
+  (latest, headers) => headers.get(`${latest}`)
 );
