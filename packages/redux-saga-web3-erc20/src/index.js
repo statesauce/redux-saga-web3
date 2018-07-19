@@ -1,10 +1,11 @@
-import * as actions from "./erc20/actions";
-import * as selectors from "./erc20/selectors";
-import ERC20reducer from "./erc20/reducer";
-import saga from "./erc20/saga";
+import ReduxSagaWeb3EthContract from "redux-saga-web3-eth-contract";
 
-const reducer = {
-  ERC20Tokens: ERC20reducer,
-};
+import abi from "./abi";
 
-export { actions, reducer, saga, selectors };
+class ReduxSagaWeb3ERC20 extends ReduxSagaWeb3EthContract {
+  constructor(address) {
+    super("ERC20", abi, address);
+  }
+}
+
+export default ReduxSagaWeb3ERC20;
