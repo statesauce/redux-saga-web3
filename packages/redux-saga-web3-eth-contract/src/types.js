@@ -40,6 +40,13 @@ function createTypesForMethodSend(namespace, method) {
   };
 }
 
+function createTypesForMethod(namespace, method) {
+  return {
+    call: createTypesForMethodCall(namespace, method),
+    send: createTypesForMethodSend(namespace, method),
+  };
+}
+
 function createTypesForEventSubscribe(namespace, event) {
   const baseType = `${createBaseTypeForEvent(namespace, event)}/SUBSCRIBE`;
 
@@ -58,6 +65,13 @@ function createTypesForEventGet(namespace, event) {
     GET: baseType,
     SUCCESS: baseType + "/SUCCESS",
     ERROR: baseType + "/ERROR",
+  };
+}
+
+function createTypesForEvent(namespace, event) {
+  return {
+    subscribe: createTypesForEventSubscribe(namespace, event),
+    get: createTypesForEventGet(namespace, event),
   };
 }
 
@@ -90,15 +104,15 @@ function createTypesForInterface(namespace, abi) {
   return abi.reduce(
     (reduction, member) => {
       if (member.type === "function") {
-        reduction.methods[member.name] = {
-          call: createTypesForMethodCall(namespace, member.name),
-          send: createTypesForMethodSend(namespace, member.name),
-        };
+        reduction.methods[member.name] = createTypesForMethod(
+          namespace,
+          member.name
+        );
       } else if (member.type === "event") {
-        reduction.events[member.name] = {
-          subscribe: createTypesForEventSubscribe(namespace, member.name),
-          get: createTypesForEventGet(namespace, member.name),
-        };
+        reduction.events[member.name] = createTypesForEvent(
+          namespace,
+          member.name
+        );
       }
       return reduction;
     },
@@ -110,8 +124,10 @@ export {
   createType,
   createBaseTypeForEvent,
   createBaseTypeForMethod,
+  createTypesForMethod,
   createTypesForMethodCall,
   createTypesForMethodSend,
+  createTypesForEvent,
   createTypesForEventGet,
   createTypesForEventSubscribe,
   createTypesForInterface,

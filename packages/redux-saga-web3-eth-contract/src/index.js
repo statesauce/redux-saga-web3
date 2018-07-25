@@ -4,18 +4,22 @@ import { create as createSaga } from "./saga";
 import { create as createReducer } from "./reducer";
 import {
   createActionsForInterface,
-  createActionForEventSubscription,
+  createActionsForMethod,
   createActionForMethodCall,
   createActionForMethodSend,
-  createActionForGetPastEvents,
+  createActionsForEvent,
+  createActionForEventGet,
+  createActionForEventSubscribe,
 } from "./actions";
 import {
   createSelectorForMethod,
   createSelectorsForInterface,
 } from "./selectors";
 import {
+  createTypesForEvent,
   createTypesForEventSubscribe,
   createTypesForEventGet,
+  createTypesForMethod,
   createTypesForMethodCall,
   createTypesForMethodSend,
   createTypesForInterface,
@@ -40,13 +44,15 @@ export {
   createReducer,
   createSaga,
   createActionsForInterface,
-  createActionForEventSubscription,
+  createActionsForEvent,
+  createActionForEventSubscribe,
+  createActionForEventGet,
+  createActionsForMethod,
   createActionForMethodCall,
   createActionForMethodSend,
   createTypesForEventSubscribe,
   createTypesForEventGet,
   createTypesForMethodCall,
   createTypesForMethodSend,
-  createActionForGetPastEvents,
 };
 export default ReduxSagaWeb3EthContract;

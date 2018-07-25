@@ -2,7 +2,7 @@ import { formatName } from "redux-saga-web3-utils";
 
 import { createType } from "./types";
 
-function createActionForEventSubscription(
+function createActionForEventSubscribe(
   namespace,
   event,
   options = {},
@@ -17,12 +17,7 @@ function createActionForEventSubscription(
   };
 }
 
-function createActionForGetPastEvents(
-  namespace,
-  event,
-  options = {},
-  meta = {}
-) {
+function createActionForEventGet(namespace, event, options = {}, meta = {}) {
   return {
     type: createType(namespace, "EVENTS", event, "GET"),
     payload: {
@@ -30,6 +25,15 @@ function createActionForGetPastEvents(
       event,
     },
     meta,
+  };
+}
+
+function createActionsForEvent(namespace, event, options, meta) {
+  return {
+    subscribe: (options, meta) =>
+      createActionForEventSubscribe(namespace, event, options, meta),
+    get: (options, meta) =>
+      createActionForEventGet(namespace, event, options, meta),
   };
 }
 
@@ -60,36 +64,22 @@ function createActionForMethodSend(
   });
 }
 
+function createActionsForMethod(namespace, methodName, options, meta) {
+  return {
+    call: createActionForMethodCall(namespace, methodName, options, meta),
+    send: createActionForMethodSend(namespace, methodName, options, meta),
+  };
+}
+
 function createActionsForInterface(namespace, abi) {
   return abi.reduce(
     (reduction, member) => {
       if (member.type === "function") {
-        reduction.methods[member.name] = (options, meta) => ({
-          call: createActionForMethodCall(
-            namespace,
-            member.name,
-            options,
-            meta
-          ),
-          send: createActionForMethodSend(
-            namespace,
-            member.name,
-            options,
-            meta
-          ),
-        });
+        reduction.methods[member.name] = (options, meta) =>
+          createActionsForMethod(namespace, member.name, options, meta);
       } else if (member.type === "event") {
-        reduction.events[member.name] = {
-          subscribe: (options, meta) =>
-            createActionForEventSubscription(
-              namespace,
-              member.name,
-              options,
-              meta
-            ),
-          get: (options, meta) =>
-            createActionForGetPastEvents(namespace, member.name, options, meta),
-        };
+        reduction.events[member.name] = (options, meta) =>
+          createActionsForEvent(namespace, member.name, options, meta);
       }
       return reduction;
     },
@@ -99,8 +89,10 @@ function createActionsForInterface(namespace, abi) {
 
 export {
   createActionsForInterface,
-  createActionForEventSubscription,
-  createActionForGetPastEvents,
+  createActionsForEvent,
+  createActionForEventSubscribe,
+  createActionForEventGet,
+  createActionsForMethod,
   createActionForMethodCall,
   createActionForMethodSend,
 };
