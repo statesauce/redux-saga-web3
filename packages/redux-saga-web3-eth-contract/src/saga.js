@@ -1,5 +1,6 @@
-import { call, takeEvery, put, take } from "redux-saga/effects";
+import { call, takeEvery, put, take, select } from "redux-saga/effects";
 import { eventChannel, END } from "redux-saga";
+import { selectors as web3Selectors } from "redux-saga-web3";
 
 import {
   createType,
@@ -55,9 +56,15 @@ function create(namespace, contract) {
             payload,
             meta,
           }) {
-            function createTransactionEventChannel(payload, meta) {
-              const { args, options } = payload;
+            const { args, options } = payload;
+            if (!options.from) {
+              const account = yield select(
+                web3Selectors.accounts.selectAccounts
+              );
+              options.from = account.get(0);
+            }
 
+            function createTransactionEventChannel(args, options, meta) {
               const emitter = getContract(options)
                 .methods[method](...args)
                 .send(options);
@@ -114,7 +121,8 @@ function create(namespace, contract) {
             }
 
             const transactionEventChannel = createTransactionEventChannel(
-              payload,
+              args,
+              options,
               meta
             );
 

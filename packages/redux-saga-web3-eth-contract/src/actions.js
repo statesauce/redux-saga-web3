@@ -28,7 +28,7 @@ function createActionForEventGet(namespace, event, options = {}, meta = {}) {
   };
 }
 
-function createActionsForEvent(namespace, event, options, meta) {
+function createActionsForEvent(namespace, event) {
   return {
     subscribe: (options, meta) =>
       createActionForEventSubscribe(namespace, event, options, meta),
@@ -78,8 +78,8 @@ function createActionsForInterface(namespace, abi) {
         reduction.methods[member.name] = (options, meta) =>
           createActionsForMethod(namespace, member.name, options, meta);
       } else if (member.type === "event") {
-        reduction.events[member.name] = (options, meta) =>
-          createActionsForEvent(namespace, member.name, options, meta);
+        reduction.events[member.name] =
+          createActionsForEvent(namespace, member.name);
       }
       return reduction;
     },
