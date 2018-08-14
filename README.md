@@ -7,41 +7,16 @@ An out-of-the-box state management library for Ethereum and web3.
 #### Installation
 
 ```
-npm i redux-web3
+npm i redux-saga-web3-eth-contract
 ```
 
 #### Usage
 
 ```js
-import React from 'react'
-import { render } from 'react-dom'
-import { connect } from 'react-redux'
-
-import Provider from 'redux-web3-provider'
-
-const AppComponent = ({ isLoading, accounts }) => (
-  <div> Accounts:
-    <ul>
-      {isLoading
-        ? <li>Loading...</li>
-        : accounts && accounts.map(act => <li key={act}>{act}</li>)
-      }
-    </ul>
-  </div>
-)
-
-const AppContainer = connect({ accounts } => ({
-  isLoading: accounts.isLoading,
-  accounts: accounts.items
-}))(AppComponent)
-
-render(
-  <Provider>
-    <AppContainer />
-  </Provider>,
-  document.getElementById('root')
-)
+import ReduxSagaWeb3 from 'redux-saga-web3-eth-contract'
 ```
+
+TODO - Add usage example
 
 #### Motivation
 
