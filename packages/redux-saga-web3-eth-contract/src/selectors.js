@@ -1,4 +1,5 @@
 import { createSelector } from "reselect";
+import { isCollection } from "immutable";
 
 const selectContracts = (state, { namespace }) =>
   state.getIn([namespace, "contracts"]);
@@ -12,17 +13,31 @@ const selectFilter = (_, props) => props.filter;
 const selectContract = createSelector(
   selectContracts,
   selectAddress,
-  (contracts, address) => {
-    return contracts ? contracts.get(address) : null;
-  }
+  (contracts, address) => (contracts ? contracts.get(address) : null)
 );
 
 const selectMethodState = createSelector(
   selectContract,
   selectMethod,
   selectArgs,
-  (contract, method, args) =>
-    contract ? contract.getIn(["methods", method, ...args]) : null
+  selectFilter,
+  (contract, method, args, filter) => {
+    if (!contract) {
+      return null;
+    }
+
+    let state = contract.getIn(["methods", method, ...args]);
+
+    if (filter && isCollection(state)) {
+      state = state.filter(filter);
+    } else if (filter && !isCollection(state)) {
+      console.warn(
+        `Did not filter state for method "${method}". Method state needs to be a collection to be filtered.`
+      );
+    }
+
+    return state;
+  }
 );
 
 const selectEventState = createSelector(
@@ -43,12 +58,12 @@ const selectEventState = createSelector(
 
 function createSelectorForMethod(namespace, method, options = {}) {
   return (state, ...args) =>
-    selectMethodState(state, { at: options.at, method, namespace, args });
+    selectMethodState(state, { ...options, method, namespace, args });
 }
 
 function createSelectorForEvent(namespace, event, options = {}) {
   return (state, filter) =>
-    selectEventState(state, { at: options.at, event, namespace, filter });
+    selectEventState(state, { ...options, event, namespace, filter });
 }
 
 function createSelectorsForInterface(namespace, abi) {

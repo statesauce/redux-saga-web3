@@ -3,7 +3,7 @@
   "version": "0.0.36",
   "main": "lib/index.js",
   "dependencies": {
-    "immutable": "^3.8.2",
+    "immutable": "4.0.0-rc.9",
     "redux": "^3.7.2",
     "redux-saga": "^0.16.0",
     "redux-saga-web3-eth-subscribe": "^0.0.36",
