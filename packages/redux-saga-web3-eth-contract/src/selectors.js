@@ -1,7 +1,7 @@
 import { createSelector } from "reselect";
 import { isCollection } from "immutable";
 
-const selectContracts = (state, { namespace }) =>
+export const selectContracts = (state, { namespace }) =>
   state.getIn([namespace, "contracts"]);
 
 const selectAddress = (_, props) => props.at;
@@ -10,10 +10,18 @@ const selectMethod = (_, props) => props.method;
 const selectEvent = (_, props) => props.event;
 const selectFilter = (_, props) => props.filter;
 
-const selectContract = createSelector(
+export const selectContract = createSelector(
   selectContracts,
   selectAddress,
   (contracts, address) => (contracts ? contracts.get(address) : null)
+);
+
+export const selectIsSubscribed = createSelector(
+  selectContract,
+  contract =>
+    contract && contract.has("isSubscribed")
+      ? contract.get("isSubscribed")
+      : false
 );
 
 const selectMethodState = createSelector(

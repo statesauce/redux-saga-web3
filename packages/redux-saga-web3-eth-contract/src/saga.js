@@ -1,6 +1,7 @@
 import { call, takeEvery, put, take, select } from "redux-saga/effects";
 import { eventChannel, END } from "redux-saga";
 import { selectors as web3Selectors } from "redux-saga-web3";
+import { formatName } from "redux-saga-web3-utils";
 
 import {
   createType,
@@ -9,7 +10,6 @@ import {
   createTypesForEventSubscribe,
   createTypesForEventGet,
 } from "./types";
-import { formatName } from "redux-saga-web3-utils";
 
 function create(namespace, contract) {
   function getContract(options) {
@@ -147,6 +147,7 @@ function create(namespace, contract) {
         const { options } = payload;
         const { provider } = options;
         let subscription;
+
         if (provider) {
           const newProviderContract = contract.clone();
           newProviderContract.setProvider(provider);
@@ -156,7 +157,7 @@ function create(namespace, contract) {
         }
 
         return eventChannel(emit => {
-          subscription.on("data", data => {
+          subscription.on("data", data =>
             emit({
               type: SUBSCRIBE_TYPES.DATA,
               payload: data,
@@ -164,8 +165,8 @@ function create(namespace, contract) {
                 event,
                 options,
               },
-            });
-          });
+            })
+          );
           subscription.on("changed", data =>
             emit({
               type: SUBSCRIBE_TYPES.CHANGED,

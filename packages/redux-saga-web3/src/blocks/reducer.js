@@ -20,7 +20,7 @@ export default (state = initialState, { type, meta, payload }) => {
     case types.newBlockHeaders.SUBSCRIBE: {
       return state.set(keys.IS_SUBSCRIBED, true);
     }
-    case types.blockHeaders.GET_SUCCESS: {
+    case types.blockHeaders.SUCCESS: {
       const prevLatest = state.get(keys.LATEST);
       const { number } = payload;
       const { blockHashOrBlockNumber } = meta;
@@ -54,7 +54,7 @@ export default (state = initialState, { type, meta, payload }) => {
         })
       );
     }
-    case types.blockHeaders.GET_FAILURE:
+    case types.blockHeaders.FAILURE:
     case types.newBlockHeaders.ERROR: {
       return state.set(keys.ERROR, payload);
     }

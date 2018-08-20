@@ -2,8 +2,8 @@ import * as types from "./types";
 
 function getBlockHeader(blockHashOrBlockNumber) {
   return {
-    type: types.blockHeaders.GET_REQUEST,
-    payload: { blockHashOrBlockNumber },
+    type: types.blockHeaders.GET,
+    payload: { hash: blockHashOrBlockNumber },
   };
 }
 

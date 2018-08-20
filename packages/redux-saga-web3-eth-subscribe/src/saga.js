@@ -4,8 +4,14 @@ import Web3Eth from "web3-eth";
 
 import { createTypes } from "./types";
 
-function createChannel(eth, subscriptionName, types, options) {
-  const subscription = eth.subscribe(subscriptionName, () => {});
+function createChannel(eth, subscriptionName, types, options = {}) {
+  let subscription;
+  if (subscriptionName === "logs") { // Logs takes options param
+    subscription = eth.subscribe(subscriptionName, options, () => {});
+  } else {
+    subscription = eth.subscribe(subscriptionName, () => {});
+  }
+
   return eventChannel(emit => {
     subscription.on("data", data => {
       emit({
@@ -21,15 +27,13 @@ function createChannel(eth, subscriptionName, types, options) {
       emit(END);
     });
 
-    return subscription.unsubscribe;
+    return () => {} //subscription.unsubscribe;
   });
 }
 
 function* watchChannel(subscriptionName, types, { options }) {
   const { provider } = options;
-
   let channel;
-
   if (provider) {
     const eth = new Web3Eth(provider);
     channel = createChannel(eth, subscriptionName, types, options);
@@ -50,7 +54,6 @@ function* watchChannel(subscriptionName, types, { options }) {
 
 export function create(name, subscriptionName) {
   const types = createTypes(name, subscriptionName);
-
   return function* saga() {
     yield takeEvery(types.SUBSCRIBE, function*({ type, payload }) {
       yield call(watchChannel, subscriptionName, types, payload);
