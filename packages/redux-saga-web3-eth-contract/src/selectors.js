@@ -8,7 +8,7 @@ const selectAddress = (_, props) => props.at;
 const selectArgs = (_, props) => props.args;
 const selectMethod = (_, props) => props.method;
 const selectEvent = (_, props) => props.event;
-const selectFilter = (_, props) => props.filter;
+const selectReducer = (_, props) => props.reducer;
 
 export const selectContract = createSelector(
   selectContracts,
@@ -28,19 +28,20 @@ const selectMethodState = createSelector(
   selectContract,
   selectMethod,
   selectArgs,
-  selectFilter,
-  (contract, method, args, filter) => {
+  selectReducer,
+  (contract, method, args, reducer) => {
     if (!contract) {
       return null;
     }
 
     let state = contract.getIn(["methods", method, ...args]);
 
-    if (filter && isCollection(state)) {
-      state = state.filter(filter);
-    } else if (filter && !isCollection(state)) {
+    if (reducer && isCollection(state)) {
+      // console.log("yeeee")
+      state = state.reduce(...reducer);
+    } else if (reducer && !isCollection(state)) {
       console.warn(
-        `Did not filter state for method "${method}". Method state needs to be a collection to be filtered.`
+        `Did not reduce state for method "${method}". Method state needs to be a collection to be reduced.`
       );
     }
 
@@ -51,7 +52,7 @@ const selectMethodState = createSelector(
 const selectEventState = createSelector(
   selectContract,
   selectEvent,
-  selectFilter,
+  selectReducer,
   (contract, event, filter) => {
     if (!contract) {
       return null;
