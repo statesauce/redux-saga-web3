@@ -2,7 +2,6 @@
 
 An out-of-the-box state management library for Ethereum and web3.
 
-:warning: This is alpha software. There may be breaking changes.
 
 #### Installation
 
