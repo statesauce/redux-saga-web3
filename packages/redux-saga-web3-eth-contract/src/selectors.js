@@ -37,7 +37,7 @@ const selectMethodState = createSelector(
     let state = contract.getIn(["methods", method, ...args]);
 
     if (reducer && isCollection(state)) {
-      // console.log("yeeee")
+      console.log("yeeee");
       state = state.reduce(...reducer);
     } else if (reducer && !isCollection(state)) {
       console.warn(
@@ -75,15 +75,23 @@ function createSelectorForEvent(namespace, event, options = {}) {
     selectEventState(state, { ...options, event, namespace, filter });
 }
 
-function createSelectorsForInterface(namespace, abi) {
+function createSelectorsForInterface(namespace, abi, address) {
   return abi.reduce(
     (reduction, member) => {
       if (member.type === "function") {
-        reduction.methods[member.name] = options =>
-          createSelectorForMethod(namespace, member.name, options);
+        reduction.methods[member.name] = (options = {}) =>
+          createSelectorForMethod(
+            namespace,
+            member.name,
+            options.at ? options : { ...options, at: address }
+          );
       } else if (member.type === "event") {
-        reduction.events[member.name] = options =>
-          createSelectorForEvent(namespace, member.name, options);
+        reduction.events[member.name] = (options = {}) =>
+          createSelectorForEvent(
+            namespace,
+            member.name,
+            options.at ? options : { ...options, at: address }
+          );
       }
 
       return reduction;

@@ -40,11 +40,11 @@ class ReduxSagaWeb3EthContract {
     this._namespace = namespace;
     this._options = options;
     this.contract = new Web3EthContract(abi, options.at);
-    this._reducer = { [namespace]: createReducer(namespace, abi) };
+    this._reducer = { [namespace]: createReducer(namespace, abi, options.at) };
     this._saga = createSaga(namespace, this.contract);
     this._types = createTypesForInterface(namespace, abi);
     this._actions = createActionsForInterface(namespace, abi);
-    this._selectors = createSelectorsForInterface(namespace, abi);
+    this._selectors = createSelectorsForInterface(namespace, abi, options.at);
 
     this._attachedActions = Map();
     this._attachedTypes = Map();

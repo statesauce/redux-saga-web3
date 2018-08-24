@@ -16,7 +16,7 @@ const PHASES = {
   ERROR: "ERROR",
 };
 
-export function create(namespace, abi) {
+export function create(namespace, abi, address) {
   const initialState = Map({
     contracts: Map(),
   });
@@ -42,7 +42,7 @@ export function create(namespace, abi) {
           return state.setIn(
             [
               "contracts",
-              options.at,
+              options.at ? options.at : address,
               "methods",
               methodABI.get("name"),
               ...args,
@@ -54,7 +54,7 @@ export function create(namespace, abi) {
           return state.setIn(
             [
               "contracts",
-              options.at,
+              options.at ? options.at : address,
               "methods",
               methodABI.get("name"),
               ...args,
@@ -66,7 +66,7 @@ export function create(namespace, abi) {
           return state.setIn(
             [
               "contracts",
-              options.at,
+              options.at ? options.at : address,
               "methods",
               methodABI.get("name"),
               ...args,
@@ -82,7 +82,7 @@ export function create(namespace, abi) {
           return state.setIn(
             [
               "contracts",
-              options.at,
+              options.at ? options.at : address,
               "methods",
               methodABI.get("name"),
               ...args,
@@ -91,7 +91,7 @@ export function create(namespace, abi) {
             state
               .getIn([
                 "contracts",
-                options.at,
+                options.at ? options.at : address,
                 "methods",
                 methodABI.get("name"),
                 ...args,
@@ -104,7 +104,7 @@ export function create(namespace, abi) {
           return state.setIn(
             [
               "contracts",
-              options.at,
+              options.at ? options.at : address,
               "methods",
               methodABI.get("name"),
               ...args,
@@ -116,12 +116,24 @@ export function create(namespace, abi) {
         const { event, options } = meta;
 
         if (phase === "SUCCESS") {
-          if (state.hasIn(["contracts", options.at, "events", event])) {
+          if (
+            state.hasIn([
+              "contracts",
+              options.at ? options.at : address,
+              "events",
+              event,
+            ])
+          ) {
             // Merge new events and sort in decending order by block number
             return state.setIn(
-              ["contracts", options.at, "events", event],
+              ["contracts", options.at ? options.at : address, "events", event],
               state
-                .getIn(["contracts", options.at, "events", event])
+                .getIn([
+                  "contracts",
+                  options.at ? options.at : address,
+                  "events",
+                  event,
+                ])
                 .union(fromJS(payload).toOrderedSet())
                 .sort((a, b) => {
                   if (a.get("blockNumber") < b.get("blockNumber")) {
@@ -137,7 +149,7 @@ export function create(namespace, abi) {
             );
           } else {
             return state.setIn(
-              ["contracts", options.at, "events", event],
+              ["contracts", options.at ? options.at : address, "events", event],
               fromJS(payload).toOrderedSet()
             );
           }
