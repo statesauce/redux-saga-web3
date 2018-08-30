@@ -68,6 +68,20 @@ function createActionsForMethod(namespace, methodName, options, meta) {
   return {
     call: createActionForMethodCall(namespace, methodName, options, meta),
     send: createActionForMethodSend(namespace, methodName, options, meta),
+    reduce: (fn, initialValue) => ({
+      call: createActionForMethodCall(
+        namespace,
+        methodName,
+        { ...options, reducer: [fn, initialValue] },
+        meta
+      ),
+      send: createActionForMethodSend(
+        namespace,
+        methodName,
+        { ...options, reducer: [fn, initialValue] },
+        meta
+      ),
+    }),
   };
 }
 
@@ -78,8 +92,10 @@ function createActionsForInterface(namespace, abi) {
         reduction.methods[member.name] = (options, meta) =>
           createActionsForMethod(namespace, member.name, options, meta);
       } else if (member.type === "event") {
-        reduction.events[member.name] =
-          createActionsForEvent(namespace, member.name);
+        reduction.events[member.name] = createActionsForEvent(
+          namespace,
+          member.name
+        );
       }
       return reduction;
     },

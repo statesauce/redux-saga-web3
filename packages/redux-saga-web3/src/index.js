@@ -1,3 +1,5 @@
+import ReduxSagaWeb3EthContract from "redux-saga-web3-eth-contract";
+
 import {
   accountsActions,
   accountsReducer,
@@ -20,34 +22,29 @@ import {
   networkTypes,
 } from "./network";
 
-const actions = {
-  accounts: accountsActions,
-  blocks: blocksActions,
-  network: networkActions,
+const eth = {
+  accounts: {
+    actions: accountsActions,
+    reducer: accountsReducer,
+    saga: accountsSaga,
+    selectors: accountsSelectors,
+    types: accountsTypes,
+  },
+  blocks: {
+    actions: blocksActions,
+    reducer: blocksReducer,
+    saga: blocksSaga,
+    selectors: blocksSelectors,
+    types: blocksTypes,
+  },
+  network: {
+    actions: networkActions,
+    reducer: networkReducer,
+    saga: networkSaga,
+    selectors: networkSelectors,
+    types: networkTypes,
+  },
+  Contract: ReduxSagaWeb3EthContract,
 };
 
-const reducers = {
-  accounts: accountsReducer,
-  blocks: blocksReducer,
-  network: networkReducer,
-};
-
-const sagas = {
-  accounts: accountsSaga,
-  blocks: blocksSaga,
-  network: networkSaga,
-};
-
-const selectors = {
-  accounts: accountsSelectors,
-  blocks: blocksSelectors,
-  network: networkSelectors,
-};
-
-const types = {
-  accounts: accountsTypes,
-  blocks: blocksTypes,
-  network: networkTypes,
-};
-
-export { actions, reducers, sagas, selectors, types };
+export { eth };
