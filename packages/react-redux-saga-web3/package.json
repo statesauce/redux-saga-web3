@@ -1,6 +1,6 @@
 {
   "name": "react-redux-saga-web3",
-  "version": "0.0.39",
+  "version": "1.0.0-0",
   "main": "lib/index.js",
   "dependencies": {
     "prop-types": "^15.6.1",
@@ -8,8 +8,8 @@
     "react-redux": "^5.0.7",
     "redux": "^3.7.2",
     "redux-saga": "^0.16.0",
-    "web3": "^1.0.0-beta.34",
-    "web3-eth-contract": "^1.0.0-beta.34"
+    "web3": "1.0.0-beta.35",
+    "web3-eth-contract": "1.0.0-beta.35"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
