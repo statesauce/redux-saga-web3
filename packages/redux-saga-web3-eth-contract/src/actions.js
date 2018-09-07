@@ -68,17 +68,17 @@ function createActionsForMethod(namespace, methodName, options, meta) {
   return {
     call: createActionForMethodCall(namespace, methodName, options, meta),
     send: createActionForMethodSend(namespace, methodName, options, meta),
-    reduce: (fn, initialValue) => ({
+    reduce: reducer => ({
       call: createActionForMethodCall(
         namespace,
         methodName,
-        { ...options, reducer: [fn, initialValue] },
+        { ...options, reducer },
         meta
       ),
       send: createActionForMethodSend(
         namespace,
         methodName,
-        { ...options, reducer: [fn, initialValue] },
+        { ...options, reducer },
         meta
       ),
     }),

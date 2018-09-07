@@ -1,14 +1,8 @@
 # redux-saga-web3 - Reactive Web3 State Management
 
-An out-of-the-box state management library for Ethereum and web3.
+A state management library for Ethereum and web3.
 
 ## Installation
-
-### Node
-
-```bash
-npm install redux-saga-web3-eth-contract
-```
 
 ### Yarn
 

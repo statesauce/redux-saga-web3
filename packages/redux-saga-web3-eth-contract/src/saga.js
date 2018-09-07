@@ -11,6 +11,8 @@ import {
   createTypesForEventGet,
 } from "./types";
 
+import { createSelectorForMethod } from "./selectors";
+
 function create(namespace, contract) {
   function getContract(options) {
     const { at } = options;
@@ -30,6 +32,7 @@ function create(namespace, contract) {
         if (method.slice(-2) === "()" || method.substring(0, 2) === "0x") {
           return reduction;
         }
+
         const CALL_TYPES = createTypesForMethodCall(namespace, method);
         const SEND_TYPES = createTypesForMethodSend(namespace, method);
         return [
@@ -42,7 +45,8 @@ function create(namespace, contract) {
               getContract(options).methods[method](...args).call,
               options
             );
-            yield put({
+
+            const action = {
               type: CALL_TYPES.SUCCESS,
               payload: response,
               meta: {
@@ -50,13 +54,16 @@ function create(namespace, contract) {
                 args,
                 options,
               },
-            });
+            };
+
+            yield put(action);
           }),
           takeEvery(SEND_TYPES.SEND, function* watchTransactionChannel({
             payload,
             meta,
           }) {
             const { args, options } = payload;
+
             if (!options.from) {
               const account = yield select(
                 web3Selectors.accounts.selectAccounts
