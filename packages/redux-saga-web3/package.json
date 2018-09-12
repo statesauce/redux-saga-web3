@@ -1,15 +1,15 @@
 {
   "name": "redux-saga-web3",
-  "version": "0.0.39",
+  "version": "1.0.1-0",
   "main": "lib/index.js",
   "dependencies": {
     "immutable": "4.0.0-rc.9",
     "redux": "^3.7.2",
     "redux-saga": "^0.16.0",
-    "redux-saga-web3-eth-subscribe": "^0.0.39",
+    "redux-saga-web3-eth-subscribe": "^1.0.1-0",
     "reselect": "^3.0.1",
-    "web3": "^1.0.0-beta.34",
-    "web3-eth": "^1.0.0-beta.34"
+    "web3": "1.0.0-beta.35",
+    "web3-eth": "1.0.0-beta.35"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

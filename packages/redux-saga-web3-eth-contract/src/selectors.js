@@ -5,7 +5,7 @@ export const selectContracts = (state, { namespace }) =>
   state.getIn([namespace, "contracts"]);
 
 const selectAddress = (_, props) => props.at;
-const selectArgs = (_, props) => props.args;
+const selectPath = (_, props) => props.path;
 const selectMethod = (_, props) => props.method;
 const selectEvent = (_, props) => props.event;
 const selectReducer = (_, props) => props.reducer;
@@ -27,17 +27,16 @@ export const selectIsSubscribed = createSelector(
 const selectMethodState = createSelector(
   selectContract,
   selectMethod,
-  selectArgs,
+  selectPath,
   selectReducer,
-  (contract, method, args, reducer) => {
+  (contract, method, path, reducer) => {
     if (!contract) {
       return null;
     }
 
-    let state = contract.getIn(["methods", method, ...args]);
+    let state = contract.getIn(["methods", method, ...path]);
 
     if (reducer && isCollection(state)) {
-      console.log("yeeee");
       state = state.reduce(...reducer);
     } else if (reducer && !isCollection(state)) {
       console.warn(
@@ -66,8 +65,8 @@ const selectEventState = createSelector(
 );
 
 function createSelectorForMethod(namespace, method, options = {}) {
-  return (state, ...args) =>
-    selectMethodState(state, { ...options, method, namespace, args });
+  return (state, ...path) =>
+    selectMethodState(state, { ...options, method, namespace, path });
 }
 
 function createSelectorForEvent(namespace, event, options = {}) {
