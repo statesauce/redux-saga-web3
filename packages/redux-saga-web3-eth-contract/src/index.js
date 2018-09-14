@@ -2,7 +2,7 @@ import Web3EthContract from "web3-eth-contract";
 import { List, Map, fromJS } from "immutable";
 import { compose } from "redux";
 import { types as web3Types } from "redux-saga-web3";
-import { call, takeEvery, put, take, select } from "redux-saga/effects";
+import { call, takeEvery, put, take, select, all } from "redux-saga/effects";
 import {
   createSaga as createSubscriptionSaga,
   createTypes as createSubscriptionTypes,
@@ -49,8 +49,8 @@ class ReduxSagaWeb3EthContract {
     this._attachedActions = Map();
     this._attachedTypes = Map();
     this._attachedSelectors = Map();
-    this._attachedSagas = function*() {};
     this._attachedReducers = [];
+    this._attachedSagas = [];
 
     this._logsSubscriptionTypes = createSubscriptionTypes(
       this._namespace,
@@ -109,7 +109,7 @@ class ReduxSagaWeb3EthContract {
       yield* createSubscriptionSaga(self._namespace, "logs")();
 
       yield* self._saga();
-      yield* self._attachedSagas();
+      yield all(self._attachedSagas);
     };
   }
 
@@ -158,10 +158,7 @@ class ReduxSagaWeb3EthContract {
       selectors
     );
     this._attachedTypes = this._attachedTypes.setIn(["methods", method], types);
-    this._attachedSagas = function*() {
-      yield* this._attachedSagas;
-      yield* saga(types)();
-    };
+    this._attachedSagas.push(saga(types)());
 
     if (reducer) {
       this._attachedReducers.push((state = Map({}), action) => {
