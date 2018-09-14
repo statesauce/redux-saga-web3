@@ -1,6 +1,6 @@
 {
   "name": "react-redux-saga-web3",
-  "version": "0.0.40",
+  "version": "0.0.41",
   "main": "lib/index.js",
   "dependencies": {
     "prop-types": "^15.6.1",
