@@ -1,6 +1,6 @@
 {
   "name": "redux-saga-web3-utils",
-  "version": "0.0.39",
+  "version": "0.0.40",
   "main": "lib/index.js",
   "dependencies": {
     "lodash.snakecase": "^4.1.1"
