@@ -37,7 +37,6 @@ const selectMethodState = createSelector(
     let state = contract.getIn(["methods", method, ...args]);
 
     if (reducer && isCollection(state)) {
-      console.log("yeeee");
       state = state.reduce(...reducer);
     } else if (reducer && !isCollection(state)) {
       console.warn(

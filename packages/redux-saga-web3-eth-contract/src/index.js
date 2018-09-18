@@ -166,7 +166,10 @@ class ReduxSagaWeb3EthContract {
           action.payload &&
           action.meta &&
           action.meta.options &&
-          action.meta.options.at
+          action.meta.options.at &&
+          Object.values(types.call)
+            .concat(Object.values(types.send))
+            .includes(action.type)
         ) {
           return state.setIn(
             ["contracts", action.meta.options.at, "methods", method],
