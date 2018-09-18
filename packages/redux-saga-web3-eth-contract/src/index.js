@@ -164,12 +164,12 @@ class ReduxSagaWeb3EthContract {
       this._attachedReducers.push((state = Map({}), action) => {
         if (
           action.payload &&
-          action.payload.meta &&
-          action.payload.meta.options &&
-          action.payload.meta.options.at
+          action.meta &&
+          action.meta.options &&
+          action.meta.options.at
         ) {
           return state.setIn(
-            ["contracts", action.payload.meta.options.at, "methods", method],
+            ["contracts", action.meta.options.at, "methods", method],
             reducer(types)(state, action)
           );
         }
