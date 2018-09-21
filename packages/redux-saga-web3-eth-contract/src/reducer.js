@@ -45,7 +45,7 @@ export function create(namespace, abi, address) {
               options.at ? options.at : address,
               "methods",
               methodABI.get("name"),
-              ...args,
+              ...(options.path ? options.path : args),
             ],
             Map({ value: null, phase: PHASES[directive] })
           );
@@ -57,7 +57,7 @@ export function create(namespace, abi, address) {
               options.at ? options.at : address,
               "methods",
               methodABI.get("name"),
-              ...args,
+              ...(options.path ? options.path : args),
             ],
             Map({ transactionHash: payload, phase: PHASES[phase] })
           );
@@ -69,7 +69,7 @@ export function create(namespace, abi, address) {
               options.at ? options.at : address,
               "methods",
               methodABI.get("name"),
-              ...args,
+              ...(options.path ? options.path : args),
             ],
             Map({
               receipt: payload,
@@ -85,7 +85,7 @@ export function create(namespace, abi, address) {
               options.at ? options.at : address,
               "methods",
               methodABI.get("name"),
-              ...args,
+              ...(options.path ? options.path : args),
               "confirmations",
             ],
             state
@@ -94,7 +94,7 @@ export function create(namespace, abi, address) {
                 options.at ? options.at : address,
                 "methods",
                 methodABI.get("name"),
-                ...args,
+                ...(options.path ? options.path : args),
                 "confirmations",
               ])
               .push(payload)
@@ -107,7 +107,7 @@ export function create(namespace, abi, address) {
               options.at ? options.at : address,
               "methods",
               methodABI.get("name"),
-              ...args,
+              ...(options.path ? options.path : args),
             ],
             Map({ value: payload, phase: PHASES[phase] })
           );
