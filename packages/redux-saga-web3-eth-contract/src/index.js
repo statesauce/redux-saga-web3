@@ -34,6 +34,7 @@ import {
   createTypesForMethodSend,
   createTypesForInterface,
 } from "./types";
+import { pickAddress } from "./util";
 
 class ReduxSagaWeb3EthContract {
   constructor(namespace, abi, options = {}) {
@@ -162,47 +163,22 @@ class ReduxSagaWeb3EthContract {
 
     if (reducer) {
       this._attachedReducers.push((state = Map({}), action) => {
+        let address = pickAddress(action);
         if (
-          action.payload &&
-          action.meta &&
-          action.meta.options &&
-          action.meta.options.at &&
+          address &&
           Object.values(types.call)
             .concat(Object.values(types.send))
             .includes(action.type)
         ) {
-          return state.hasIn([
-            "contracts",
-            action.meta.options.at,
-            "methods",
-            method,
-          ])
+          return state.hasIn(["contracts", address, "methods", method])
             ? state.mergeDeepIn(
-                ["contracts", action.meta.options.at, "methods", method],
+                ["contracts", address, "methods", method],
                 reducer(types)(state, action)
               )
             : state.setIn(
-                ["contracts", action.meta.options.at, "methods", method],
+                ["contracts", address, "methods", method],
                 reducer(types)(state, action)
               );
-          // return state.setIn(
-          //   ["contracts", action.meta.options.at, "methods", method],
-          //   state.hasIn([
-          //     "contracts",
-          //     action.meta.options.at,
-          //     "methods",
-          //     method,
-          //   ])
-          //     ? state
-          //         .getIn([
-          //           "contracts",
-          //           action.meta.options.at,
-          //           "methods",
-          //           method,
-          //         ])
-          //         .mergeDeepIn(reducer(types)(state, action))
-          //     : reducer(types)(state, action)
-          // );
         }
 
         return state;
