@@ -171,24 +171,38 @@ class ReduxSagaWeb3EthContract {
             .concat(Object.values(types.send))
             .includes(action.type)
         ) {
-          return state.setIn(
-            ["contracts", action.meta.options.at, "methods", method],
-            state.hasIn([
-              "contracts",
-              action.meta.options.at,
-              "methods",
-              method,
-            ])
-              ? state
-                  .getIn([
-                    "contracts",
-                    action.meta.options.at,
-                    "methods",
-                    method,
-                  ])
-                  .mergeDeep(reducer(types)(state, action))
-              : reducer(types)(state, action)
-          );
+          return state.hasIn([
+            "contracts",
+            action.meta.options.at,
+            "methods",
+            method,
+          ])
+            ? state.mergeDeepIn(
+                ["contracts", action.meta.options.at, "methods", method],
+                reducer(types)(state, action)
+              )
+            : state.setIn(
+                ["contracts", action.meta.options.at, "methods", method],
+                reducer(types)(state, action)
+              );
+          // return state.setIn(
+          //   ["contracts", action.meta.options.at, "methods", method],
+          //   state.hasIn([
+          //     "contracts",
+          //     action.meta.options.at,
+          //     "methods",
+          //     method,
+          //   ])
+          //     ? state
+          //         .getIn([
+          //           "contracts",
+          //           action.meta.options.at,
+          //           "methods",
+          //           method,
+          //         ])
+          //         .mergeDeepIn(reducer(types)(state, action))
+          //     : reducer(types)(state, action)
+          // );
         }
 
         return state;
