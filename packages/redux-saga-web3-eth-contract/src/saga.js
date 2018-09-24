@@ -214,8 +214,9 @@ function create(namespace, contract) {
           meta,
         }) {
           try {
+            const _contract = getContract(options);
             const events = yield call(
-              contract.getPastEvents.bind(contract),
+              _contract.getPastEvents.bind(_contract),
               event,
               options
             );
@@ -229,6 +230,7 @@ function create(namespace, contract) {
               },
             });
           } catch (err) {
+            debugger;
             yield put({
               type: GET_TYPES.ERROR,
               payload: err,
