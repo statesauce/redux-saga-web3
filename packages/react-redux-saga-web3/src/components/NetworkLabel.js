@@ -679,7 +679,7 @@ const NetworkLabel = ({ name, type, color }) => (
   <div id="__network-label__" style={{ color }}>
     <span>{name}</span>
     <span>{type}</span>
-    <style jsx>{`
+    <style jsx="true">{`
       #__network-label__ {
         display: flex;
         flex-direction: column;

@@ -677,8 +677,8 @@ import React from "react";
 
 const NetworkIcon = ({ iconStyles: { content, ...style } }) => (
   <div id="__network-icon__">
-    <icon style={style} dangerouslySetInnerHTML={{ __html }} />
-    <style jsx>{`
+    <div style={style} dangerouslySetInnerHTML={{ __html: content }} />
+    <style jsx="true">{`
       #__network-icon__ {
         display: block;
         margin-right: 1em;

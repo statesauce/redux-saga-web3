@@ -678,6 +678,7 @@ import React from "react";
 import NetworkLink from "./NetworkLink";
 import NetworkIcon from "./NetworkIcon";
 import NetworkLabel from "./NetworkLabel";
+import networksConfig from './networksConfig'
 
 const NetworkStatus = ({ iconStyles, name, type, color, ...props }) => (
   <NetworkLink {...props}>
@@ -686,4 +687,20 @@ const NetworkStatus = ({ iconStyles, name, type, color, ...props }) => (
   </NetworkLink>
 );
 
-export default NetworkStatus;
+const accumulateRenderers = (renderers, {id, ...networkConfig}): {} => {
+  renderers[id] = props => <NetworkStatus
+    {...props}
+    {...networkConfig}
+  />
+  return renderers
+}
+
+const networkRenderers = networksConfig.reduce(accumulateRenderers, {});
+
+const Stateless = ({networkId, address, ...props}) => (
+  networkId == null
+  ? networkRenderers['not-listening']
+  : (networkRenderers[networkId] || networkRenderers['null'])
+)({ ...props, defaultAccount: address })
+
+export default Stateless;
