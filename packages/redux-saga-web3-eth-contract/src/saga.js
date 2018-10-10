@@ -13,11 +13,15 @@ import {
 
 function create(namespace, contract) {
   function getContract(options) {
-    const { at } = options;
-    let _contract = contract;
+    const { at, provider } = options;
+    let _contract = contract.clone();
+
     if (at) {
-      _contract = contract.clone();
       _contract.options.address = at;
+    }
+
+    if (provider) {
+      _contract.setProvider(provider);
     }
 
     return _contract;
@@ -144,17 +148,11 @@ function create(namespace, contract) {
       const SUBSCRIBE_TYPES = createTypesForEventSubscribe(namespace, event);
       const GET_TYPES = createTypesForEventGet(namespace, event);
       function createSubscriptionEventChannel({ payload }) {
-        const { options } = payload;
-        const { provider } = options;
+        const { at, options } = payload;
         let subscription;
 
-        if (provider) {
-          const newProviderContract = contract.clone();
-          newProviderContract.setProvider(provider);
-          subscription = newProviderContract.events[event](options);
-        } else {
-          subscription = contract.events[event](options);
-        }
+        const _contract = getContract(options);
+        subscription = _contract.events[event](options);
 
         return eventChannel(emit => {
           subscription.on("data", data =>
@@ -205,7 +203,7 @@ function create(namespace, contract) {
 
       return [
         ...reduction,
-        takeEvery(SUBSCRIBE_TYPES.SUBSCRIBE, ({ type, at, ...payload }) => [
+        takeEvery(SUBSCRIBE_TYPES.SUBSCRIBE, ({ type, ...payload }) => [
           call(watchSubscriptionChannel, payload),
         ]),
         takeEvery(GET_TYPES.GET, function* getPastEvents({
@@ -230,7 +228,6 @@ function create(namespace, contract) {
               },
             });
           } catch (err) {
-            debugger;
             yield put({
               type: GET_TYPES.ERROR,
               payload: err,

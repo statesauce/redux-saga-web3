@@ -77,7 +77,7 @@ export function create(namespace, abi, address) {
               phase: PHASES[phase],
             })
           );
-        } else if (phase === "CONFIRMED") {
+        } else if (phase === "CONFIRMATION") {
           const { args, options } = meta;
           return state.setIn(
             [
