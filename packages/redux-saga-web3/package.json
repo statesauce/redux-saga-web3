@@ -1,6 +1,6 @@
 {
   "name": "redux-saga-web3",
-  "version": "0.0.52",
+  "version": "0.0.53",
   "main": "lib/index.js",
   "dependencies": {
     "immutable": "4.0.0-rc.9",
