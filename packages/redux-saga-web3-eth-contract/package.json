@@ -1,12 +1,12 @@
 {
   "name": "redux-saga-web3-eth-contract",
-  "version": "0.0.51",
+  "version": "0.0.52",
   "main": "lib/index.js",
   "dependencies": {
     "immutable": "4.0.0-rc.9",
     "redux": "^3.7.2",
     "redux-saga": "^0.16.0",
-    "redux-saga-web3": "^0.0.51",
+    "redux-saga-web3": "^0.0.52",
     "redux-saga-web3-eth-subscribe": "^0.0.41",
     "redux-saga-web3-utils": "^0.0.41",
     "reselect": "^3.0.1",
