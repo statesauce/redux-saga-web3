@@ -1,0 +1,5 @@
+export default {
+  REQUEST: "INIT/REQUEST",
+  FAILURE: "INIT/FAILURE",
+  SUCCESS: "INIT/SUCCESS",
+};
