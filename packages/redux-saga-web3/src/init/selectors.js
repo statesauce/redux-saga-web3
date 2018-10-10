@@ -10,6 +10,10 @@ const selectIsLoading = createSelector(
   selectInit,
   state => (state && state.has("isLoading") ? state.get("isLoading") : null)
 );
+const selectIsInitialized = createSelector(
+  selectInit,
+  state => (state && state.has("isLoading") ? !state.get("isLoading") : false)
+);
 const selectError = createSelector(
   selectInit,
   state => (state && state.has("error") ? state.get("error") : null)
@@ -26,6 +30,7 @@ const selectAccounts = createSelector(
 export default {
   selectInit,
   selectStatus,
+  selectIsInitialized,
   selectIsLoading,
   selectError,
   selectNetwork,
