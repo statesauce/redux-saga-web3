@@ -1,9 +1,10 @@
 import { Map, fromJS } from "immutable";
 import NETWORK from "./types";
+import INIT from "../init/types";
 
 const keys = {
   IS_LOADING: "isLoading",
-  ITEMS: "items",
+  ID: "id",
   ERROR: "error",
 };
 
@@ -21,7 +22,7 @@ export default (state = initialState, { type, payload, error }) => {
       return state.merge(
         Map({
           [keys.IS_LOADING]: false,
-          id: fromJS(payload),
+          [keys.ID]: fromJS(payload),
         })
       );
     case NETWORK.GET_ID_FAILURE:
@@ -31,6 +32,25 @@ export default (state = initialState, { type, payload, error }) => {
           [keys.ERROR]: payload,
         })
       );
+    case INIT.REQUEST: {
+      return state.set(keys.IS_LOADING, true);
+    }
+    case INIT.SUCCESS: {
+      return state.merge(
+        Map({
+          [keys.IS_LOADING]: false,
+          [keys.ID]: payload.network,
+        })
+      );
+    }
+    case INIT.FAILURE: {
+      return state.merge(
+        Map({
+          [keys.IS_LOADING]: false,
+          [keys.ERROR]: payload,
+        })
+      );
+    }
     default:
       return state;
   }
