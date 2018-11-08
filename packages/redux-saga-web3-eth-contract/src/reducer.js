@@ -79,6 +79,12 @@ export function create(namespace, abi, address) {
           );
         } else if (phase === "CONFIRMATION") {
           const { args, options } = meta;
+
+          // Ignore zero-th confirmation in favor of using the receipt above
+          if (payload === 0) {
+            return state;
+          }
+
           return state.setIn(
             [
               "contracts",
