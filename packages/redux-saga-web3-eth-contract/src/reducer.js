@@ -51,7 +51,7 @@ export function create(namespace, abi, address) {
           );
         } else if (phase === "TRANSACTION_HASH") {
           const { args, options } = meta;
-          return state.setIn(
+          return state.mergeIn(
             [
               "contracts",
               options.at ? options.at : address,
@@ -59,11 +59,15 @@ export function create(namespace, abi, address) {
               methodABI.get("name"),
               ...(options.path ? options.path : args),
             ],
-            Map({ transactionHash: payload, phase: PHASES[phase] })
+            Map({
+              confirmations: Stack(),
+              transactionHash: payload,
+              phase: PHASES[phase],
+            })
           );
         } else if (phase === "RECEIPT") {
           const { args, options } = meta;
-          return state.setIn(
+          return state.mergeIn(
             [
               "contracts",
               options.at ? options.at : address,
@@ -73,17 +77,11 @@ export function create(namespace, abi, address) {
             ],
             Map({
               receipt: payload,
-              confirmations: Stack(),
               phase: PHASES[phase],
             })
           );
         } else if (phase === "CONFIRMATION") {
           const { args, options } = meta;
-
-          // Ignore zero-th confirmation in favor of using the receipt above
-          if (payload === 0) {
-            return state;
-          }
 
           return state.setIn(
             [
