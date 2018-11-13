@@ -16,6 +16,13 @@ const PHASES = {
   ERROR: "ERROR",
 };
 
+function resultToMap(result) {
+  return Object.getOwnPropertyNames(result).reduce(
+    (reduction, prop) => reduction.set(prop, result[prop]),
+    Map()
+  );
+}
+
 export function create(namespace, abi, address) {
   const initialState = Map({
     contracts: Map(),
@@ -113,7 +120,13 @@ export function create(namespace, abi, address) {
               methodABI.get("name"),
               ...(options.path ? options.path : args),
             ],
-            Map({ value: payload, phase: PHASES[phase] })
+            Map({
+              value:
+                payload.__proto__.constructor.name === "Result"
+                  ? resultToMap(payload)
+                  : payload,
+              phase: PHASES[phase],
+            })
           );
         }
       } else if (methodABI.get("type") === "event") {
