@@ -52,11 +52,6 @@ class ReduxSagaWeb3EthContract {
     this._attachedSelectors = Map();
     this._attachedReducers = [];
     this._attachedSagas = [];
-
-    this._logsSubscriptionTypes = createSubscriptionTypes(
-      this._namespace,
-      "logs"
-    );
   }
 
   get actions() {
@@ -79,36 +74,7 @@ class ReduxSagaWeb3EthContract {
 
   get saga() {
     const self = this;
-
-    function* createLogsSubscription({ payload: { options } }) {
-      const isSubscribed = yield select(selectIsSubscribed, {
-        namespace: self._namespace,
-        ...options,
-      });
-
-      // Subscribe to contract events
-      if (!isSubscribed && self._options.provider) {
-        yield put({
-          type: self._logsSubscriptionTypes.SUBSCRIBE,
-          payload: {
-            options: { provider: self._options.provider, ...options },
-          },
-        });
-      }
-    }
-
     return function*() {
-      // Subscribe to contract events for reactive state updates
-      yield takeEvery(
-        ({ type }) =>
-          type.split("/").length > 0
-            ? type.split("/")[0] === createType(self._namespace) &&
-              type.split("/").slice(-1)[0] === "CALL"
-            : false,
-        createLogsSubscription
-      );
-      yield* createSubscriptionSaga(self._namespace, "logs")();
-
       yield* self._saga();
       yield all(self._attachedSagas);
     };
@@ -117,22 +83,6 @@ class ReduxSagaWeb3EthContract {
   get reducer() {
     const key = Object.keys(this._reducer)[0];
     const baseReducer = Object.values(this._reducer)[0];
-
-    this._attachedReducers.push((state = Map({}), action) => {
-      if (
-        action.type === this._logsSubscriptionTypes.SUBSCRIBE &&
-        action.payload &&
-        action.payload.options &&
-        action.payload.options.at
-      ) {
-        return state.setIn(
-          ["contracts", action.payload.options.at, "isSubscribed"],
-          true
-        );
-      }
-
-      return state;
-    });
 
     return {
       [key]: (state, action) =>
