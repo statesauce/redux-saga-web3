@@ -64,6 +64,27 @@ const selectEventState = createSelector(
   }
 );
 
+const selectMappingState = createSelector(
+  selectContract,
+  selectEvent,
+  selectReducer,
+  (contract, event, filter) => {
+    if (!contract) {
+      return null;
+    } else if (!filter) {
+      return contract.getIn(["mappings", event]);
+    } else {
+      // TODO: Implement event filtering
+      return contract.getIn(["mappings", event]).filter(item => true);
+    }
+  }
+);
+
+function createSelectorForMapping(namespace, event, options = {}) {
+  return (state, ...args) =>
+    selectMappingState(state, { ...options, event, namespace });
+}
+
 function createSelectorForMethod(namespace, method, options = {}) {
   return (state, ...args) =>
     selectMethodState(state, { ...options, method, namespace, args });
@@ -99,4 +120,8 @@ function createSelectorsForInterface(namespace, abi, address) {
   );
 }
 
-export { createSelectorsForInterface, createSelectorForMethod };
+export {
+  createSelectorsForInterface,
+  createSelectorForMapping,
+  createSelectorForMethod,
+};

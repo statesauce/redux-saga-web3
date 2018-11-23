@@ -40,6 +40,17 @@ function createTypesForMethodSend(namespace, method) {
   };
 }
 
+function createTypesForMapping(namespace, event) {
+  const baseType = createType(namespace, "MAPPING", event);
+
+  return {
+    INIT: baseType + "/INIT",
+    DATA: baseType + "/DATA",
+    MAPPED: baseType + "/MAPPED",
+    ERROR: baseType + "/ERROR",
+  };
+}
+
 function createTypesForMethod(namespace, method) {
   return {
     call: createTypesForMethodCall(namespace, method),
@@ -124,6 +135,7 @@ export {
   createType,
   createBaseTypeForEvent,
   createBaseTypeForMethod,
+  createTypesForMapping,
   createTypesForMethod,
   createTypesForMethodCall,
   createTypesForMethodSend,
