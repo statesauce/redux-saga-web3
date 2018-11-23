@@ -129,7 +129,6 @@ class ReduxSagaWeb3EthContract {
       }) {
         if (meta.isMapping) {
           const state = yield select(selectors());
-          console.log(payload);
           yield put({
             type: self.types.mappings[event].DATA,
             payload,
