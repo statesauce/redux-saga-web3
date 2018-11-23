@@ -122,9 +122,7 @@ export function create(namespace, abi, address) {
             ],
             Map({
               value:
-                payload.__proto__.constructor.name === "Result"
-                  ? resultToMap(payload)
-                  : payload,
+                typeof payload === "object" ? resultToMap(payload) : payload,
               phase: PHASES[phase],
             })
           );
