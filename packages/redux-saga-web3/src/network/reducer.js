@@ -4,6 +4,7 @@ import INIT from "../init/types";
 
 const keys = {
   IS_LOADING: "isLoading",
+  ID: "id",
   ERROR: "error",
 };
 
