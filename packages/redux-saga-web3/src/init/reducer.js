@@ -14,8 +14,6 @@ const statuses = {
 
 const initialState = Map({
   status: null,
-  network: null,
-  accounts: List(),
   isLoading: false,
   error: null,
 });
@@ -26,18 +24,9 @@ export default (state = initialState, { type, payload, error }) => {
       return state.set(keys.IS_LOADING, true);
     }
     case INIT.SUCCESS: {
-      const { network, accounts } = payload;
-      const status = network
-        ? accounts.length
-          ? statuses.CONNECTED
-          : statuses.LOCKED
-        : statuses.UNAVAILABLE;
       return state.merge(
         Map({
-          [keys.STATUS]: status,
           [keys.IS_LOADING]: false,
-          [keys.NETWORK]: network,
-          [keys.ACCOUNTS]: fromJS(accounts),
         })
       );
     }
@@ -50,9 +39,7 @@ export default (state = initialState, { type, payload, error }) => {
         })
       );
     }
-    case NETWORK.GET_ID_SUCCESS: {
-      return state.set([keys.NETWORK], payload);
-    }
+
     case NETWORK.GET_ID_FAILURE: {
       return state.merge(
         Map({
@@ -67,7 +54,6 @@ export default (state = initialState, { type, payload, error }) => {
       return state.merge(
         Map({
           [keys.STATUS]: status,
-          [keys.ACCOUNTS]: fromJS(accounts),
           [keys.ERROR]: null,
         })
       );
@@ -76,7 +62,6 @@ export default (state = initialState, { type, payload, error }) => {
       return state.merge(
         Map({
           [keys.STATUS]: statuses.GENERIC_ERROR,
-          [keys.ACCOUNTS]: List(),
           [keys.ERROR]: fromJS(payload),
         })
       );

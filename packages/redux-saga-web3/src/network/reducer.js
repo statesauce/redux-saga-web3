@@ -4,7 +4,6 @@ import INIT from "../init/types";
 
 const keys = {
   IS_LOADING: "isLoading",
-  ID: "id",
   ERROR: "error",
 };
 
@@ -39,7 +38,6 @@ export default (state = initialState, { type, payload, error }) => {
       return state.merge(
         Map({
           [keys.IS_LOADING]: false,
-          [keys.ID]: payload.network,
         })
       );
     }

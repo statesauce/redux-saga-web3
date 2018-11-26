@@ -3,7 +3,7 @@ import { call, put, takeEvery, getContext } from "redux-saga/effects";
 import NETWORK from "./types";
 import actions from "./actions";
 
-export const getAccounts = function*() {
+export const getNetwork = function*() {
   const web3 = yield getContext("web3");
 
   try {
@@ -15,5 +15,5 @@ export const getAccounts = function*() {
 };
 
 export default function* saga() {
-  yield takeEvery(NETWORK.GET_ID_REQUEST, getAccounts);
+  yield takeEvery(NETWORK.GET_ID_REQUEST, getNetwork);
 }
