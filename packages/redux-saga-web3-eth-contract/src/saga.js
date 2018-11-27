@@ -151,7 +151,7 @@ function create(namespace, contract) {
     const events = Object.keys(contract.events).reduce((reduction, event) => {
       const SUBSCRIBE_TYPES = createTypesForEventSubscribe(namespace, event);
       const GET_TYPES = createTypesForEventGet(namespace, event);
-      function createSubscriptionEventChannel({ payload }) {
+      function createSubscriptionEventChannel(payload, meta) {
         const { at, options } = payload;
         let subscription;
 
@@ -164,6 +164,7 @@ function create(namespace, contract) {
               type: SUBSCRIBE_TYPES.DATA,
               payload: data,
               meta: {
+                ...meta,
                 event,
                 options,
               },
@@ -191,9 +192,10 @@ function create(namespace, contract) {
         });
       }
 
-      function* watchSubscriptionChannel(payload) {
+      function* watchSubscriptionChannel({ payload, meta }) {
         const subscriptionEventChannel = createSubscriptionEventChannel(
-          payload
+          payload,
+          meta
         );
         try {
           while (true) {

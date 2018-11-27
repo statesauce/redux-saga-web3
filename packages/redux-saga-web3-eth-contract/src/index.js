@@ -137,6 +137,20 @@ class ReduxSagaWeb3EthContract {
           });
         }
       }),
+      takeEvery(self.types.events[event].subscribe.DATA, function*({
+        meta,
+        payload,
+      }) {
+        if (meta.isMapping) {
+          const state = yield select(selectors());
+          yield put({
+            type: self.types.mappings[event].DATA,
+            payload,
+            meta,
+            state,
+          });
+        }
+      }),
       takeEvery(self.types.mappings[event].DATA, function*(action) {
         const payload = yield saga(action);
         yield put({
