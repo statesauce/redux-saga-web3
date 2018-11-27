@@ -1,13 +1,13 @@
 {
   "name": "redux-saga-web3-erc721",
-  "version": "0.0.56",
+  "version": "0.0.60-0",
   "main": "lib/index.js",
   "dependencies": {
     "react": "^16.4.0",
     "react-redux": "^5.0.7",
     "redux": "^3.7.2",
     "redux-saga": "^0.16.0",
-    "redux-saga-web3-eth-contract": "^0.0.56",
+    "redux-saga-web3-eth-contract": "^0.0.60-0",
     "reselect": "^3.0.1",
     "web3-eth-contract": "^1.0.0-beta.34"
   },

@@ -12,7 +12,7 @@ const PHASES = {
   SEND: "SENT",
   SUCCESS: "SUCCESS",
   TRANSACTION_HASH: "PENDING",
-  RECEIPT: "SUCCESS",
+  RECEIPT: "RECEIPT",
   ERROR: "ERROR",
 };
 
@@ -46,7 +46,7 @@ export function create(namespace, abi, address) {
       if (methodABI.get("type") === "function") {
         if (phase === "") {
           const { args, options } = payload;
-          return state.setIn(
+          return state.mergeIn(
             [
               "contracts",
               options.at ? options.at : address,
@@ -54,7 +54,7 @@ export function create(namespace, abi, address) {
               methodABI.get("name"),
               ...(options.path ? options.path : args),
             ],
-            Map({ value: null, phase: PHASES[directive] })
+            Map({ phase: PHASES[directive] })
           );
         } else if (phase === "TRANSACTION_HASH") {
           const { args, options } = meta;
@@ -112,7 +112,7 @@ export function create(namespace, abi, address) {
           );
         } else {
           const { args, options } = meta;
-          return state.setIn(
+          return state.mergeIn(
             [
               "contracts",
               options.at ? options.at : address,
@@ -122,9 +122,7 @@ export function create(namespace, abi, address) {
             ],
             Map({
               value:
-                payload.__proto__.constructor.name === "Result"
-                  ? resultToMap(payload)
-                  : payload,
+                typeof payload === "object" ? resultToMap(payload) : payload,
               phase: PHASES[phase],
             })
           );

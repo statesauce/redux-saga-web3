@@ -39,7 +39,6 @@ export default (state = initialState, { type, payload, error }) => {
       return state.merge(
         Map({
           [keys.IS_LOADING]: false,
-          [keys.ID]: payload.network,
         })
       );
     }

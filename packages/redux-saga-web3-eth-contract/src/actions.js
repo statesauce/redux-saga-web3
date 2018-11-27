@@ -28,6 +28,17 @@ function createActionForEventGet(namespace, event, options = {}, meta = {}) {
   };
 }
 
+function createActionsForMapping(namespace, event, options = {}, meta = {}) {
+  return {
+    type: createType(namespace, "MAPPING", event, "INIT"),
+    payload: {
+      options,
+      event,
+    },
+    meta,
+  };
+}
+
 function createActionsForEvent(namespace, event) {
   return {
     subscribe: (options, meta) =>
@@ -78,8 +89,10 @@ function createActionsForInterface(namespace, abi) {
         reduction.methods[member.name] = (options, meta) =>
           createActionsForMethod(namespace, member.name, options, meta);
       } else if (member.type === "event") {
-        reduction.events[member.name] =
-          createActionsForEvent(namespace, member.name);
+        reduction.events[member.name] = createActionsForEvent(
+          namespace,
+          member.name
+        );
       }
       return reduction;
     },
@@ -92,6 +105,7 @@ export {
   createActionsForEvent,
   createActionForEventSubscribe,
   createActionForEventGet,
+  createActionsForMapping,
   createActionsForMethod,
   createActionForMethodCall,
   createActionForMethodSend,

@@ -108,12 +108,16 @@ function create(namespace, contract) {
                   })
                 );
                 emitter.on("error", data => {
+                  // debugger
                   emit({
                     type: SEND_TYPES.ERROR,
-                    payload: data,
+                    payload: {
+                      name: data.name,
+                      message: data.message,
+                    },
                     meta: {
                       ...meta,
-                      event,
+                      args,
                       options,
                     },
                   });

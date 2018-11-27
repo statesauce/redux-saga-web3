@@ -1,3 +1,4 @@
+import Web3 from "web3";
 import Web3EthContract from "web3-eth-contract";
 import { List, Map, fromJS } from "immutable";
 import { compose } from "redux";
@@ -12,6 +13,7 @@ import { create as createSaga } from "./saga";
 import { create as createReducer } from "./reducer";
 import {
   createActionsForInterface,
+  createActionsForMapping,
   createActionsForMethod,
   createActionForMethodCall,
   createActionForMethodSend,
@@ -20,6 +22,7 @@ import {
   createActionForEventSubscribe,
 } from "./actions";
 import {
+  createSelectorForMapping,
   createSelectorForMethod,
   createSelectorsForInterface,
   selectIsSubscribed,
@@ -29,6 +32,7 @@ import {
   createTypesForEvent,
   createTypesForEventSubscribe,
   createTypesForEventGet,
+  createTypesForMapping,
   createTypesForMethod,
   createTypesForMethodCall,
   createTypesForMethodSend,
@@ -52,11 +56,6 @@ class ReduxSagaWeb3EthContract {
     this._attachedSelectors = Map();
     this._attachedReducers = [];
     this._attachedSagas = [];
-
-    this._logsSubscriptionTypes = createSubscriptionTypes(
-      this._namespace,
-      "logs"
-    );
   }
 
   get actions() {
@@ -79,36 +78,7 @@ class ReduxSagaWeb3EthContract {
 
   get saga() {
     const self = this;
-
-    function* createLogsSubscription({ payload: { options } }) {
-      const isSubscribed = yield select(selectIsSubscribed, {
-        namespace: self._namespace,
-        ...options,
-      });
-
-      // Subscribe to contract events
-      if (!isSubscribed && self._options.provider) {
-        yield put({
-          type: self._logsSubscriptionTypes.SUBSCRIBE,
-          payload: {
-            options: { provider: self._options.provider, ...options },
-          },
-        });
-      }
-    }
-
     return function*() {
-      // Subscribe to contract events for reactive state updates
-      yield takeEvery(
-        ({ type }) =>
-          type.split("/").length > 0
-            ? type.split("/")[0] === createType(self._namespace) &&
-              type.split("/").slice(-1)[0] === "CALL"
-            : false,
-        createLogsSubscription
-      );
-      yield* createSubscriptionSaga(self._namespace, "logs")();
-
       yield* self._saga();
       yield all(self._attachedSagas);
     };
@@ -118,22 +88,6 @@ class ReduxSagaWeb3EthContract {
     const key = Object.keys(this._reducer)[0];
     const baseReducer = Object.values(this._reducer)[0];
 
-    this._attachedReducers.push((state = Map({}), action) => {
-      if (
-        action.type === this._logsSubscriptionTypes.SUBSCRIBE &&
-        action.payload &&
-        action.payload.options &&
-        action.payload.options.at
-      ) {
-        return state.setIn(
-          ["contracts", action.payload.options.at, "isSubscribed"],
-          true
-        );
-      }
-
-      return state;
-    });
-
     return {
       [key]: (state, action) =>
         this._attachedReducers.reduce(
@@ -141,6 +95,67 @@ class ReduxSagaWeb3EthContract {
           baseReducer(state, action)
         ),
     };
+  }
+
+  createMapping(name, event, saga) {
+    const self = this;
+    const actions = (options, meta = {}) =>
+      createActionsForMapping(this._namespace, event, options, {
+        ...meta,
+        isMapping: true,
+      });
+    const types = createTypesForMapping(this._namespace, event);
+    const selectors = options =>
+      createSelectorForMapping(this._namespace, event, options);
+
+    this._attachedActions = this._attachedActions.setIn(
+      ["mappings", event],
+      actions
+    );
+    this._attachedSelectors = this._attachedSelectors.setIn(
+      ["mappings", event],
+      selectors
+    );
+    this._attachedTypes = this._attachedTypes.setIn(["mappings", event], types);
+
+    this._attachedSagas.push([
+      takeEvery(types.INIT, function*({ meta, payload: { options } }) {
+        yield put(self.actions.events[event].get(options, meta));
+        yield put(self.actions.events[event].subscribe(options, meta));
+      }),
+      takeEvery(self.types.events[event].get.SUCCESS, function*({
+        meta,
+        payload,
+      }) {
+        if (meta.isMapping) {
+          const state = yield select(selectors());
+          yield put({
+            type: self.types.mappings[event].DATA,
+            payload,
+            meta,
+            state,
+          });
+        }
+      }),
+      takeEvery(self.types.mappings[event].DATA, function*(action) {
+        const payload = yield saga(action);
+        yield put({
+          type: self.types.mappings[event].MAPPED,
+          payload,
+          meta: action.meta,
+        });
+      }),
+    ]);
+
+    this._attachedReducers.push((state, action) => {
+      const { type, payload } = action;
+      if (type === self.types.mappings[event].MAPPED) {
+        let address = pickAddress(action);
+        return state.setIn(["contracts", address, "mappings", name], payload);
+      }
+
+      return state;
+    });
   }
 
   attachMethod(method, saga, reducer) {
