@@ -145,7 +145,7 @@ class ReduxSagaWeb3EthContract {
           const state = yield select(selectors());
           yield put({
             type: self.types.mappings[event].DATA,
-            payload,
+            payload: [payload],
             meta,
             state,
           });
