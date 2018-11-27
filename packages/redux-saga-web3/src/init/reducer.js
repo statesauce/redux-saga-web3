@@ -14,19 +14,19 @@ const statuses = {
 
 const initialState = Map({
   status: null,
-  isLoading: false,
+  isInitialized: false,
   error: null,
 });
 
 export default (state = initialState, { type, payload, error }) => {
   switch (type) {
     case INIT.REQUEST: {
-      return state.set(keys.IS_LOADING, true);
+      return state.set(keys.IS_INITIALIZED, false);
     }
     case INIT.SUCCESS: {
       return state.merge(
         Map({
-          [keys.IS_LOADING]: false,
+          [keys.IS_INITIALIZED]: true,
         })
       );
     }
@@ -34,7 +34,7 @@ export default (state = initialState, { type, payload, error }) => {
       return state.merge(
         Map({
           [keys.STATUS]: statuses.UNAVAILABLE,
-          [keys.IS_LOADING]: false,
+          [keys.IS_INITIALIZED]: true,
           [keys.ERROR]: payload,
         })
       );
