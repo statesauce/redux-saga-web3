@@ -3,6 +3,7 @@ import NETWORK from "./types";
 import INIT from "../init/types";
 
 const keys = {
+  ID: "id",
   IS_LOADING: "isLoading",
   ID: "id",
   ERROR: "error",
