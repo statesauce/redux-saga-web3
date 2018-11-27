@@ -108,7 +108,6 @@ function create(namespace, contract) {
                   })
                 );
                 emitter.on("error", data => {
-                  // debugger
                   emit({
                     type: SEND_TYPES.ERROR,
                     payload: {
@@ -152,10 +151,11 @@ function create(namespace, contract) {
       const SUBSCRIBE_TYPES = createTypesForEventSubscribe(namespace, event);
       const GET_TYPES = createTypesForEventGet(namespace, event);
       function createSubscriptionEventChannel(payload, meta) {
-        const { at, options } = payload;
+        const { options } = payload;
         let subscription;
 
         const _contract = getContract(options);
+        if (!options.at) options.at = _contract.options.address;
         subscription = _contract.events[event](options);
 
         return eventChannel(emit => {

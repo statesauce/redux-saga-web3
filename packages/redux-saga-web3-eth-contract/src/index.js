@@ -100,23 +100,23 @@ class ReduxSagaWeb3EthContract {
   createMapping(name, event, saga) {
     const self = this;
     const actions = (options, meta = {}) =>
-      createActionsForMapping(this._namespace, event, options, {
+      createActionsForMapping(this._namespace, name, options, {
         ...meta,
         isMapping: true,
       });
-    const types = createTypesForMapping(this._namespace, event);
+    const types = createTypesForMapping(this._namespace, name);
     const selectors = options =>
-      createSelectorForMapping(this._namespace, event, options);
+      createSelectorForMapping(this._namespace, name, options);
 
     this._attachedActions = this._attachedActions.setIn(
-      ["mappings", event],
+      ["mappings", name],
       actions
     );
     this._attachedSelectors = this._attachedSelectors.setIn(
-      ["mappings", event],
+      ["mappings", name],
       selectors
     );
-    this._attachedTypes = this._attachedTypes.setIn(["mappings", event], types);
+    this._attachedTypes = this._attachedTypes.setIn(["mappings", name], types);
 
     this._attachedSagas.push([
       takeEvery(types.INIT, function*({ meta, payload: { options } }) {
@@ -127,19 +127,19 @@ class ReduxSagaWeb3EthContract {
         payload,
       }) {
         if (meta.isMapping) {
-          const state = yield select(selectors());
+          const state = yield select(selectors(meta.options));
           yield put({
-            type: self.types.mappings[event].DATA,
+            type: self.types.mappings[name].DATA,
             payload,
             meta,
-            state,
+            state: state ? state : undefined,
           });
         }
       }),
-      takeEvery(self.types.mappings[event].DATA, function*(action) {
+      takeEvery(self.types.mappings[name].DATA, function*(action) {
         const payload = yield saga(action);
         yield put({
-          type: self.types.mappings[event].MAPPED,
+          type: self.types.mappings[name].MAPPED,
           payload,
           meta: action.meta,
         });
@@ -148,7 +148,7 @@ class ReduxSagaWeb3EthContract {
 
     this._attachedReducers.push((state, action) => {
       const { type, payload } = action;
-      if (type === self.types.mappings[event].MAPPED) {
+      if (type === self.types.mappings[name].MAPPED) {
         let address = pickAddress(action);
         return state.setIn(["contracts", address, "mappings", name], payload);
       }

@@ -3,5 +3,5 @@ export function pickAddress(action) {
     return action.meta.options.at;
   if (action.payload && action.payload.options && action.payload.options.at)
     return action.payload.options.at;
-  return false;
+  return null;
 }
