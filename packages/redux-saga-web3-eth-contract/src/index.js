@@ -120,22 +120,7 @@ class ReduxSagaWeb3EthContract {
 
     this._attachedSagas.push([
       takeEvery(types.INIT, function*({ meta, payload: { options } }) {
-        yield put(self.actions.events[event].get(options, meta));
         yield put(self.actions.events[event].subscribe(options, meta));
-      }),
-      takeEvery(self.types.events[event].get.SUCCESS, function*({
-        meta,
-        payload,
-      }) {
-        if (meta.isMapping) {
-          const state = yield select(selectors());
-          yield put({
-            type: self.types.mappings[event].DATA,
-            payload,
-            meta,
-            state,
-          });
-        }
       }),
       takeEvery(self.types.events[event].subscribe.DATA, function*({
         meta,
@@ -145,7 +130,7 @@ class ReduxSagaWeb3EthContract {
           const state = yield select(selectors());
           yield put({
             type: self.types.mappings[event].DATA,
-            payload: [payload],
+            payload,
             meta,
             state,
           });
