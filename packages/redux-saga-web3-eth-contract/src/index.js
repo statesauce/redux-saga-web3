@@ -201,8 +201,11 @@ class ReduxSagaWeb3EthContract {
   }
 }
 
-ReduxSagaWeb3EthContract.setProvider = function(provider) {
-  Web3EthContract.setProvider(provider);
+ReduxSagaWeb3EthContract.setProvider = function(
+  provider,
+  web3Instance = new Web3()
+) {
+  web3Instance.setProvider(provider);
 };
 
 export {
