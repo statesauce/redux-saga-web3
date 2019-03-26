@@ -1,5 +1,5 @@
 import Web3 from "web3";
-import Web3EthContract from "web3-eth-contract";
+import { Contract } from "web3-eth-contract";
 import { List, Map, fromJS } from "immutable";
 import { compose } from "redux";
 import { types as web3Types } from "redux-saga-web3";
@@ -44,12 +44,19 @@ class ReduxSagaWeb3EthContract {
   constructor(namespace, abi, options = {}) {
     this._namespace = namespace;
     this._options = options;
-    this.contract = new Web3EthContract(abi, options.at);
-    this._reducer = { [namespace]: createReducer(namespace, abi, options.at) };
-    this._saga = createSaga(namespace, this.contract);
+    this.web3Instance = this.instantiateWeb3(options);
+
+    this.contract = new this.web3Instance.eth.Contract(abi, options.at);
     this._types = createTypesForInterface(namespace, abi);
     this._actions = createActionsForInterface(namespace, abi);
+    this._reducer = { [namespace]: createReducer(namespace, abi, options.at) };
     this._selectors = createSelectorsForInterface(namespace, abi, options.at);
+    this._saga = createSaga(
+      namespace,
+      this.contract,
+      Object.keys(this.types.methods),
+      Object.keys(this.types.events)
+    );
 
     this._attachedActions = Map();
     this._attachedTypes = Map();
@@ -95,6 +102,11 @@ class ReduxSagaWeb3EthContract {
           baseReducer(state, action)
         ),
     };
+  }
+
+  instantiateWeb3({ web3Instance, provider }) {
+    if (web3Instance) return web3Instance;
+    if (provider) return new Web3(provider);
   }
 
   createMapping(name, event, saga) {
@@ -200,13 +212,6 @@ class ReduxSagaWeb3EthContract {
     }
   }
 }
-
-ReduxSagaWeb3EthContract.setProvider = function(
-  provider,
-  web3Instance = new Web3()
-) {
-  web3Instance.setProvider(provider);
-};
 
 export {
   createReducer,
