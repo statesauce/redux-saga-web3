@@ -58,29 +58,32 @@ class ReduxSagaWeb3EthContract {
       Object.keys(this.types.events)
     );
 
-    this._attachedActions = Map();
-    this._attachedTypes = Map();
-    this._attachedSelectors = Map();
+    this._attachedActions = {};
+    this._attachedTypes = {};
+    this._attachedSelectors = {};
     this._attachedReducers = [];
     this._attachedSagas = [];
   }
 
   get actions() {
-    return fromJS(this._actions)
-      .mergeDeep(this._attachedActions)
-      .toJS();
+    return {
+      ...this._actions,
+      ...this._attachedActions,
+    };
   }
 
   get selectors() {
-    return fromJS(this._selectors)
-      .mergeDeep(this._attachedSelectors)
-      .toJS();
+    return {
+      ...this._selectors,
+      ...this._attachedSelectors,
+    };
   }
 
   get types() {
-    return fromJS(this._types)
-      .mergeDeep(this._attachedTypes)
-      .toJS();
+    return {
+      ...this._types,
+      ...this._attachedTypes,
+    };
   }
 
   get saga() {
@@ -120,15 +123,27 @@ class ReduxSagaWeb3EthContract {
     const selectors = options =>
       createSelectorForMapping(this._namespace, name, options);
 
-    this._attachedActions = this._attachedActions.setIn(
-      ["mappings", name],
-      actions
-    );
-    this._attachedSelectors = this._attachedSelectors.setIn(
-      ["mappings", name],
-      selectors
-    );
-    this._attachedTypes = this._attachedTypes.setIn(["mappings", name], types);
+    this._attachedActions = {
+      ...this._attachedActions,
+      mappings: {
+        ...this._attachedActions.mappings,
+        [name]: actions,
+      },
+    };
+    this._attachedSelectors = {
+      ...this._attachedSelectors,
+      mappings: {
+        ...this._attachedSelectors.mappings,
+        [name]: selectors,
+      },
+    };
+    this._attachedTypes = {
+      ...this._attachedTypes,
+      mappings: {
+        ...this._attachedTypes.mappings,
+        [name]: types,
+      },
+    };
 
     this._attachedSagas.push([
       takeEvery(types.INIT, function*({ meta, payload: { options } }) {
@@ -162,7 +177,22 @@ class ReduxSagaWeb3EthContract {
       const { type, payload } = action;
       if (type === self.types.mappings[name].MAPPED) {
         let address = pickAddress(action);
-        return state.setIn(["contracts", address, "mappings", name], payload);
+        return {
+          ...state,
+          contracts: {
+            ...state.contracts,
+            [address]: {
+              ...state.contracts[address],
+              mappings: {
+                ...state.contracts[address].mappings,
+                [name]: {
+                  ...state.contracts[address].mappings[name],
+                  payload,
+                },
+              },
+            },
+          },
+        };
       }
 
       return state;
@@ -176,19 +206,31 @@ class ReduxSagaWeb3EthContract {
     const selectors = options =>
       createSelectorForMethod(this._namespace, method, options);
 
-    this._attachedActions = this._attachedActions.setIn(
-      ["methods", method],
-      actions
-    );
-    this._attachedSelectors = this._attachedSelectors.setIn(
-      ["methods", method],
-      selectors
-    );
-    this._attachedTypes = this._attachedTypes.setIn(["methods", method], types);
+    this._attachedActions = {
+      ...this._attachedActions,
+      methods: {
+        ...this._attachedActions.methods,
+        [method]: actions,
+      },
+    };
+    this._attachedSelectors = {
+      ...this._attachedSelectors,
+      methods: {
+        ...this._attachedSelectors.methods,
+        [method]: selectors,
+      },
+    };
+    this._attachedTypes = {
+      ...this._attachedTypes,
+      methods: {
+        ...this._attachedTypes.methods,
+        [method]: types,
+      },
+    };
     this._attachedSagas.push(saga(types)());
 
     if (reducer) {
-      this._attachedReducers.push((state = Map({}), action) => {
+      this._attachedReducers.push((state = {}, action) => {
         let address = pickAddress(action);
         if (
           address &&
@@ -196,15 +238,22 @@ class ReduxSagaWeb3EthContract {
             .concat(Object.values(types.send))
             .includes(action.type)
         ) {
-          return state.hasIn(["contracts", address, "methods", method])
-            ? state.mergeDeepIn(
-                ["contracts", address, "methods", method],
-                reducer(types)(state, action)
-              )
-            : state.setIn(
-                ["contracts", address, "methods", method],
-                reducer(types)(state, action)
-              );
+          return {
+            ...state,
+            contracts: {
+              ...state.contracts,
+              [address]: {
+                ...state.contracts[address],
+                methods: {
+                  ...state.contracts[address].methods,
+                  [method]: {
+                    ...state.contracts[address].mappings[method],
+                    ...reducer(types)(state, action),
+                  },
+                },
+              },
+            },
+          };
         }
 
         return state;

@@ -8,8 +8,7 @@ import { combineReducers } from "redux";
 import createSagaMiddleware from "redux-saga";
 import { all, fork } from "redux-saga/effects";
 
-import reducers from "./reducers";
-import sagas from "./sagas";
+import { reducers, sagas } from "redux-saga-web3";
 
 const reducer = combineReducers(reducers);
 const sagaMiddleware = createSagaMiddleware({

@@ -1,12 +1,13 @@
 import { call, getContext, takeEvery, put, take } from "redux-saga/effects";
 import { eventChannel, END } from "redux-saga";
-import Web3Eth from "web3-eth";
+import Web3 from "web3";
 
 import { createTypes } from "./types";
 
 function createChannel(eth, subscriptionName, types, options = {}) {
   let subscription;
-  if (subscriptionName === "logs") { // Logs takes options param
+  if (subscriptionName === "logs") {
+    // Logs takes options param
     subscription = eth.subscribe(subscriptionName, options, () => {});
   } else {
     subscription = eth.subscribe(subscriptionName, () => {});
@@ -27,16 +28,16 @@ function createChannel(eth, subscriptionName, types, options = {}) {
       emit(END);
     });
 
-    return () => {} //subscription.unsubscribe;
+    return () => {}; //subscription.unsubscribe;
   });
 }
 
-function* watchChannel(subscriptionName, types, { options }) {
-  const { provider } = options;
+function* watchChannel(subscriptionName, types, payload) {
+  const options = payload.options;
   let channel;
-  if (provider) {
-    const eth = new Web3Eth(provider);
-    channel = createChannel(eth, subscriptionName, types, options);
+  if (options.provider) {
+    const web3 = new Web3(options.provider);
+    channel = createChannel(web3.eth, subscriptionName, types, options);
   } else {
     const web3 = yield getContext("web3");
     channel = createChannel(web3.eth, subscriptionName, types, options);
@@ -52,6 +53,7 @@ function* watchChannel(subscriptionName, types, { options }) {
   }
 }
 
+// TODO -- Consider using other effects instead of call
 export function create(name, subscriptionName) {
   const types = createTypes(name, subscriptionName);
   return function* saga() {

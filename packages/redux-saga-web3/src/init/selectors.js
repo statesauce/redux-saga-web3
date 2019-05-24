@@ -1,26 +1,28 @@
 import { createSelector } from "reselect";
+import keys from "./stateKeys";
 
-const selectInit = state => state.get("init");
+const selectInit = state => state[keys.INIT];
 
 const selectStatus = createSelector(
   selectInit,
-  state => (state && state.has("status") ? state.get("status") : null)
+  state => (state && state[keys.STATUS] ? state[keys.STATUS] : null)
 );
 const selectIsInitialized = createSelector(
   selectInit,
-  state => (state && state.has("isInitialized") ? state.get("isInitialized") : false)
+  state =>
+    state && state[keys.IS_INITIALIZED] ? state[keys.IS_INITIALIZED] : false
 );
 const selectError = createSelector(
   selectInit,
-  state => (state && state.has("error") ? state.get("error") : null)
+  state => (state && state[keys.ERROR] ? state[keys.ERROR] : null)
 );
 const selectNetwork = createSelector(
   selectInit,
-  state => (state && state.has("network") ? state.get("network") : null)
+  state => (state && state[keys.NETWORK] ? state[keys.NETWORK] : null)
 );
 const selectAccounts = createSelector(
   selectInit,
-  state => (state && state.has("accounts") ? state.get("accounts") : null)
+  state => (state && state[keys.ACCOUNTS] ? state[keys.ACCOUNTS] : null)
 );
 
 export default {

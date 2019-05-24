@@ -28,11 +28,21 @@ import {
   networkTypes,
 } from "./network";
 
+import {
+  contextActions,
+  contextReducer,
+  contextSaga,
+  contextTypes,
+} from "./context";
+
+import * as immutable from "./immutable";
+
 const actions = {
   accounts: accountsActions,
   blocks: blocksActions,
   init: initActions,
   network: networkActions,
+  context: contextActions,
 };
 
 const reducers = {
@@ -40,6 +50,7 @@ const reducers = {
   blocks: blocksReducer,
   init: initReducer,
   network: networkReducer,
+  context: contextReducer,
 };
 
 const sagas = {
@@ -47,6 +58,7 @@ const sagas = {
   blocks: blocksSaga,
   init: initSaga,
   network: networkSaga,
+  context: contextSaga,
 };
 
 const selectors = {
@@ -61,6 +73,7 @@ const types = {
   blocks: blocksTypes,
   init: initTypes,
   network: networkTypes,
+  context: contextTypes,
 };
 
-export { actions, reducers, sagas, selectors, types };
+export { actions, reducers, sagas, selectors, types, immutable };

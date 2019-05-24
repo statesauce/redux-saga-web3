@@ -11,8 +11,8 @@
     "redux-saga": "^1.0.2",
     "redux-saga-web3-eth-contract": "^0.0.67",
     "reselect": "^4.0.0",
-    "web3": "^1.0.0-beta.50",
-    "web3-eth-contract": "^1.0.0-beta.50"
+    "web3": "1.0.0-beta.55",
+    "web3-eth-contract": "1.0.0-beta.55"
   },
   "devDependencies": {
     "@babel/cli": "^7.4.3",

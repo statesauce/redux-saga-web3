@@ -1,17 +1,14 @@
-import { createSelector } from "reselect";
-
-const BLOCKS = "blocks";
-const HEADERS = "headers";
-const LATEST = "latest";
+// import { createSelector } from "reselect";
+import keys from "./stateKeys";
 
 const selectLatestBlockNumber = state =>
-  state.hasIn([BLOCKS, HEADERS]) ? state.getIn([BLOCKS, LATEST]) : null;
+  state[keys.BLOCKS][keys.HEADERS] ? state[keys.BLOCKS][keys.LATEST] : null;
 
 const selectBlockHeaders = state =>
-  state.hasIn([BLOCKS, HEADERS]) ? state.getIn([BLOCKS, HEADERS]) : null;
+  state[keys.BLOCKS][keys.HEADERS] ? state[keys.BLOCKS][keys.HEADERS] : null;
 
-export const selectLatestBlockHeader = createSelector(
-  selectLatestBlockNumber,
-  selectBlockHeaders,
-  (latest, headers) => headers.get(`${latest}`)
-);
+// export const selectLatestBlockHeader = createSelector(
+//   selectLatestBlockNumber,
+//   selectBlockHeaders,
+//   (latest, headers) => headers[latest]
+// );

@@ -1,8 +1,7 @@
-const ACCOUNTS = "accounts";
-const ITEMS = "items";
+import keys from "./stateKeys";
 
 const selectAccounts = state =>
-  state.hasIn([ACCOUNTS, ITEMS]) ? state.getIn([ACCOUNTS, ITEMS]) : null;
+  state[keys.ACCOUNTS][keys.ITEMS] ? state[keys.ACCOUNTS][keys.ITEMS] : null;
 
 export default {
   selectAccounts,

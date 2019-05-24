@@ -45,15 +45,22 @@ function create(namespace, contract, methodsArr, eventsArr) {
             getContract(options).methods[method](...args).call,
             options
           );
-          yield put({
-            type: CALL_TYPES.SUCCESS,
-            payload: response,
-            meta: {
-              ...meta,
-              args,
-              options,
-            },
-          });
+          try {
+            yield put({
+              type: CALL_TYPES.SUCCESS,
+              payload: response,
+              meta: {
+                ...meta,
+                args,
+                options,
+              },
+            });
+          } catch (error) {
+            yield put({
+              type: CALL_TYPES.ERROR,
+              payload: error,
+            });
+          }
         }),
         takeEvery(SEND_TYPES.SEND, function* watchTransactionChannel({
           payload,

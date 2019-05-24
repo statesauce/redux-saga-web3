@@ -1,8 +1,5 @@
-import Web3EthContract from "web3-eth-contract";
-import { call, takeEvery, put, take } from "redux-saga/effects";
-import { eventChannel, END } from "redux-saga";
-
 import { formatName } from "redux-saga-web3-utils";
+import { isSendable } from "./util";
 
 function createType(...args) {
   return args
@@ -20,7 +17,6 @@ function createBaseTypeForEvent(namespace, event) {
 
 function createTypesForMethodCall(namespace, method) {
   const baseType = `${createBaseTypeForMethod(namespace, method)}/CALL`;
-
   return {
     CALL: baseType,
     SUCCESS: baseType + "/SUCCESS",
@@ -52,9 +48,12 @@ function createTypesForMapping(namespace, event) {
 }
 
 function createTypesForMethod(namespace, method) {
+  if (!isSendable(method)) {
+    return { call: createTypesForMethodCall(namespace, method.name) };
+  }
   return {
-    call: createTypesForMethodCall(namespace, method),
-    send: createTypesForMethodSend(namespace, method),
+    call: createTypesForMethodCall(namespace, method.name),
+    send: createTypesForMethodSend(namespace, method.name),
   };
 }
 
@@ -117,7 +116,7 @@ function createTypesForInterface(namespace, abi) {
       if (member.type === "function") {
         reduction.methods[member.name] = createTypesForMethod(
           namespace,
-          member.name
+          member
         );
       } else if (member.type === "event") {
         reduction.events[member.name] = createTypesForEvent(
