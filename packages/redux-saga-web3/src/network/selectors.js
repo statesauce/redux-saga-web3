@@ -1,8 +1,7 @@
-const NETWORK = "network";
-const ID = "id";
+import keys from "./stateKeys";
 
 const selectId = state =>
-  state.hasIn([NETWORK, ID]) ? state.getIn([NETWORK, ID]) : null;
+  state[keys.NETWORK][keys.ID] ? state[keys.NETWORK][keys.ID] : null;
 
 export default {
   selectId,

@@ -1,5 +1,5 @@
 import { formatName } from "redux-saga-web3-utils";
-
+import { isSendable } from "./util";
 import { createType } from "./types";
 
 function createActionForEventSubscribe(
@@ -75,10 +75,15 @@ function createActionForMethodSend(
   });
 }
 
-function createActionsForMethod(namespace, methodName, options, meta) {
+function createActionsForMethod(namespace, method, options, meta) {
+  if (!isSendable(method)) {
+    return {
+      call: createActionForMethodCall(namespace, method.name, options, meta),
+    };
+  }
   return {
-    call: createActionForMethodCall(namespace, methodName, options, meta),
-    send: createActionForMethodSend(namespace, methodName, options, meta),
+    call: createActionForMethodCall(namespace, method.name, options, meta),
+    send: createActionForMethodSend(namespace, method.name, options, meta),
   };
 }
 
@@ -87,7 +92,7 @@ function createActionsForInterface(namespace, abi) {
     (reduction, member) => {
       if (member.type === "function") {
         reduction.methods[member.name] = (options, meta) =>
-          createActionsForMethod(namespace, member.name, options, meta);
+          createActionsForMethod(namespace, member, options, meta);
       } else if (member.type === "event") {
         reduction.events[member.name] = createActionsForEvent(
           namespace,

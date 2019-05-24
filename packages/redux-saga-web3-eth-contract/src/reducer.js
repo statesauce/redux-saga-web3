@@ -23,12 +23,12 @@ function resultToMap(result) {
   );
 }
 
-export function create(namespace, abi, address) {
-  const initialState = Map({
-    contracts: Map(),
-  });
+const initialState = Map({
+  contracts: Map(),
+});
 
-  const types = abi.reduce((reduction, member) => {
+function generateTypes(namespace, abi) {
+  return abi.reduce((reduction, member) => {
     return reduction.merge(
       Map({
         [member.type === "function"
@@ -37,9 +37,13 @@ export function create(namespace, abi, address) {
       })
     );
   }, Map());
+}
+export function create(namespace, abi, address) {
+  const types = generateTypes(namespace, abi);
 
-  return function(state = initialState, { type, meta, payload }) {
+  return function(_state = initialState, { type, meta, payload }) {
     const { base, directive, phase } = decomposeType(type);
+    const state = fromJS(_state);
     if (types.has(base)) {
       const methodABI = types.get(base);
 

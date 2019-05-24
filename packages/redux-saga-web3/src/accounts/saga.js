@@ -4,24 +4,22 @@ import ACCOUNTS from "./types";
 import actions from "./actions";
 
 function* enableAccount() {
-  const web3 = yield getContext("web3");
-  yield window.ethereum.enable();
-  const payload = yield call(web3.eth.getAccounts);
-  yield put(actions.getSuccess(payload));
+  const accounts = yield call(window.ethereum.enable);
+  yield put(actions.getSuccess(accounts));
 }
 
 export const getAccounts = function*() {
-  const web3 = yield getContext("web3");
-
-  try {
-    let payload = yield call(web3.eth.getAccounts);
-    yield put(actions.getSuccess(payload));
-
-    if (window.ethereum) {
-      yield fork(enableAccount);
+  if (window.ethereum) {
+    yield fork(enableAccount);
+  } else {
+    const web3 = yield getContext("web3");
+    const payload = yield call(web3.eth.getAccounts);
+    try {
+      debugger;
+      yield put(actions.getSuccess(payload));
+    } catch (error) {
+      yield put(actions.getFailure(error));
     }
-  } catch (error) {
-    yield put(actions.getFailure(error));
   }
 };
 

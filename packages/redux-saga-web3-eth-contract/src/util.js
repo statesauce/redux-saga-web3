@@ -5,3 +5,14 @@ export function pickAddress(action) {
     return action.payload.options.at;
   return null;
 }
+
+export function isSendable(method) {
+  const { constant, payable, stateMutability } = method;
+  if (constant) return false;
+  if (stateMutability) {
+    if (stateMutability === "payable") return true;
+    if (stateMutability === "nonpayable") return true;
+  }
+  if (payable) return true;
+  return false;
+}

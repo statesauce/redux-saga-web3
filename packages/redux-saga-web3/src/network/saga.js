@@ -1,16 +1,24 @@
-import { call, put, takeEvery, getContext } from "redux-saga/effects";
+import { call, put, takeEvery, getContext, fork } from "redux-saga/effects";
 
 import NETWORK from "./types";
 import actions from "./actions";
 
-export const getNetwork = function*() {
-  const web3 = yield getContext("web3");
+function* enableNetwork() {
+  const network = yield window.ethereum.networkVersion;
+  yield put(actions.getIdSuccess(network));
+}
 
-  try {
-    const payload = yield call(web3.eth.net.getId);
-    yield put(actions.getIdSuccess(payload));
-  } catch (error) {
-    yield put(actions.getIdFailure(error));
+export const getNetwork = function*() {
+  if (window.ethereum) {
+    yield fork(enableNetwork);
+  } else {
+    const web3 = yield getContext("web3");
+    try {
+      const payload = yield call(web3.eth.net.getId);
+      yield put(actions.getIdSuccess(payload));
+    } catch (error) {
+      yield put(actions.getIdFailure(error));
+    }
   }
 };
 

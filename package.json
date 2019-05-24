@@ -5,12 +5,21 @@
     "Tarrence van As <tarrence13@gmail.com>"
   ],
   "scripts": {
-    "precommit": "lerna run --concurrency 1 --stream precommit"
+    "precommit": "lerna run --concurrency 1 --stream precommit",
+    "dev-rsw3": "lerna exec --scope redux-saga-web3 -- npm run dev",
+    "dev-ec": "lerna exec --scope redux-saga-web3-eth-contract -- npm run dev",
+    "dev-subscribe": "lerna exec --scope redux-saga-web3-eth-subscribe -- npm run dev",
+    "link-rsw3": "lerna exec --scope redux-saga-web3 -- npm link",
+    "link-ec": "lerna exec --scope redux-saga-web3-eth-contract -- npm link",
+    "link-subscribe": "lerna exec --scope redux-saga-web3-eth-subscribe -- npm link",
+    "link-deps-rsw3": "lerna exec --scope redux-saga-web3 -- npm run link-deps",
+    "link-deps-rrsw3": "lerna exec --scope react-redux-saga-web3 -- npm run link-deps",
+    "rm-ws": "rm -rf packages/redux-saga-web3/node_modules/websocket"
   },
   "devDependencies": {
-    "husky": "^1.3.1",
-    "lerna": "^3.13.1",
-    "lint-staged": "^8.1.5",
-    "prettier": "^1.16.4"
+    "husky": "^2.3.0",
+    "lerna": "^3.14.1",
+    "lint-staged": "^8.1.7",
+    "prettier": "^1.17.1"
   }
 }
