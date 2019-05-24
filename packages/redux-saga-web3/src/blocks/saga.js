@@ -9,7 +9,6 @@ function* getBlockHeader({ payload: { hash } }) {
     const payload = yield call(web3.eth.getBlock, hash);
     yield put(actions.getSuccess(payload, hash));
   } catch (error) {
-    debugger;
     yield put(actions.getFailure(error));
   }
 }

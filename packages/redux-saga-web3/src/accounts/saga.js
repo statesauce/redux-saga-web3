@@ -15,7 +15,6 @@ export const getAccounts = function*() {
     const web3 = yield getContext("web3");
     const payload = yield call(web3.eth.getAccounts);
     try {
-      debugger;
       yield put(actions.getSuccess(payload));
     } catch (error) {
       yield put(actions.getFailure(error));
