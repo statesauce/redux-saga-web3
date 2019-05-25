@@ -2,7 +2,7 @@ import { createSelector } from "reselect";
 import { isCollection } from "immutable";
 
 export const selectContracts = (state, { namespace }) =>
-  state.getIn([namespace, "contracts"]);
+  state[namespace].get("contracts");
 
 const selectAddress = (_, props) => props.at;
 const selectArgs = (_, props) => props.args;
@@ -44,7 +44,9 @@ const selectMethodState = createSelector(
       );
     }
 
-    return state;
+    return state
+      ? { phase: state.get("phase"), value: state.get("value") }
+      : null;
   }
 );
 
