@@ -1,7 +1,7 @@
 import ACCOUNTS from "./types";
 import keys from "./stateKeys";
 
-const initialState = {
+export const initialState = {
   isLoading: false,
   items: null,
   error: null,

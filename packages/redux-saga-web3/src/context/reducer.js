@@ -1,7 +1,7 @@
 import CONTEXT from "./types";
 import keys from "./stateKeys";
 
-const initialState = {
+export const initialState = {
   isLoading: false,
   status: "INITIAL",
   error: null,

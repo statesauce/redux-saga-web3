@@ -1,7 +1,7 @@
 import * as types from "./types";
 import keys from "./stateKeys";
 
-const initialState = {
+export const blocksInitialState = {
   isSubscribed: false,
   latest: null,
   headers: null,

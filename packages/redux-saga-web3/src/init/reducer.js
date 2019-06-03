@@ -10,7 +10,7 @@ const statuses = {
   GENERIC_ERROR: "UNAVAILABLE_OR_ACCOUNT_LOCKED",
 };
 
-const initialState = {
+export const initialState = {
   status: null,
   isInitialized: false,
   error: null,

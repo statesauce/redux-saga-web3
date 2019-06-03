@@ -1,5 +1,6 @@
 import {
   accountsActions,
+  accountsInitialState,
   accountsReducer,
   accountsSaga,
   accountsSelectors,
@@ -7,13 +8,14 @@ import {
 } from "./accounts";
 
 import blocksActions from "./blocks/actions";
-import blocksReducer from "./blocks/reducer";
+import blocksReducer, { blocksInitialState } from "./blocks/reducer";
 import blocksSaga from "./blocks/saga";
 import * as blocksSelectors from "./blocks/selectors";
 import * as blocksTypes from "./blocks/types";
 
 import {
   initActions,
+  initInitialState,
   initReducer,
   initSaga,
   initSelectors,
@@ -22,6 +24,7 @@ import {
 
 import {
   networkActions,
+  networkInitialState,
   networkReducer,
   networkSaga,
   networkSelectors,
@@ -30,6 +33,7 @@ import {
 
 import {
   contextActions,
+  contextInitialState,
   contextReducer,
   contextSaga,
   contextTypes,
@@ -43,6 +47,14 @@ const actions = {
   init: initActions,
   network: networkActions,
   context: contextActions,
+};
+
+const initialState = {
+  accounts: accountsInitialState,
+  blocks: blocksInitialState,
+  init: initInitialState,
+  network: networkInitialState,
+  context: contextInitialState,
 };
 
 const reducers = {
@@ -76,4 +88,4 @@ const types = {
   context: contextTypes,
 };
 
-export { actions, reducers, sagas, selectors, types, immutable };
+export { actions, initialState, reducers, sagas, selectors, types, immutable };
