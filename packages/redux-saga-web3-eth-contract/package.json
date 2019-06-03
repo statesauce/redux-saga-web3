@@ -1,13 +1,13 @@
 {
   "name": "redux-saga-web3-eth-contract",
-  "version": "0.1.0-alpha.1",
+  "version": "0.1.0-alpha.2",
   "main": "lib/index.js",
   "dependencies": {
     "@babel/preset-env": "^7.4.3",
     "immutable": "4.0.0-rc.12",
     "redux": "^4.0.1",
     "redux-saga": "^1.0.2",
-    "redux-saga-web3": "^0.1.0-alpha.0",
+    "redux-saga-web3": "^0.1.0-alpha.2",
     "redux-saga-web3-eth-subscribe": "^0.1.0-alpha.0",
     "redux-saga-web3-utils": "^0.1.0-alpha.0",
     "reselect": "^4.0.0",
