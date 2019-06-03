@@ -8,7 +8,7 @@ export const blocksInitialState = {
   error: null,
 };
 
-export default (state = initialState, { type, meta, payload }) => {
+export default (state = blocksInitialState, { type, meta, payload }) => {
   switch (type) {
     case types.newBlockHeaders.SUBSCRIBE: {
       return {
