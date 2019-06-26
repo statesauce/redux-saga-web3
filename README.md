@@ -14,14 +14,14 @@ npm i @statesauce/web3-eth-contract
 import Statesauce from "@statesauce/web3-eth-contract";
 
 import MyContract from "../contracts";
-import { network, provider, backupProvider } from "./myWeb3Config";
+import { networkNumber, provider, backupProvider } from "./myWeb3Config";
 
 export const instance = new Statesauce(
   MyContract.contractName,
   MyContract.abi,
   {
-    at: MyContract.networks[1].address,
-    web3Instance: provder,
+    at: MyContract.networks[networkNumber].address,
+    web3Instance: provider,
     provider: backupProvider
   }
 );
