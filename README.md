@@ -1,18 +1,33 @@
-# redux-saga-web3
+# statesauce-web3
 
 An out-of-the-box state management library for Ethereum and web3.
-
 
 #### Installation
 
 ```
-npm i redux-saga-web3-eth-contract
+npm i @statesauce/web3-eth-contract
 ```
 
 #### Usage
 
 ```js
-import ReduxSagaWeb3 from 'redux-saga-web3-eth-contract'
+import Statesauce from "@statesauce/web3-eth-contract";
+
+import MyContract from "../contracts";
+import { network, provider, backupProvider } from "./myWeb3Config";
+
+export const instance = new Statesauce(
+  MyContract.contractName,
+  MyContract.abi,
+  {
+    at: MyContract.networks[1].address,
+    web3Instance: provder,
+    provider: backupProvider
+  }
+);
+
+const { types, actions, reducer, selectors, saga } = instance;
+export { types, actions, reducer, selectors, saga };
 ```
 
 TODO - Add usage example
@@ -20,4 +35,5 @@ TODO - Add usage example
 #### Motivation
 
 #### References
+
 [Flux standard action](https://github.com/redux-utilities/flux-standard-action)
