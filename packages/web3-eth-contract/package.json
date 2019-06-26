@@ -1,11 +1,11 @@
 {
   "name": "@statesauce/web3-eth-contract",
-  "version": "0.1.0-alpha.3",
+  "version": "0.2.0-alpha.0",
   "main": "lib/index.js",
   "dependencies": {
-    "@statesauce/web3": "^0.1.0-alpha.3",
-    "@statesauce/web3-eth-subscribe": "^0.1.0-alpha.0",
-    "@statesauce/web3-utils": "^0.1.0-alpha.0",
+    "@statesauce/web3": "^0.2.0-alpha.0",
+    "@statesauce/web3-eth-subscribe": "^0.2.0-alpha.0",
+    "@statesauce/web3-utils": "^0.2.0-alpha.0",
     "immutable": "4.0.0-rc.12",
     "redux": "^4.0.1",
     "redux-saga": "^1.0.3",

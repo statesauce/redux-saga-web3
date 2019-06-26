@@ -1,9 +1,9 @@
 {
   "name": "@statesauce/web3-erc721",
-  "version": "0.1.0-alpha.3",
+  "version": "0.2.0-alpha.0",
   "main": "lib/index.js",
   "dependencies": {
-    "@statesauce/web3-eth-contract": "0.1.0-alpha.3",
+    "@statesauce/web3-eth-contract": "^0.2.0-alpha.0",
     "react": "^16.8.6",
     "react-redux": "^6.0.1",
     "redux": "^4.0.1",

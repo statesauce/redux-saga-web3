@@ -1,9 +1,9 @@
 {
   "name": "@statesauce/react-web3",
-  "version": "0.1.0-alpha.3",
+  "version": "0.2.0-alpha.0",
   "main": "lib/index.js",
   "dependencies": {
-    "@statesauce/web3": "0.1.0-alpha.3",
+    "@statesauce/web3": "^0.2.0-alpha.0",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-redux": "^7.1.0",
