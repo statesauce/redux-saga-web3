@@ -1,5 +1,5 @@
 {
-  "name": "redux-saga-web3",
+  "name": "@statesauce/web3",
   "contributors": [
     "Seth Feibus <sethfork@users.noreply.github.com>",
     "Tarrence van As <tarrence13@gmail.com>"
