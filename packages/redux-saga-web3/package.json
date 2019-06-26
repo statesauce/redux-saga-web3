@@ -5,8 +5,8 @@
   "dependencies": {
     "immutable": "4.0.0-rc.12",
     "redux": "^4.0.1",
-    "redux-saga": "^1.0.2",
-    "redux-saga-web3-eth-subscribe": "^0.1.0-alpha.0",
+    "redux-saga": "^1.0.3",
+    "redux-saga-web3-eth-subscribe": "0.1.0-alpha.0",
     "reselect": "^4.0.0",
     "web3": "1.0.0-beta.55",
     "web3-eth": "1.0.0-beta.55"
@@ -16,9 +16,9 @@
     "@babel/core": "^7.4.5",
     "@babel/plugin-proposal-class-properties": "^7.4.4",
     "@babel/preset-env": "^7.4.5",
-    "husky": "^2.3.0",
-    "lint-staged": "^8.1.7",
-    "prettier": "^1.17.1",
+    "husky": "^2.4.1",
+    "lint-staged": "^8.2.1",
+    "prettier": "^1.18.2",
     "rimraf": "^2.6.3",
     "run-when-changed": "^2.1.0"
   },
