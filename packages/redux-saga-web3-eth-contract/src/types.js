@@ -1,4 +1,4 @@
-import { formatName } from "redux-saga-web3-utils";
+import { formatName } from "@statesauce/web3-utils";
 import { isSendable } from "./util";
 
 function createType(...args) {

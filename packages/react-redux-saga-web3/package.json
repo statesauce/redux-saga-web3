@@ -3,12 +3,12 @@
   "version": "0.1.0-alpha.3",
   "main": "lib/index.js",
   "dependencies": {
+    "@statesauce/web3": "0.1.0-alpha.3",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-redux": "^7.1.0",
     "redux": "^4.0.1",
     "redux-saga": "^1.0.3",
-    "redux-saga-web3": "0.1.0-alpha.3",
     "web3": "1.0.0-beta.55",
     "web3-eth-contract": "1.0.0-beta.55"
   },
@@ -31,6 +31,6 @@
     "prepare": "npm run clean && npm run build",
     "precommit": "lint-staged",
     "prettier": "prettier --write \"src/**/*.js\"",
-    "link-deps": "npm link redux-saga-web3"
+    "link-deps": "npm link @statesauce/web3"
   }
 }

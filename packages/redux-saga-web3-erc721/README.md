@@ -7,7 +7,7 @@ A redux-saga interface to an ERC721 contract instance.
 Add the reducer to your redux store:
 
 ```javascript
-import { reducer as ERC721Reducer } from "redux-saga-web3-erc721";
+import { reducer as ERC721Reducer } from "@statesauce/web3-erc721";
 
 ...
 
@@ -23,7 +23,7 @@ Interact with an ERC721 instance through actions and selectors:
 import {
   actions as ERC721Actions,
   selectors as ERC721Selectors,
-} from "redux-saga-web3-erc721";
+} from "@statesauce/web3-erc721";
 
 export default connect(
   (state, { owner, at }) => ({

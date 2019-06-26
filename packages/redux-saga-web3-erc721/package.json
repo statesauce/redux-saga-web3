@@ -3,11 +3,11 @@
   "version": "0.1.0-alpha.3",
   "main": "lib/index.js",
   "dependencies": {
+    "@statesauce/web3-eth-contract": "0.1.0-alpha.3",
     "react": "^16.8.6",
     "react-redux": "^6.0.1",
     "redux": "^4.0.1",
     "redux-saga": "^1.0.3",
-    "redux-saga-web3-eth-contract": "0.1.0-alpha.3",
     "reselect": "^4.0.0",
     "web3": "1.0.0-beta.55",
     "web3-eth-contract": "1.0.0-beta.55"

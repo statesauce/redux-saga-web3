@@ -1,5 +1,5 @@
 import Web3EthContract from "web3-eth-contract";
-import { createSaga } from "redux-saga-web3-eth-contract";
+import { createSaga } from "@statesauce/web3-eth-contract";
 
 import { CONTRACT_NAME } from "./constants";
 import abi from "./abi";

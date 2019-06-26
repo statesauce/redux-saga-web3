@@ -1,5 +1,5 @@
 import { call, put, takeEvery, getContext } from "redux-saga/effects";
-import { createSaga } from "redux-saga-web3-eth-subscribe";
+import { createSaga } from "@statesauce/web3-eth-subscribe";
 import * as types from "./types";
 
 function* getBlockHeader({ payload: { hash } }) {

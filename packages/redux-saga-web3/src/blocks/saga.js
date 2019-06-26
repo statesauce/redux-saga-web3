@@ -1,7 +1,7 @@
 import { call, put, takeEvery, getContext } from "redux-saga/effects";
 import * as types from "./types";
 import { blocksActions as actions } from "./actions";
-import { createSaga } from "redux-saga-web3-eth-subscribe";
+import { createSaga } from "@statesauce/web3-eth-subscribe";
 
 function* getBlockHeader({ payload: { hash } }) {
   const web3 = yield getContext("web3");

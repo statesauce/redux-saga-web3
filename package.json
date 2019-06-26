@@ -6,15 +6,15 @@
   ],
   "scripts": {
     "precommit": "lerna run --concurrency 1 --stream precommit",
-    "dev-rsw3": "lerna exec --scope redux-saga-web3 -- npm run dev",
-    "dev-ec": "lerna exec --scope redux-saga-web3-eth-contract -- npm run dev",
-    "dev-subscribe": "lerna exec --scope redux-saga-web3-eth-subscribe -- npm run dev",
-    "link-rsw3": "lerna exec --scope redux-saga-web3 -- npm link",
-    "link-ec": "lerna exec --scope redux-saga-web3-eth-contract -- npm link",
-    "link-subscribe": "lerna exec --scope redux-saga-web3-eth-subscribe -- npm link",
-    "link-deps-rsw3": "lerna exec --scope redux-saga-web3 -- npm run link-deps",
-    "link-deps-rrsw3": "lerna exec --scope react-redux-saga-web3 -- npm run link-deps",
-    "rm-ws": "rm -rf packages/redux-saga-web3/node_modules/websocket"
+    "dev-rsw3": "lerna exec --scope web3 -- npm run dev",
+    "dev-ec": "lerna exec --scope web3-eth-contract -- npm run dev",
+    "dev-subscribe": "lerna exec --scope web3-eth-subscribe -- npm run dev",
+    "link-rsw3": "lerna exec --scope web3 -- npm link",
+    "link-ec": "lerna exec --scope web3-eth-contract -- npm link",
+    "link-subscribe": "lerna exec --scope web3-eth-subscribe -- npm link",
+    "link-deps-rsw3": "lerna exec --scope web3 -- npm run link-deps",
+    "link-deps-rrsw3": "lerna exec --scope react-web3 -- npm run link-deps",
+    "rm-ws": "rm -rf packages/web3/node_modules/websocket"
   },
   "devDependencies": {
     "husky": "^2.4.1",

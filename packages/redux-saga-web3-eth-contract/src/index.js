@@ -2,12 +2,12 @@ import Web3 from "web3";
 import { Contract } from "web3-eth-contract";
 import { List, Map, fromJS } from "immutable";
 import { compose } from "redux";
-import { types as web3Types } from "redux-saga-web3";
+import { types as web3Types } from "@statesauce/web3";
 import { call, takeEvery, put, take, select, all } from "redux-saga/effects";
 import {
   createSaga as createSubscriptionSaga,
   createTypes as createSubscriptionTypes,
-} from "redux-saga-web3-eth-subscribe";
+} from "@statesauce/web3-eth-subscribe";
 
 import { create as createSaga } from "./saga";
 import { create as createReducer } from "./reducer";

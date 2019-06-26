@@ -1,7 +1,7 @@
 import {
   createTypesForMethodCall,
   createTypesForMethodSend,
-} from "redux-saga-web3-eth-contract";
+} from "@statesauce/web3-eth-contract";
 import { CONTRACT_NAME } from "./constants";
 
 const initialState = {

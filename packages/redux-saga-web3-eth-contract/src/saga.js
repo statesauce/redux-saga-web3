@@ -1,7 +1,7 @@
 import { call, takeEvery, put, take, select } from "redux-saga/effects";
 import { eventChannel, END } from "redux-saga";
-import { selectors as web3Selectors } from "redux-saga-web3";
-import { formatName } from "redux-saga-web3-utils";
+import { selectors as web3Selectors } from "@statesauce/web3";
+import { formatName } from "@statesauce/web3-utils";
 
 import {
   createType,

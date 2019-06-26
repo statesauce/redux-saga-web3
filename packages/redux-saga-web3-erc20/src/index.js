@@ -1,4 +1,4 @@
-import ReduxSagaWeb3EthContract from "redux-saga-web3-eth-contract";
+import ReduxSagaWeb3EthContract from "@statesauce/web3-eth-contract";
 
 import abi from "./abi";
 
