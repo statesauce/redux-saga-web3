@@ -32,5 +32,8 @@
     "precommit": "lint-staged",
     "prettier": "prettier --write \"src/**/*.js\"",
     "link-deps": "npm link @statesauce/web3"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
