@@ -1,6 +1,6 @@
 {
   "name": "@statesauce/web3-eth-contract",
-  "version": "0.2.0-alpha.0",
+  "version": "0.2.0-alpha.1",
   "main": "lib/index.js",
   "dependencies": {
     "@statesauce/web3": "^0.2.0-alpha.0",
