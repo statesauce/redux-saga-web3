@@ -70,15 +70,15 @@ class ReduxSagaWeb3EthContract {
   }
 
   get actions() {
-    return _.merge(this._actions, this._attachedActions);
+    return merge(this._actions, this._attachedActions);
   }
 
   get selectors() {
-    return _.merge(this._selectors, this._attachedSelectors);
+    return merge(this._selectors, this._attachedSelectors);
   }
 
   get types() {
-    return _.merge(this._types, this._attachedTypes);
+    return merge(this._types, this._attachedTypes);
   }
 
   get saga() {
