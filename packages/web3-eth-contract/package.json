@@ -7,6 +7,7 @@
     "@statesauce/web3-eth-subscribe": "^0.2.0-alpha.0",
     "@statesauce/web3-utils": "^0.2.0-alpha.0",
     "immutable": "4.0.0-rc.12",
+    "lodash.merge": "^4.6.1",
     "redux": "^4.0.1",
     "redux-saga": "^1.0.3",
     "reselect": "^4.0.0",
