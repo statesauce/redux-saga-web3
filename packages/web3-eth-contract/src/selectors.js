@@ -24,6 +24,22 @@ export const selectIsSubscribed = createSelector(
       : false
 );
 
+const selectAttachedMethodState = createSelector(
+  selectContract,
+  selectMethod,
+  selectArgs,
+  selectReducer,
+  (contract, method, args, reducer) => {
+    if (!contract) {
+      return null;
+    }
+
+    let state = contract.getIn(["methods", method, ...args]);
+
+    return state;
+  }
+);
+
 const selectMethodState = createSelector(
   selectContract,
   selectMethod,
@@ -92,6 +108,11 @@ function createSelectorForMethod(namespace, method, options = {}) {
     selectMethodState(state, { ...options, method, namespace, args });
 }
 
+function createSelectorForAttachedMethod(namespace, method, options = {}) {
+  return (state, ...args) =>
+    selectAttachedMethodState(state, { ...options, method, namespace, args });
+}
+
 function createSelectorForEvent(namespace, event, options = {}) {
   return (state, filter) =>
     selectEventState(state, { ...options, event, namespace, filter });
@@ -126,4 +147,5 @@ export {
   createSelectorsForInterface,
   createSelectorForMapping,
   createSelectorForMethod,
+  createSelectorForAttachedMethod,
 };

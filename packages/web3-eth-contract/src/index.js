@@ -2,6 +2,7 @@ import Web3 from "web3";
 import { Contract } from "web3-eth-contract";
 import { List, Map, fromJS } from "immutable";
 import { compose } from "redux";
+import merge from "lodash.merge";
 import { types as web3Types } from "@statesauce/web3";
 import { call, takeEvery, put, take, select, all } from "redux-saga/effects";
 import {
@@ -10,11 +11,12 @@ import {
 } from "@statesauce/web3-eth-subscribe";
 
 import { create as createSaga } from "./saga";
-import { create as createReducer } from "./reducer";
+import { create as createReducer, createAttachedReducer } from "./reducer";
 import {
   createActionsForInterface,
   createActionsForMapping,
   createActionsForMethod,
+  createActionsForAttachedMethod,
   createActionForMethodCall,
   createActionForMethodSend,
   createActionsForEvent,
@@ -25,6 +27,7 @@ import {
   createSelectorForMapping,
   createSelectorForMethod,
   createSelectorsForInterface,
+  createSelectorForAttachedMethod,
   selectIsSubscribed,
 } from "./selectors";
 import {
@@ -34,6 +37,7 @@ import {
   createTypesForEventGet,
   createTypesForMapping,
   createTypesForMethod,
+  createTypesForAttachedMethod,
   createTypesForMethodCall,
   createTypesForMethodSend,
   createTypesForInterface,
@@ -66,24 +70,15 @@ class ReduxSagaWeb3EthContract {
   }
 
   get actions() {
-    return {
-      ...this._actions,
-      ...this._attachedActions,
-    };
+    return _.merge(this._actions, this._attachedActions);
   }
 
   get selectors() {
-    return {
-      ...this._selectors,
-      ...this._attachedSelectors,
-    };
+    return _.merge(this._selectors, this._attachedSelectors);
   }
 
   get types() {
-    return {
-      ...this._types,
-      ...this._attachedTypes,
-    };
+    return _.merge(this._types, this._attachedTypes);
   }
 
   get saga() {
@@ -201,10 +196,10 @@ class ReduxSagaWeb3EthContract {
 
   attachMethod(method, saga, reducer) {
     const actions = (options, meta) =>
-      createActionsForMethod(this._namespace, method, options, meta);
-    const types = createTypesForMethod(this._namespace, method);
+      createActionsForAttachedMethod(this._namespace, method, options, meta);
+    const types = createTypesForAttachedMethod(this._namespace, method);
     const selectors = options =>
-      createSelectorForMethod(this._namespace, method, options);
+      createSelectorForAttachedMethod(this._namespace, method, options);
 
     this._attachedActions = {
       ...this._attachedActions,
@@ -230,7 +225,7 @@ class ReduxSagaWeb3EthContract {
     this._attachedSagas.push(saga(types)());
 
     if (reducer) {
-      this._attachedReducers.push((state = {}, action) => {
+      this._attachedReducers.push((state = Map({}), action) => {
         let address = pickAddress(action);
         if (
           address &&
@@ -238,22 +233,15 @@ class ReduxSagaWeb3EthContract {
             .concat(Object.values(types.send))
             .includes(action.type)
         ) {
-          return {
-            ...state,
-            contracts: {
-              ...state.contracts,
-              [address]: {
-                ...state.contracts[address],
-                methods: {
-                  ...state.contracts[address].methods,
-                  [method]: {
-                    ...state.contracts[address].mappings[method],
-                    ...reducer(types)(state, action),
-                  },
-                },
-              },
-            },
-          };
+          return state.hasIn(["contracts", address, "methods", method])
+            ? state.mergeDeepIn(
+                ["contracts", address, "methods", method],
+                reducer(types)(state, action)
+              )
+            : state.setIn(
+                ["contracts", address, "methods", method],
+                reducer(types)(state, action)
+              );
         }
 
         return state;
@@ -277,5 +265,6 @@ export {
   createTypesForMethod,
   createTypesForMethodCall,
   createTypesForMethodSend,
+  createAttachedReducer,
 };
 export default ReduxSagaWeb3EthContract;

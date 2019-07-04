@@ -38,12 +38,27 @@ function generateTypes(namespace, abi) {
     );
   }, Map());
 }
+
+// TODO -- Add support for paths; document where merging happens and why this is immutable
+export function createAttachedReducer(method) {
+  return function(state = initialState, { type, payload }) {
+    const { directive, phase } = decomposeType(type);
+    if (phase === "") {
+      return Map({ phase: PHASES[directive] });
+    } else {
+      return Map({
+        value: typeof payload === "object" ? resultToMap(payload) : payload,
+        phase: PHASES[phase],
+      });
+    }
+  };
+}
+
 export function create(namespace, abi, address) {
   const types = generateTypes(namespace, abi);
 
-  return function(_state = initialState, { type, meta, payload }) {
+  return function(state = initialState, { type, meta, payload }) {
     const { base, directive, phase } = decomposeType(type);
-    const state = fromJS(_state);
     if (types.has(base)) {
       const methodABI = types.get(base);
 

@@ -87,6 +87,13 @@ function createActionsForMethod(namespace, method, options, meta) {
   };
 }
 
+function createActionsForAttachedMethod(namespace, method, options, meta) {
+  return {
+    call: createActionForMethodCall(namespace, method, options, meta),
+    send: createActionForMethodSend(namespace, method, options, meta),
+  };
+}
+
 function createActionsForInterface(namespace, abi) {
   return abi.reduce(
     (reduction, member) => {
@@ -112,6 +119,7 @@ export {
   createActionForEventGet,
   createActionsForMapping,
   createActionsForMethod,
+  createActionsForAttachedMethod,
   createActionForMethodCall,
   createActionForMethodSend,
 };

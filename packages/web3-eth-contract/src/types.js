@@ -110,6 +110,13 @@ function decomposeType(type) {
   }
 }
 
+function createTypesForAttachedMethod(namespace, method) {
+  return {
+    call: createTypesForMethodCall(namespace, method),
+    send: createTypesForMethodSend(namespace, method),
+  };
+}
+
 function createTypesForInterface(namespace, abi) {
   return abi.reduce(
     (reduction, member) => {
@@ -136,6 +143,7 @@ export {
   createBaseTypeForMethod,
   createTypesForMapping,
   createTypesForMethod,
+  createTypesForAttachedMethod,
   createTypesForMethodCall,
   createTypesForMethodSend,
   createTypesForEvent,
