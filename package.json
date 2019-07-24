@@ -5,7 +5,6 @@
     "Tarrence van As <tarrence13@gmail.com>"
   ],
   "scripts": {
-    "precommit": "lerna run --concurrency 1 --stream precommit",
     "dev-rsw3": "lerna exec --scope @statesauce/web3 -- npm run dev",
     "dev-ec": "lerna exec --scope @statesauce/web3-eth-contract -- npm run dev",
     "dev-subscribe": "lerna exec --scope @statesauce/web3-eth-subscribe -- npm run dev",
@@ -17,9 +16,13 @@
     "rm-ws": "rm -rf packages/web3/node_modules/websocket"
   },
   "devDependencies": {
-    "husky": "^2.4.1",
-    "lerna": "^3.15.0",
-    "lint-staged": "^8.2.1",
+    "husky": "^3.0.1",
+    "lerna": "^3.16.4",
     "prettier": "^1.18.2"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lerna run --concurrency 1 --stream precommit"
+    }
   }
 }
