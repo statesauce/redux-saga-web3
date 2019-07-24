@@ -1,9 +1,9 @@
 {
   "name": "@statesauce/web3-erc20",
-  "version": "0.2.0-alpha.2",
+  "version": "0.2.0",
   "main": "lib/index.js",
   "dependencies": {
-    "@statesauce/web3-eth-contract": "^0.2.0-alpha.2",
+    "@statesauce/web3-eth-contract": "^0.2.0",
     "immutable": "4.0.0-rc.12",
     "react": "^16.8.6",
     "react-redux": "^7.1.0",
