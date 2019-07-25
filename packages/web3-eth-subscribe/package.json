@@ -1,9 +1,9 @@
 {
   "name": "@statesauce/web3-eth-subscribe",
-  "version": "0.2.0",
+  "version": "0.3.0-alpha.0",
   "main": "lib/index.js",
   "dependencies": {
-    "@statesauce/web3-utils": "^0.2.0",
+    "@statesauce/web3-utils": "^0.3.0-alpha.0",
     "redux": "^4.0.4",
     "redux-saga": "^1.0.5",
     "reselect": "^4.0.0",
@@ -16,9 +16,9 @@
     "@babel/preset-env": "^7.5.5",
     "eslint": "^6.1.0",
     "eslint-config-airbnb": "^17.1.1",
+    "eslint-config-prettier": "^6.0.0",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-jsx-a11y": "^6.2.3",
-    "eslint-config-prettier": "^6.0.0",
     "eslint-plugin-react": "^7.14.3",
     "husky": "^3.0.1",
     "lint-staged": "^9.2.0",
