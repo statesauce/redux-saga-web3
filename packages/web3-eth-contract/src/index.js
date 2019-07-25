@@ -113,7 +113,8 @@ class StatesauceWeb3EthContract {
     };
   }
 
-  static instantiateWeb3({ web3Instance, provider }) {
+  // eslint-disable-next-line class-methods-use-this
+  instantiateWeb3({ web3Instance, provider }) {
     if (web3Instance) return web3Instance;
     if (provider) return new Web3(provider);
     return null;
