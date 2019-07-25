@@ -1,6 +1,6 @@
 {
   "name": "@statesauce/web3",
-  "version": "0.3.0-alpha.0",
+  "version": "0.3.0-alpha.1",
   "main": "lib/index.js",
   "repository": {
     "type": "git",
@@ -19,7 +19,7 @@
     "link-deps": "npm link @statesauce/web3-eth-subscribe"
   },
   "dependencies": {
-    "@statesauce/web3-eth-subscribe": "^0.3.0-alpha.0",
+    "@statesauce/web3-eth-subscribe": "^0.3.0-alpha.1",
     "immutable": "4.0.0-rc.12",
     "lodash.get": "4.4.2",
     "lodash.hasin": "4.5.2",

@@ -1,6 +1,6 @@
 {
   "name": "@statesauce/web3-eth-subscribe",
-  "version": "0.3.0-alpha.0",
+  "version": "0.3.0-alpha.1",
   "main": "lib/index.js",
   "repository": {
     "type": "git",
@@ -18,7 +18,7 @@
     "prettier": "prettier --write \"src/**/*.js\""
   },
   "dependencies": {
-    "@statesauce/web3-utils": "^0.3.0-alpha.0",
+    "@statesauce/web3-utils": "^0.3.0-alpha.1",
     "redux": "^4.0.4",
     "redux-saga": "^1.0.5",
     "reselect": "^4.0.0",
