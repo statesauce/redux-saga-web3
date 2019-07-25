@@ -1,0 +1,18 @@
+{
+  "parserOptions": {
+    "ecmaVersion": 10,
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "extends": ["airbnb", "prettier"],
+  "env": {
+    "node": true,
+    "mocha": true
+  },
+  "rules": {
+    "func-names": "off",
+    "no-console": "warn",
+    "no-underscore-dangle": "off"
+  }
+}

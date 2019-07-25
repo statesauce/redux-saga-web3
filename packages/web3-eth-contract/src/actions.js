@@ -1,4 +1,4 @@
-import { formatName } from "@statesauce/web3-utils";
+/* eslint-disable no-param-reassign */
 import { isSendable } from "./util";
 import { createType } from "./types";
 

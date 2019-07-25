@@ -1,8 +1,6 @@
 {
-  "lerna": "3.15.0",
+  "lerna": "3.16.4",
   "npmClient": "npm",
-  "packages": [
-    "packages/*"
-  ],
+  "packages": ["packages/*"],
   "version": "0.2.0"
 }

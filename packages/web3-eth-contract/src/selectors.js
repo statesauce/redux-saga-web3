@@ -29,12 +29,13 @@ const selectAttachedMethodState = createSelector(
   selectMethod,
   selectArgs,
   selectReducer,
-  (contract, method, args, reducer) => {
+  // eslint-disable-next-line no-unused-vars
+  (contract, method, args, _reducer) => {
     if (!contract) {
       return null;
     }
 
-    let state = contract.getIn(["methods", method, ...args]);
+    const state = contract.getIn(["methods", method, ...args]);
 
     return state;
   }
@@ -55,6 +56,7 @@ const selectMethodState = createSelector(
     if (reducer && isCollection(state)) {
       state = state.reduce(...reducer);
     } else if (reducer && !isCollection(state)) {
+      // eslint-disable-next-line no-console
       console.warn(
         `Did not reduce state for method "${method}". Method state needs to be a collection to be reduced.`
       );
@@ -70,15 +72,10 @@ const selectEventState = createSelector(
   selectContract,
   selectEvent,
   selectReducer,
-  (contract, event, filter) => {
-    if (!contract) {
-      return null;
-    } else if (!filter) {
-      return contract.getIn(["events", event]);
-    } else {
-      // TODO: Implement event filtering
-      return contract.getIn(["events", event]).filter(item => true);
-    }
+  (contract, event, predicate) => {
+    if (!contract) return null;
+    if (!predicate) return contract.getIn(["events", event]);
+    return contract.getIn(["events", event]).filter(predicate);
   }
 );
 
@@ -86,19 +83,15 @@ const selectMappingState = createSelector(
   selectContract,
   selectEvent,
   selectReducer,
-  (contract, event, filter) => {
-    if (!contract) {
-      return null;
-    } else if (!filter) {
-      return contract.getIn(["mappings", event]);
-    } else {
-      // TODO: Implement event filtering
-      return contract.getIn(["mappings", event]).filter(item => true);
-    }
+  (contract, event, predicate) => {
+    if (!contract) return null;
+    if (!predicate) return contract.getIn(["mappings", event]);
+    return contract.getIn(["mappings", event]).filter(predicate);
   }
 );
 
 function createSelectorForMapping(namespace, event, options = {}) {
+  // eslint-disable-next-line no-unused-vars
   return (state, ...args) =>
     selectMappingState(state, { ...options, event, namespace });
 }
@@ -122,6 +115,7 @@ function createSelectorsForInterface(namespace, abi, address) {
   return abi.reduce(
     (reduction, member) => {
       if (member.type === "function") {
+        // eslint-disable-next-line no-param-reassign
         reduction.methods[member.name] = (options = {}) =>
           createSelectorForMethod(
             namespace,
@@ -129,6 +123,7 @@ function createSelectorsForInterface(namespace, abi, address) {
             options.at ? options : { ...options, at: address }
           );
       } else if (member.type === "event") {
+        // eslint-disable-next-line no-param-reassign
         reduction.events[member.name] = (options = {}) =>
           createSelectorForEvent(
             namespace,
@@ -147,5 +142,6 @@ export {
   createSelectorsForInterface,
   createSelectorForMapping,
   createSelectorForMethod,
+  createSelectorForEvent,
   createSelectorForAttachedMethod,
 };

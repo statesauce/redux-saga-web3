@@ -1,17 +1,25 @@
 import Web3 from "web3";
-import { Contract } from "web3-eth-contract";
-import { List, Map, fromJS } from "immutable";
-import { compose } from "redux";
+import { Map } from "immutable";
 import merge from "lodash.merge";
-import { types as web3Types } from "@statesauce/web3";
-import { call, takeEvery, put, take, select, all } from "redux-saga/effects";
-import {
-  createSaga as createSubscriptionSaga,
-  createTypes as createSubscriptionTypes,
-} from "@statesauce/web3-eth-subscribe";
+import { takeEvery, put, select, all } from "redux-saga/effects";
 
-import { create as createSaga } from "./saga";
-import { create as createReducer, createAttachedReducer } from "./reducer";
+import {
+  createSagasForInterface,
+  createSagasForEvents,
+  createSagasForMethods,
+  createSagaForEventSubscribe,
+  createSagaForGetPastEvents,
+  createSagaForMethodCall,
+  createSagaForMethodSend,
+  createSubscriptionEventChannel,
+  createTransactionEventChannel,
+} from "./saga";
+import {
+  createReducerForInterface,
+  createEventsReducer,
+  createMethodsReducer,
+  createAttachedReducer,
+} from "./reducer";
 import {
   createActionsForInterface,
   createActionsForMapping,
@@ -28,7 +36,7 @@ import {
   createSelectorForMethod,
   createSelectorsForInterface,
   createSelectorForAttachedMethod,
-  selectIsSubscribed,
+  createSelectorForEvent,
 } from "./selectors";
 import {
   createType,
@@ -44,7 +52,7 @@ import {
 } from "./types";
 import { pickAddress } from "./util";
 
-class ReduxSagaWeb3EthContract {
+class StatesauceWeb3EthContract {
   constructor(namespace, abi, options = {}) {
     this._namespace = namespace;
     this._options = options;
@@ -53,13 +61,16 @@ class ReduxSagaWeb3EthContract {
     this.contract = new this.web3Instance.eth.Contract(abi, options.at);
     this._types = createTypesForInterface(namespace, abi);
     this._actions = createActionsForInterface(namespace, abi);
-    this._reducer = { [namespace]: createReducer(namespace, abi, options.at) };
+    this._reducer = {
+      [namespace]: createReducerForInterface(namespace, abi, options.at),
+    };
     this._selectors = createSelectorsForInterface(namespace, abi, options.at);
-    this._saga = createSaga(
+    this._saga = createSagasForInterface(
       namespace,
       this.contract,
       Object.keys(this.types.methods),
-      Object.keys(this.types.events)
+      Object.keys(this.types.events),
+      options.accountPath || ""
     );
 
     this._attachedActions = {};
@@ -102,9 +113,10 @@ class ReduxSagaWeb3EthContract {
     };
   }
 
-  instantiateWeb3({ web3Instance, provider }) {
+  static instantiateWeb3({ web3Instance, provider }) {
     if (web3Instance) return web3Instance;
     if (provider) return new Web3(provider);
+    return null;
   }
 
   createMapping(name, event, saga) {
@@ -154,7 +166,7 @@ class ReduxSagaWeb3EthContract {
             type: self.types.mappings[name].DATA,
             payload,
             meta,
-            state: state ? state : undefined,
+            state: state || undefined,
           });
         }
       }),
@@ -171,7 +183,7 @@ class ReduxSagaWeb3EthContract {
     this._attachedReducers.push((state, action) => {
       const { type, payload } = action;
       if (type === self.types.mappings[name].MAPPED) {
-        let address = pickAddress(action);
+        const address = pickAddress(action);
         return {
           ...state,
           contracts: {
@@ -226,7 +238,7 @@ class ReduxSagaWeb3EthContract {
 
     if (reducer) {
       this._attachedReducers.push((state = Map({}), action) => {
-        let address = pickAddress(action);
+        const address = pickAddress(action);
         if (
           address &&
           Object.values(types.call)
@@ -251,8 +263,18 @@ class ReduxSagaWeb3EthContract {
 }
 
 export {
-  createReducer,
-  createSaga,
+  createReducerForInterface,
+  createEventsReducer,
+  createMethodsReducer,
+  createSagasForInterface,
+  createSagasForEvents,
+  createSagasForMethods,
+  createSagaForEventSubscribe,
+  createSagaForGetPastEvents,
+  createSagaForMethodCall,
+  createSagaForMethodSend,
+  createSubscriptionEventChannel,
+  createTransactionEventChannel,
   createActionsForInterface,
   createActionsForEvent,
   createActionForEventSubscribe,
@@ -260,11 +282,16 @@ export {
   createActionsForMethod,
   createActionForMethodCall,
   createActionForMethodSend,
+  createType,
+  createTypesForEvent,
   createTypesForEventSubscribe,
   createTypesForEventGet,
   createTypesForMethod,
   createTypesForMethodCall,
   createTypesForMethodSend,
   createAttachedReducer,
+  createSelectorsForInterface,
+  createSelectorForEvent,
+  createSelectorForMethod,
 };
-export default ReduxSagaWeb3EthContract;
+export default StatesauceWeb3EthContract;
