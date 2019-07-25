@@ -13,7 +13,8 @@
     "link-subscribe": "lerna exec --scope @statesauce/web3-eth-subscribe -- npm link",
     "link-deps-rsw3": "lerna exec --scope @statesauce/web3 -- npm run link-deps",
     "link-deps-rrsw3": "lerna exec --scope @statesauce/react-web3 -- npm run link-deps",
-    "rm-ws": "rm -rf packages/web3/node_modules/websocket"
+    "postinstall": "npx lerna bootstrap",
+    "rm-ws": "rm -rf packages/web3/node_modules/websocket/.git"
   },
   "devDependencies": {
     "husky": "^3.0.1",
