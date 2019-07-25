@@ -29,6 +29,7 @@
     "rimraf": "^2.6.3",
     "run-when-changed": "^2.1.0"
   },
+  "license": "BSD-3-Clause",
   "scripts": {
     "build": "babel src/ --out-dir lib/",
     "clean": "rimraf lib/",

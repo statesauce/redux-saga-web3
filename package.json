@@ -4,6 +4,7 @@
     "Seth Feibus <sefeibus@gmail.com>",
     "Tarrence van As <tarrence13@gmail.com>"
   ],
+  "license": "BSD-3-Clause",
   "scripts": {
     "dev-rsw3": "lerna exec --scope @statesauce/web3 -- npm run dev",
     "dev-ec": "lerna exec --scope @statesauce/web3-eth-contract -- npm run dev",
