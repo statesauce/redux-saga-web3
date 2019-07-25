@@ -4,6 +4,8 @@
     "Seth Feibus <sefeibus@gmail.com>",
     "Tarrence van As <tarrence13@gmail.com>"
   ],
+  "homepage": "https://github.com/statesauce/redux-saga-web3#readme",
+  "bugs": "https://github.com/statesauce/redux-saga-web3/issues",
   "license": "BSD-3-Clause",
   "scripts": {
     "dev-rsw3": "lerna exec --scope @statesauce/web3 -- npm run dev",

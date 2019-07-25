@@ -2,6 +2,21 @@
   "name": "@statesauce/web3-eth-subscribe",
   "version": "0.3.0-alpha.0",
   "main": "lib/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/statesauce/redux-saga-web3.git",
+    "directory": "packages/web3-eth-subscribe"
+  },
+  "homepage": "https://github.com/statesauce/redux-saga-web3#readme",
+  "bugs": "https://github.com/statesauce/redux-saga-web3/issues",
+  "license": "BSD-3-Clause",
+  "scripts": {
+    "build": "babel src/ --out-dir lib/",
+    "clean": "rimraf lib/",
+    "dev": "run-when-changed --watch 'src/**/*.js' --exec 'npm run prepare'",
+    "prepare": "npm run clean && npm run build",
+    "prettier": "prettier --write \"src/**/*.js\""
+  },
   "dependencies": {
     "@statesauce/web3-utils": "^0.3.0-alpha.0",
     "redux": "^4.0.4",
@@ -25,14 +40,6 @@
     "prettier": "^1.18.2",
     "rimraf": "^2.6.3",
     "run-when-changed": "^2.1.0"
-  },
-  "license": "BSD-3-Clause",
-  "scripts": {
-    "build": "babel src/ --out-dir lib/",
-    "clean": "rimraf lib/",
-    "dev": "run-when-changed --watch 'src/**/*.js' --exec 'npm run prepare'",
-    "prepare": "npm run clean && npm run build",
-    "prettier": "prettier --write \"src/**/*.js\""
   },
   "publishConfig": {
     "access": "public"
