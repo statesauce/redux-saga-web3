@@ -19,8 +19,8 @@ function createTypesForMethodCall(namespace, method) {
   const baseType = `${createBaseTypeForMethod(namespace, method)}/CALL`;
   return {
     CALL: baseType,
-    SUCCESS: baseType + "/SUCCESS",
-    ERROR: baseType + "/ERROR",
+    SUCCESS: `${baseType}/SUCCESS`,
+    ERROR: `${baseType}/ERROR`,
   };
 }
 
@@ -29,10 +29,10 @@ function createTypesForMethodSend(namespace, method) {
 
   return {
     SEND: baseType,
-    TRANSACTION_HASH: baseType + "/TRANSACTION_HASH",
-    RECEIPT: baseType + "/RECEIPT",
-    CONFIRMATION: baseType + "/CONFIRMATION",
-    ERROR: baseType + "/ERROR",
+    TRANSACTION_HASH: `${baseType}/TRANSACTION_HASH`,
+    RECEIPT: `${baseType}/RECEIPT`,
+    CONFIRMATION: `${baseType}/CONFIRMATION`,
+    ERROR: `${baseType}/ERROR`,
   };
 }
 
@@ -40,10 +40,10 @@ function createTypesForMapping(namespace, event) {
   const baseType = createType(namespace, "MAPPING", event);
 
   return {
-    INIT: baseType + "/INIT",
-    DATA: baseType + "/DATA",
-    MAPPED: baseType + "/MAPPED",
-    ERROR: baseType + "/ERROR",
+    INIT: `${baseType}/INIT`,
+    DATA: `${baseType}/DATA`,
+    MAPPED: `${baseType}/MAPPED`,
+    ERROR: `${baseType}/ERROR`,
   };
 }
 
@@ -62,9 +62,9 @@ function createTypesForEventSubscribe(namespace, event) {
 
   return {
     SUBSCRIBE: baseType,
-    DATA: baseType + "/DATA",
-    CHANGED: baseType + "/CHANGED",
-    ERROR: baseType + "/ERROR",
+    DATA: `${baseType}/DATA`,
+    CHANGED: `${baseType}/CHANGED`,
+    ERROR: `${baseType}/ERROR`,
   };
 }
 
@@ -73,8 +73,8 @@ function createTypesForEventGet(namespace, event) {
 
   return {
     GET: baseType,
-    SUCCESS: baseType + "/SUCCESS",
-    ERROR: baseType + "/ERROR",
+    SUCCESS: `${baseType}/SUCCESS`,
+    ERROR: `${baseType}/ERROR`,
   };
 }
 
@@ -89,25 +89,26 @@ function decomposeType(type) {
   const splitType = type.split("/");
   if (splitType.length < 3) {
     return { base: "", directive: "", phase: "" };
-  } else if (splitType.length === 3) {
+  }
+  if (splitType.length === 3) {
     return {
       base: splitType.slice(0, 2).join("/"),
       directive: "",
       phase: splitType[2],
     };
-  } else if (splitType.length === 4) {
+  }
+  if (splitType.length === 4) {
     return {
       base: splitType.slice(0, 3).join("/"),
       directive: splitType[3],
       phase: "",
     };
-  } else {
-    return {
-      base: splitType.slice(0, 3).join("/"),
-      directive: splitType[3],
-      phase: splitType[4],
-    };
   }
+  return {
+    base: splitType.slice(0, 3).join("/"),
+    directive: splitType[3],
+    phase: splitType[4],
+  };
 }
 
 function createTypesForAttachedMethod(namespace, method) {
@@ -121,11 +122,13 @@ function createTypesForInterface(namespace, abi) {
   return abi.reduce(
     (reduction, member) => {
       if (member.type === "function") {
+        // eslint-disable-next-line no-param-reassign
         reduction.methods[member.name] = createTypesForMethod(
           namespace,
           member
         );
       } else if (member.type === "event") {
+        // eslint-disable-next-line no-param-reassign
         reduction.events[member.name] = createTypesForEvent(
           namespace,
           member.name
