@@ -4,7 +4,7 @@
   "main": "lib/index.js",
   "dependencies": {
     "lodash.snakecase": "^4.1.1",
-    "web3": "2.0.0-alpha"
+    "web3": "1.2.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.5.5",
