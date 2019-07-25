@@ -1,6 +1,6 @@
 {
   "name": "@statesauce/web3-eth-contract",
-  "version": "0.3.0-alpha.1",
+  "version": "0.3.0-alpha.2",
   "main": "lib/index.js",
   "repository": {
     "type": "git",
